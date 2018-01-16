@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>文档</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/fontstyle.css" />
+    <style>
+        body {
+            background: url(../../image/bg_mine.png) no-repeat center center;
+            background-size: 100%;
+        }
+
+        #header {
+            background: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            width: 100%;
+            position: relative;
+            height: 0.98rem;
+        }
+
+        #header .back-icon {
+            display: inline-block;
+            width: 0.98rem;
+            height: 0.98rem;
+            background: url(../../image/icon_back.png) no-repeat center center;
+            background-size: 0.78rem 0.33rem;
+            position: absolute;
+            left: 0.24rem;
+            bottom: 0;
+        }
+
+        #header .back-text {
+            display: inline-block;
+            width: 0.98rem;
+            height: 0.98rem;
+            position: absolute;
+            right: 0.24rem;
+            bottom: 0;
+            font-size: 0.28rem;
+            height: 0.98rem;
+            line-height: 0.98rem;
+            color: #ff8344;
+            font-family: 'pty'
+        }
+
+        #header h1 {
+            font-size: 0.36rem;
+            height: 0.98rem;
+            line-height: 0.98rem;
+            margin: 0 auto;
+            color: #ff8344;
+            font-family: 'pty';
+        }
+    </style>
+</head>
+
+<body>
+    <div class="flex-wrap flex-vertical" id="main">
+        <div id="header">
+            <a class="back-icon" tapmode="active" onclick="closeWin()"></a>
+            <h1>学校</h1>
+        </div>
+        <div class="flex-con">
+
+        </div>
+    </div>
+</body>
+
+</html>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript" src="../../script/vue.js"></script>
+<script type="text/javascript">
+    imready = function() {
+        initVue();
+        assigment.init();
+    }
+    var assigment; //全局控制器Controller
+    initVue = function() { //初始化Vue需要的是双向数据绑定 当改变数据以后view会做相应的改变
+        var date = vueDateManager();
+        var methods = vueMethodsManager();
+        assigment = new Vue({
+            el: '#main', //绑定元素
+            data: date, //本页面的静态动态全部数据
+            methods: methods, //本页面的全部方法
+            created: function() {}
+        })
+    }
+    vueDateManager = function() {
+        //初始化Vue数据date为一个json数组
+        var date = {};
+        date.schoolList = [];
+        console.log("数据管理者" + JSON.stringify(date));
+        return date;
+    }
+    vueMethodsManager = function() {
+        //时间管理中心 每个Vue事件的处理都可以在这管理
+        var methods = {};
+        methods.init = function() {
+          assigment.schoolList=api.pageParam.city;
+          assigment.openFrame()
+
+        };
+        methods.openFrame = function() {
+            api.openFrame({
+                name: 'schoolChild_frm',
+                url: 'schoolChild_frm.html',
+                rect: {
+                    x: 0,
+                    y: $api.offset($api.dom("#header")).h,
+                    w: "auto",
+                    h: 'auto'
+                },
+                pageParam: {
+                    city: assigment.schoolList
+                },
+                bounces: true,
+                opaque: true,
+                vScrollBarEnabled: true,
+                hScrollBarEnabled: true
+            });
+
+        }
+
+
+
+        console.log("事件管理者：" + JSON.stringify(methods));
+        return methods;
+
+    }
+</script>

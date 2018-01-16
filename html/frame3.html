@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>文档</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <style>
+        body {
+            background: url(../image/bg_mine.png) no-repeat center center;
+            background-size: 100%;
+        }
+
+        #header {
+            background: rgba(255, 83, 44, 0.2);
+            text-align: center;
+            width: 100%;
+            position: relative;
+            height: 0.98rem;
+        }
+
+        #header .back-icon {
+            display: inline-block;
+            width: 0.98rem;
+            height: 0.98rem;
+            background: url(../image/icon_back.png) no-repeat center center;
+            background-size: 0.78rem 0.33rem;
+            position: absolute;
+            left: 0.24rem;
+            bottom: 0;
+        }
+
+        #header h1 {
+            font-size: 0.36rem;
+            height: 0.98rem;
+            line-height: 0.98rem;
+            margin: 0 auto;
+            color: #ff8344;
+            font-family: 'pty';
+        }
+
+        #header .setting {
+            float: right;
+            height: 0.98rem;
+            line-height: 0.98rem;
+            text-align: center;
+            margin-right: 0.24rem;
+            font-size: 0.3rem;
+            color: #FF9900;
+            width: 1.2rem;
+        }
+
+        #main .top {
+            height: 3.2rem;
+            background: rgba(255, 83, 44, 0.2);
+        }
+
+        #main .top .top-header {
+            margin: 0 auto;
+            height: 1.65rem;
+            line-height: 1.65rem;
+            width: 1.34rem;
+            background: url() no-repeat center center;
+            background-size: 1.34rem 1.34rem;
+        }
+
+        #main .top .top-header img {
+            height: 1.34rem;
+            width: 1.34rem;
+            /* //margin-top: .115rem;*/
+        }
+
+        #main .top .info {
+            text-align: center;
+            height: 1.12rem;
+        }
+
+        #main .top .info .info-name {
+            font-size: 0.32rem;
+            color: #333333;
+            margin-top: 0.2rem;
+        }
+
+        #main .top .info .info-school {
+            font-size: 0.28rem;
+            margin-top: 0.2rem;
+            color: #666666;
+        }
+
+        #main .whoami {
+            width: 92%;
+            margin: 0 auto;
+            height: 1.3rem;
+            line-height: 1.3rem;
+            background: #FFFFFF;
+            border-radius: 0.1rem;
+        }
+        /*#main .whoami .icon-who {
+            height: 1.3rem;
+            width: 0.7rem;
+            background: url(../image/ic_who.png) no-repeat center center;
+            background-size: 0.7rem 0.7rem;
+            margin-left: 0.24rem;
+            float: left;
+        }*/
+
+        #main .whoami .label-who {
+            float: left;
+            height: 1.3rem;
+            line-height: 1.3rem;
+            font-size: 0.3rem;
+            color: #333333;
+            margin-left: 0.2rem;
+        }
+        /*#main .whoami .detail-who {
+            height: 1.3rem;
+            width: 0.4rem;
+            background: url(../image/icon_right.png) no-repeat center center;
+            background-size: 0.4rem 0.6rem;
+            margin-right: 0.24rem;
+            float: right;
+        }*/
+
+        #main .class-info {
+            width: 92%;
+            height: 5rem;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.45);
+            border-radius: 0.1rem;
+            position: relative;
+        }
+
+        #main .class-info .info-title {
+            height: 0.88rem;
+            line-height: 0.88rem;
+            background: #FFF;
+            border-radius: 0.1rem 0.1rem 0 0;
+        }
+
+        #main .class-info .info-title span {
+            margin-left: 0.2rem;
+            height: 0.4rem;
+            line-height: 0.4rem;
+            color: #333333;
+            font-size: 0.28rem;
+            position: relative;
+            padding-left: 0.18rem;
+        }
+
+        #main .class-info .info-title span:before {
+            position: absolute;
+            border-left: 5px solid #FF9900;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            content: "";
+            display: block;
+            -webkit-transform: scaleX(0.5);
+            -webkit-transform-origin: 0 0;
+        }
+
+        #main .class-info .info-content {
+            width: 92%;
+            margin: 0 auto;
+            height: 5.12rem;
+        }
+
+        #main .class-info .info-content .info-item {
+            height: 1rem;
+            line-height: 1rem;
+            font-size: 0.28rem;
+            color: #FF9900;
+            background: rgba(255, 255, 255, 0.65);
+            margin-top: 0.23rem;
+            border-radius: 0.1rem;
+            padding-left: 0.1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrap" class="flex-wrap flex-vertical">
+        <div id="header">
+            <a class="back-icon" tapmode="active" onclick="closeWin()"></a>
+            <span class="setting" onclick="goSetting();">设置</span>
+        </div>
+        <div id="main" class="flex-con">
+            <div class="top">
+                <div class="top-header">
+                    <img @click="imageChange" :src="icon_img" alt="" />
+                </div>
+                <div class="info">
+                    <div class="info-name">{{studentName}}</div>
+                    <div class="info-school">{{schoolName}}</div>
+                </div>
+            </div>
+            <div style="height:0.5rem;"></div>
+            <div class="whoami">
+                <span class="icon-who"></span>
+                <span class="label-who">我是谁</span>
+                <span class="detail-who"></span>
+            </div>
+            <div style="height:0.3rem;"></div>
+            <div class="class-info">
+                <div class="info-title">
+                    <span>我的班级</span>
+                </div>
+                <div class="info-content">
+                    <div v-for="cls in classList" class="info-item">
+                        {{cls.className}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/common.js"></script>
+<script type="text/javascript" src="../script/doT.js"></script>
+<script type="text/javascript" src="../script/vue.js"></script>
+<script type="text/javascript">
+    imready = function() {
+        initVue();
+        assigment.init();
+        assigment.lister();
+    }
+    var assigment; //全局控制器Controller
+    initVue = function() { //初始化Vue需要的是双向数据绑定 当改变数据以后view会做相应的改变
+        var date = vueDateManager();
+        var methods = vueMethodsManager();
+        assigment = new Vue({
+            el: '#main', //绑定元素
+            data: date, //本页面的静态动态全部数据
+            methods: methods, //本页面的全部方法
+            created: function() {
+                Vue.config.silent = true;
+            }
+        })
+    }
+
+    vueDateManager = function() {
+        //初始化Vue数据date为一个json数组
+        var date = {};
+        date.icon_img = "../image/eg_head_default.png";
+        date.iconImagePath;
+        date.studentName = "";
+        date.schoolName = "";
+        date.classList = [{
+            'className': ""
+        }];
+        date.phoneValue;
+        console.log("数据管理者" + JSON.stringify(date));
+        return date;
+
+    }
+    vueMethodsManager = function() {
+        //时间管理中心 每个Vue事件的处理都可以在这管理
+
+        var methods = {};
+        methods.init = function() {
+            api.getPrefs({
+                key: 'studentInfo'
+            }, function(ret, err) {
+                if (ret) {
+                    console.log(JSON.stringify(JSON.parse(ret.value)));
+                    var Xret = JSON.parse(ret.value);
+                    if (Xret.studentImage) { //如果学生有头像的话就更换头像
+                        assigment.icon_img = $api.imageUrl + Xret.studentImage;
+                    };
+                    assigment.studentName = Xret.studentName; //学生姓名
+                    assigment.schoolName = Xret.schoolName; //学校名称
+                    assigment.phoneValue = Xret.studentAccount; //学生手机号
+                    assigment.getClassList();
+
+                } else {
+                    alert(JSON.stringify(err));
+                }
+            });
+        };
+        methods.getClassList = function() {
+            var userid = api.getPrefs({
+                sync: true,
+                key: 'userid'
+            });
+            var body = {
+                method: "studentOfClasses",
+                request: {
+                    "studentId": userid,
+                }
+            }
+            console.log("studentOfClasses请求数据" + JSON.stringify(body));
+            api.showProgress();
+            ajaxRequest(body, function(ret, err) { //先判断此手机号码是否注
+                console.log("studentOfClasses返回数据" + JSON.stringify(ret));
+                api.hideProgress();
+                if (ret) {
+                    if (ret.responseCode == 0) {
+                        assigment.classList = ret.responseBody;
+                    } else {
+                        api.toast({
+                            msg: ret.responseMsg,
+                            duration: 2000,
+                            location: 'bottom'
+                        });
+                    }
+                } else {
+                    api.toast({
+                        msg: err.responseMsg,
+                        duration: 2000,
+                        location: 'bottom'
+                    });
+                }
+
+
+            })
+
+        }
+        methods.lister = function() {
+
+            api.addEventListener({
+                name: 'update'
+            }, function(ret, err) {
+                if (ret) {
+                    c("修改头像", ret)
+                    assigment.init();
+                } else {
+                    alert(JSON.stringify(err));
+                }
+            });
+            api.addEventListener({
+                name: 'viewappear'
+            }, function(ret, err){
+                if( ret ){
+                  assigment.init();
+
+                }else{
+                  assigment.init();
+
+                }
+            });
+
+        }
+        methods.imageChange = function() {
+            api.openWin({
+                name: 'setting',
+                url: './personal/setting.html',
+            });
+
+        }
+        console.log("事件管理者：" + JSON.stringify(methods));
+        return methods;
+
+    }
+
+    function goSetting() {
+        // setTimeout("api.closeWin();", 1000);
+
+        api.openWin({
+            name: 'setting',
+            url: './personal/setting.html',
+        });
+
+
+
+    }
+</script>

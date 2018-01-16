@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>文档</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/fontstyle.css" />
+    <style>
+        body {
+            background: url(../image/breakthrough_bg.png) no-repeat center center;
+            background-size: 100%;
+        }
+
+        #header {
+            background: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            width: 100%;
+            position: relative;
+            position: fixed !important;
+            height: 0.98rem;
+        }
+
+        #header a {
+            display: inline-block;
+            width: 0.98rem;
+            height: 0.98rem;
+            background: url(../image/eg_head_default.png) no-repeat center center;
+            background-size: 0.77rem 0.77rem;
+            position: absolute;
+            left: 0.24rem;
+            bottom: 0;
+        }
+
+        #header h1 {
+            font-size: 0.36rem;
+            height: 0.98rem;
+            line-height: 0.98rem;
+            margin: 0 auto;
+            color: #ff8344;
+            font-family: 'pty';
+        }
+
+        #main {
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .popup .popup_mask {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, .5);
+            z-index: 100;
+        }
+
+        .popup .popup_body {
+            position: fixed;
+            left: 0.75rem;
+            top: 1.5rem;
+            width: 6.04rem;
+            height: 6.87rem;
+            background: url(../image/popup_bg.png) no-repeat;
+            background-size: 100%;
+            z-index: 200;
+        }
+
+        .popup_body .popup_title {
+            font-size: 0.32rem;
+            color: #fff;
+            font-family: 'pty';
+            text-shadow: #c06c12 2px 0 0, #c06c12 0 2px 0, #c06c12 -2px 0 0, #c06c12 0 -2px 0;
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
+        .popup_content {
+            padding: 0 1rem;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .popup_foot {
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+
+        .popup_close {
+            position: fixed;
+            left: 3.37rem;
+            top: 9rem;
+            width: 0.76rem;
+            height: 0.76rem;
+            background: url(../image/icon_close.png) no-repeat;
+            background-size: 100%;
+            z-index: 200;
+        }
+
+        .popup_consume {
+            display: none;
+        }
+
+        .popup_consume .popup_content div {
+            display: flex;
+        }
+
+        .popup_consume .popup_content div i {
+            width: 0.5rem;
+            margin-left: 0.8rem;
+            height: 0.54rem;
+            background: url(../image/apple.png) no-repeat;
+            background-size: 100%;
+        }
+
+        .popup_consume .popup_content div b {
+            color: #82562c;
+            font-size: 0.3rem;
+            margin: 0.1rem;
+        }
+
+        .popup_consume .popup_content div span {
+            font-size: 0.3rem;
+            color: #fff;
+            margin: 0.08rem 0;
+            text-shadow: #432305 2px 2px;
+        }
+
+        .popup_consume .popup_content p {
+            text-align: center;
+            color: #82562c;
+            font-size: 0.28rem;
+            line-height: 1.8;
+            margin-top: 0.3rem;
+        }
+
+        .popup_consume .popup_foot button {
+            width: 2.38rem;
+            height: 0.73rem;
+            background: url(../image/bg_btn_ensure.png) no-repeat;
+            background-size: 100%;
+            color: #fff;
+            font-size: 0.32rem;
+            line-height: 0.73rem;
+            text-shadow: #c06c12 2px 0 0, #c06c12 0 2px 0, #c06c12 -2px 0 0, #c06c12 0 -2px 0;
+        }
+
+        #road {
+            zoom: 0.25;
+        }
+
+        #text {
+            zoom: 0.25;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrap" class="flex-wrap flex-vertical">
+        <div id="main" class="flex-con">
+            <img id="car1" src="../image/green_car_left.png" style="display:none" />
+            <img id="car2" src="../image/green_car_right.png" style="display:none" />
+            <img id="car3" src="../image/yellow_car_left.png" style="display:none" />
+            <img id="car4" src="../image/yellow_car_right.png" style="display:none" />
+            <img id="car5" src="../image/green_car_wind_left.png" style="display:none" />
+            <img id="car6" src="../image/green_car_wind_right.png" style="display:none" />
+            <img id="car7" src="../image/orange_car_left.png" style="display:none" />
+            <img id="car8" src="../image/orange_car_right.png" style="display:none" />
+            <img id="star" src="../image/icon_star.png" style="display:none" />
+            <canvas id="road"></canvas>
+            <canvas id="text" style="display:none"></canvas>
+        </div>
+    </div>
+    <div class="popup popup_consume">
+
+    </div>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/common.js"></script>
+<script type="text/javascript" src="../script/zepto.js"></script>
+<script>
+    var fruit = 0; //果实的数量
+    var myAllStar = 0; //我所有的星星数量
+    var popup = function(fruits, param, star) {
+      console.log("打开本方法需要的数据："+JSON.stringify(fruits)+"==="+JSON.stringify(param)+"====="+JSON.stringify(star));
+        function handleFruit(fruits) {
+            // return (Array(6).join(0) + fruit).slice(-6);
+            return (Array(6).join(0) + fruit).slice(-6);
+        }
+        var popup = {}
+        var html = ''
+        html += '<div class="popup_mask"></div>';
+        html += '<div class="popup_body"><div class="popup_title">闯关消耗</div>';
+        html += '<div class="popup_content"><div><i></i><b>X</b>';
+        html += '<span>' + handleFruit(fruit) + '</span></div>';
+        if (fruit > 0) {
+            html += '<p>本次闯关需要消耗1个闯关果实请确定闯关开始</p></div>';
+            html += '<div class="popup_foot"><button>确定</button></div></div>'
+        } else {
+            html += '<p>当前闯关果实已经耗尽，你可以去成长果树收集果实哦</p></div>';
+        }
+        html += '<div class="popup_close"></div>';
+        $('.popup_consume').html(html);
+        $('.popup_close').click(function() {
+            $('.popup').hide();
+        })
+        $('.popup_foot button').click(function() {
+            $('.popup').hide();
+            var data = {}
+            data.method = "passReduceFruit"; //调用接口减少果实
+            data.request = {
+                studentId: parseInt(api.getPrefs({
+                    sync: true,
+                    key: 'userid'
+                }))
+            };
+            console.log("passReduceFruit请求数据" + JSON.stringify(data));
+            ajaxRequest(data, function(ret, err) {
+                console.log("passReduceFruit返回数据" + JSON.stringify(ret));
+                if (ret) {
+                    if (ret.responseCode == 0) {
+                        api.openWin({
+                            name: 'passDetail',
+                            url: './breakthrough/breakthrough_detail.html',
+                            pageParam: {
+                                checkpointId: param,
+                                fruit: fruit,
+                                star: star
+                            },
+                            reload: true
+                        });
+                    } else {
+                        alert(ret.responseMsg);
+                    }
+                } else {
+                    alert(err.msg)
+                }
+            })
+
+
+        })
+        popup.open = function() {
+            $('.popup').show()
+        }
+        return popup;
+    }
+    window.onload = function() {
+        var car1 = document.getElementById("car1"); //绿左
+        var car2 = document.getElementById("car2"); //绿右
+        var car3 = document.getElementById("car3"); //黄左
+        var car4 = document.getElementById("car4"); //黄右
+        var car5 = document.getElementById("car5"); //绿风左
+        var car6 = document.getElementById("car6"); //绿风右
+        var car7 = document.getElementById("car7"); //橙风左
+        var car8 = document.getElementById("car8"); //橙风右
+        var star = document.getElementById("star");
+        var clientWidth = document.documentElement.clientWidth;
+        var canvas = document.getElementById('road');
+        var arrPos = [];
+        /*
+         * status状态值：
+         * 0：通过关卡
+         * 1：未闯关卡
+         * end值含义：
+         * true:当前大关最后一小关
+         * false：非当前大关最后一小关
+         */
+        /*车道绘制*/
+        function strokeRode(arrPassList) {
+            var num = Math.ceil((arrPassList.length - 2) / 6)
+            canvas.setAttribute('width', clientWidth * 4 + 'px');
+            canvas.setAttribute('height', clientWidth * (177 + 606 * num + 284 + 120) / 750 * 4 + 'px');
+            ctx = canvas.getContext('2d');
+            ctx.scale(4, 4);
+            //终点路径
+            ctx.fillStyle = "rgba(255,255,255,0.6)";
+            ctx.fillRect(clientWidth * 50 / 750, 0, clientWidth * 145 / 750, clientWidth * 284 / 750);
+            ctx.beginPath();
+            ctx.moveTo(clientWidth * 42 / 750, 0);
+            ctx.lineTo(clientWidth * 42 / 750, clientWidth * 284 / 750);
+            ctx.lineWidth = clientWidth * 16 / 750; //线条的宽度
+            ctx.strokeStyle = "#81572e"; //线条的颜色
+            ctx.stroke(); //绘制
+            ctx.beginPath();
+            ctx.moveTo(clientWidth * 203 / 750, 0);
+            ctx.lineTo(clientWidth * 203 / 750, clientWidth * 284 / 750);
+            ctx.lineWidth = clientWidth * 16 / 750; //线条的宽度
+            ctx.strokeStyle = "#81572e"; //线条的颜色
+            ctx.stroke(); //绘制
+            //开始路径
+            ctx.fillStyle = "rgba(255,255,255,0.6)";
+            ctx.fillRect(clientWidth * 50 / 750, clientWidth * (16 + 606 * num + 284) / 750, clientWidth * 700 / 750, clientWidth * 145 / 750);
+            ctx.fillRect(clientWidth * 50 / 750, clientWidth * (606 * num + 284) / 750, clientWidth * 145 / 750, clientWidth * 16 / 750);
+            ctx.beginPath();
+            ctx.moveTo(clientWidth, clientWidth * (8 + 606 * num + 284) / 750);
+            ctx.lineTo(clientWidth * 195 / 750, clientWidth * (8 + 606 * num + 284) / 750);
+            ctx.lineWidth = clientWidth * 16 / 750; //线条的宽度
+            ctx.strokeStyle = "#81572e"; //线条的颜色
+            ctx.stroke(); //绘制
+            ctx.beginPath();
+            ctx.moveTo(clientWidth, clientWidth * (169 + 606 * num + 284) / 750);
+            ctx.lineTo(clientWidth * 42 / 750, clientWidth * (169 + 606 * num + 284) / 750);
+            ctx.lineTo(clientWidth * 42 / 750, clientWidth * (606 * num + 284) / 750);
+            ctx.lineWidth = clientWidth * 16 / 750; //线条的宽度
+            ctx.lineJoin = "round"; //转角圆角
+            ctx.strokeStyle = "#81572e"; //线条的颜色
+            ctx.stroke(); //绘制
+            //中间重复路径
+            for (var i = 0; i < num; i++) {
+                ctx.fillStyle = "rgba(255,255,255,0.6)";
+                ctx.fillRect(clientWidth * 50 / 750, clientWidth * (16 + 284 + i * 606) / 750, clientWidth * 647 / 750, clientWidth * 145 / 750);
+                ctx.fillRect(clientWidth * 552 / 750, clientWidth * (161 + 284 + i * 606) / 750, clientWidth * 145 / 750, clientWidth * 303 / 750);
+                ctx.fillRect(clientWidth * 50 / 750, clientWidth * (319 + 284 + i * 606) / 750, clientWidth * 502 / 750, clientWidth * 145 / 750);
+                ctx.fillRect(clientWidth * 50 / 750, clientWidth * (464 + 284 + i * 606) / 750, clientWidth * 145 / 750, clientWidth * 142 / 750);
+                ctx.fillRect(clientWidth * 50 / 750, clientWidth * (284 + i * 606) / 750, clientWidth * 145 / 750, clientWidth * 16 / 750);
+                ctx.beginPath();
+                ctx.moveTo(clientWidth * 42 / 750, clientWidth * (284 + i * 606) / 750);
+                ctx.lineTo(clientWidth * 42 / 750, clientWidth * (169 + 284 + i * 606) / 750);
+                ctx.lineTo(clientWidth * 552 / 750, clientWidth * (169 + 284 + i * 606) / 750);
+                ctx.lineWidth = clientWidth * 16 / 750; //线条的宽度
+                ctx.lineJoin = "round"; //转角圆角
+                ctx.strokeStyle = "#81572e"; //线条的颜色
+                ctx.stroke(); //绘制
+                ctx.beginPath();
+                ctx.moveTo(clientWidth * 544 / 750, clientWidth * (177 + 284 + i * 606) / 750);
+                ctx.lineTo(clientWidth * 544 / 750, clientWidth * (303 + 284 + i * 606) / 750);
+                ctx.lineWidth = clientWidth * 16 / 750; //线条的宽度
+                ctx.strokeStyle = "#82562e"; //线条的颜色
+                ctx.stroke(); //绘制
+                ctx.beginPath();
+                ctx.moveTo(clientWidth * 552 / 750, clientWidth * (311 + 284 + i * 606) / 750);
+                ctx.lineTo(clientWidth * 42 / 750, clientWidth * (311 + 284 + i * 606) / 750);
+                ctx.lineTo(clientWidth * 42 / 750, clientWidth * (606 + 284 + i * 606) / 750);
+                ctx.lineWidth = clientWidth * 16 / 750; //线条的宽度
+                ctx.lineJoin = "round"; //转角圆角
+                ctx.strokeStyle = "#81572e"; //线条的颜色
+                ctx.stroke(); //绘制
+                ctx.beginPath();
+                ctx.moveTo(clientWidth * 195 / 750, clientWidth * (8 + 284 + i * 606) / 750);
+                ctx.lineTo(clientWidth * 705 / 750, clientWidth * (8 + 284 + i * 606) / 750);
+                ctx.lineTo(clientWidth * 705 / 750, clientWidth * (472 + 284 + i * 606) / 750);
+                ctx.lineTo(clientWidth * 195 / 750, clientWidth * (472 + 284 + i * 606) / 750);
+                ctx.lineWidth = clientWidth * 16 / 750; //线条的宽度
+                ctx.lineJoin = "round"; //转角圆角
+                ctx.strokeStyle = "#81572e"; //线条的颜色
+                ctx.stroke(); //绘制
+                ctx.beginPath();
+                ctx.moveTo(clientWidth * 203 / 750, clientWidth * (480 + 284 + i * 606) / 750);
+                ctx.lineTo(clientWidth * 203 / 750, clientWidth * (606 + 284 + i * 606) / 750);
+                ctx.lineWidth = clientWidth * 16 / 750; //线条的宽度
+                ctx.strokeStyle = "#82562e"; //线条的颜色
+                ctx.stroke(); //绘制
+            }
+            //终点虚线绘制
+            ctx.beginPath();
+            ctx.setLineDash([clientWidth * 20 / 750, clientWidth * 10 / 750]);
+            ctx.moveTo(clientWidth * 122.5 / 750, 0);
+            ctx.lineTo(clientWidth * 122.5 / 750, clientWidth * 284 / 750);
+            ctx.lineWidth = clientWidth * 7 / 750; //线条的宽度
+            ctx.strokeStyle = "#7b706c"; //线条的颜色
+            ctx.stroke(); //绘制
+            //中间虚线绘制
+            for (var j = 0; j < num; j++) {
+                ctx.beginPath();
+                ctx.setLineDash([clientWidth * 20 / 750, clientWidth * 10 / 750]);
+                ctx.moveTo(clientWidth * 122.5 / 750, clientWidth * (284 + j * 606) / 750);
+                ctx.lineTo(clientWidth * 122.5 / 750, clientWidth * (284 + 88.5 + j * 606) / 750);
+                ctx.lineTo(clientWidth * 624.5 / 750, clientWidth * (88.5 + 284 + j * 606) / 750);
+                ctx.lineTo(clientWidth * 624.5 / 750, clientWidth * (391.5 + 284 + j * 606) / 750);
+                ctx.lineTo(clientWidth * 122.5 / 750, clientWidth * (391.5 + 284 + j * 606) / 750);
+                ctx.lineTo(clientWidth * 122.5 / 750, clientWidth * (606 + 284 + j * 606) / 750);
+                ctx.lineWidth = clientWidth * 7 / 750; //线条的宽度
+                ctx.lineJoin = "round"; //转角圆角
+                ctx.strokeStyle = "#7b706c"; //线条的颜色
+                ctx.stroke(); //绘制
+            }
+            //开始虚线绘制
+            ctx.beginPath();
+            ctx.setLineDash([clientWidth * 20 / 750, clientWidth * 10 / 750]);
+            ctx.moveTo(clientWidth * 122.5 / 750, clientWidth * (606 * num + 284) / 750);
+            ctx.lineTo(clientWidth * 122.5 / 750, clientWidth * (88.5 + 606 * num + 284) / 750);
+            ctx.lineTo(clientWidth * 624.5 / 750, clientWidth * (88.5 + 606 * num + 284) / 750);
+            ctx.lineWidth = clientWidth * 7 / 750; //线条的宽度
+            ctx.lineJoin = "round"; //转角圆角
+            ctx.strokeStyle = "#7b706c"; //线条的颜色
+            ctx.stroke(); //绘制
+        }
+        /*关卡绘制*/
+        function strokePass(arrPassList) {
+            var num = Math.ceil((arrPassList.length - 2) / 6);
+            var arrSlice = arrPassList.slice(2);
+
+            function getCar(pos, status, end, row) {
+                var car = {};
+                if (pos < 3) { //左向车
+                    if (status == 0) { //绿色车
+                        if (end) {
+                            car.color = car6;
+                            car.width = 122;
+                            car.height = 40;
+                        } else {
+                            car.color = car2;
+                            car.width = 64;
+                            car.height = 24;
+                        }
+                    }
+                    if (status == 1) { //黄色车
+                        if (end) {
+                            car.color = car8;
+                            car.width = 122;
+                            car.height = 40;
+                        } else {
+                            car.color = car4;
+                            car.width = 64;
+                            car.height = 24;
+                        }
+                    }
+                } else { //右向车
+                    if (status == 0) {
+                        if (end) {
+                            car.color = car5;
+                            car.width = 122;
+                            car.height = 40;
+                        } else {
+                            car.color = car1;
+                            car.width = 64;
+                            car.height = 24;
+                        }
+                    }
+                    if (status == 1) {
+                        if (end) {
+                            car.color = car7;
+                            car.width = 122;
+                            car.height = 40;
+                        } else {
+                            car.color = car3;
+                            car.width = 64;
+                            car.height = 24;
+                        }
+                    }
+                }
+                if (row == -1) {
+                    if (status == 0) { //绿色车
+                        if (end) {
+                            car.color = car5;
+                            car.width = 122;
+                            car.height = 40;
+                        } else {
+                            car.color = car1;
+                            car.width = 64;
+                            car.height = 24;
+                        }
+                    }
+                    if (status == 1) { //黄色车
+                        if (end) {
+                            car.color = car7;
+                            car.width = 122;
+                            car.height = 40;
+                        } else {
+                            car.color = car3;
+                            car.width = 64;
+                            car.height = 24;
+                        }
+                    }
+                }
+                return car;
+            }
+
+            function drawText(starNum, status, title) {
+                var canvas_text = document.getElementById('text');
+                canvas_text.setAttribute('width', clientWidth * 90 / 750 * 4 + 'px');
+                canvas_text.setAttribute('height', clientWidth * 50 / 750 * 4 + 'px');
+                ctx_text = canvas_text.getContext('2d');
+                ctx_text.scale(4, 4);
+                ctx_text.clearRect(0, 0, canvas_text.width, canvas_text.height);
+                for (var i = 0; i < starNum; i++) {
+                    ctx_text.drawImage(star, clientWidth * i * 24 / 750, clientWidth * 30 / 750, clientWidth * 17 / 750, clientWidth * 16 / 750)
+                }
+                if (status == 0) {
+                    ctx_text.font = clientWidth * 26 / 750 + "px pty";
+                    ctx_text.fillStyle = "#83371a";
+                    ctx_text.fillText(title, 0, clientWidth * 26 / 750);
+                } else {
+                    ctx_text.font = clientWidth * 26 / 750 + "px pty";
+                    ctx_text.fillStyle = "#333";
+                    ctx_text.fillText(title, 0, clientWidth * 26 / 750);
+                }
+                ctx_text.save()
+                return canvas_text
+            }
+
+            function drawCar(row, pos, status, end, title, id, star, current, passStar) {
+
+                console.log(current + "---row:" + row);
+                if (row == -1) {
+                    if (pos == 0) {
+                        var data = {};
+                        data.x = clientWidth * 574.5 / 750;
+                        data.y = clientWidth * (284 + num * 606 + 38.5) / 750;
+                        console.log('重复数' + num + "clientWidth:" + clientWidth + "w:" + (284 + num * 606 + 38.5) / 750)
+                        data.width = clientWidth * 100 / 750;
+                        data.id = id;
+                        data.current = current;
+                        data.star = star;
+                        data.passStar = passStar;
+                        arrPos.push(data);
+                        ctx.drawImage(getCar(pos, status, end, row).color, clientWidth * 592.5 / 750, clientWidth * (76.5 + 606 * num + 284) / 750, clientWidth * 64 / 750, clientWidth * 24 / 750);
+                        ctx.drawImage(drawText(star, status, title), clientWidth * 602 / 750, clientWidth * (26 + 606 * num + 284) / 750, clientWidth * 90 / 750, clientWidth * 50 / 750);
+                    }
+                    if (pos == 1) {
+                        var data = {};
+                        data.x = clientWidth * 108 / 750;
+                        data.y = clientWidth * (284 + num * 606 + 38.5) / 750;
+                        data.width = clientWidth * 100 / 750;
+                        data.id = id;
+                        data.current = current;
+                        data.star = star;
+                        data.passStar = passStar;
+                        arrPos.push(data);
+                        ctx.drawImage(getCar(pos, status, end, row).color, clientWidth * 122.5 / 750, clientWidth * (76.5 + 606 * num + 284) / 750, clientWidth * 64 / 750, clientWidth * 24 / 750);
+                        ctx.drawImage(drawText(star, status, title), clientWidth * 132 / 750, clientWidth * (26 + 606 * num + 284) / 750, clientWidth * 90 / 750, clientWidth * 50 / 750);
+                    }
+                } else {
+                    if (pos == 0) {
+                        var data = {};
+                        data.x = clientWidth * 72.5 / 750;
+                        data.y = clientWidth * (-264.5 + 284 + (num - row) * 606) / 750;
+                        data.width = clientWidth * 100 / 750;
+                        data.id = id;
+                        data.current = current;
+                        data.star = star;
+                        data.passStar = passStar;
+                        arrPos.push(data);
+                        ctx.drawImage(getCar(pos, status, end).color, clientWidth * (122.5 - getCar(pos, status, end).width / 2) / 750, clientWidth * (-214.5 - getCar(pos, status, end).height / 2 + 284 + (num - row) * 606) / 750, clientWidth *
+                            getCar(pos, status, end).width / 750, clientWidth * getCar(pos, status, end).height / 750);
+                        ctx.drawImage(drawText(star, status, title), clientWidth * 100 / 750, clientWidth * (-275 + 284 + (num - row) * 606) / 750, clientWidth * 90 / 750, clientWidth * 50 / 750);
+                    }
+                    if (pos == 1) {
+                        var data = {};
+                        data.x = clientWidth * 325 / 750;
+                        data.y = clientWidth * (-264.5 + 284 + (num - row) * 606) / 750;
+                        data.width = clientWidth * 100 / 750;
+                        data.id = id;
+                        data.current = current;
+                        data.star = star;
+                        data.passStar = passStar;
+                        arrPos.push(data);
+                        ctx.drawImage(getCar(pos, status, end).color, clientWidth * (375 - getCar(pos, status, end).width / 2) / 750, clientWidth * (-214.5 - getCar(pos, status, end).height / 2 + 284 + (num - row) * 606) / 750, clientWidth *
+                            getCar(pos, status, end).width / 750, clientWidth * getCar(pos, status, end).height / 750);
+                        ctx.drawImage(drawText(star, status, title), clientWidth * 351 / 750, clientWidth * (-275 + 284 + (num - row) * 606) / 750, clientWidth * 90 / 750, clientWidth * 50 / 750);
+                    }
+                    if (pos == 2) {
+                        var data = {};
+                        data.x = clientWidth * 574.5 / 750;
+                        data.y = clientWidth * (-264.5 + 284 + (num - row) * 606) / 750;
+                        data.width = clientWidth * 100 / 750;
+                        data.id = id;
+                        data.current = current;
+                        data.star = star;
+                        data.passStar = passStar;
+                        arrPos.push(data);
+                        ctx.drawImage(getCar(pos, status, end).color, clientWidth * (624.5 - getCar(pos, status, end).width / 2) / 750, clientWidth * (-214.5 - getCar(pos, status, end).height / 2 + 284 + (num - row) * 606) / 750, clientWidth *
+                            getCar(pos, status, end).width / 750, clientWidth * getCar(pos, status, end).height / 750);
+                        ctx.drawImage(drawText(star, status, title), clientWidth * 602 / 750, clientWidth * (-275 + 284 + (num - row) * 606) / 750, clientWidth * 90 / 750, clientWidth * 50 / 750);
+                    }
+                    if (pos == 3) {
+                        var data = {};
+                        data.x = clientWidth * 574.5 / 750;
+                        data.y = clientWidth * (-567.5 + 284 + (num - row) * 606) / 750;
+                        data.width = clientWidth * 100 / 750;
+                        data.id = id;
+                        data.current = current;
+                        data.star = star;
+                        data.passStar = passStar;
+                        arrPos.push(data);
+                        ctx.drawImage(getCar(pos, status, end).color, clientWidth * (624.5 - getCar(pos, status, end).width / 2) / 750, clientWidth * (-517.5 - getCar(pos, status, end).height / 2 + 284 + (num - row) * 606) / 750, clientWidth *
+                            getCar(pos, status, end).width / 750, clientWidth * getCar(pos, status, end).height / 750);
+                        ctx.drawImage(drawText(star, status, title), clientWidth * 602 / 750, clientWidth * (-580 + 284 + (num - row) * 606) / 750, clientWidth * 90 / 750, clientWidth * 50 / 750);
+                    }
+                    if (pos == 4) {
+                        var data = {};
+                        data.x = clientWidth * 325 / 750;
+                        data.y = clientWidth * (-567.5 + 284 + (num - row) * 606) / 750;
+                        data.width = clientWidth * 100 / 750;
+                        data.id = id;
+                        data.current = current;
+                        data.star = star;
+                        data.passStar = passStar;
+                        arrPos.push(data);
+                        ctx.drawImage(getCar(pos, status, end).color, clientWidth * (375 - getCar(pos, status, end).width / 2) / 750, clientWidth * (-517.5 - getCar(pos, status, end).height / 2 + 284 + (num - row) * 606) / 750, clientWidth *
+                            getCar(pos, status, end).width / 750, clientWidth * getCar(pos, status, end).height / 750);
+                        ctx.drawImage(drawText(star, status, title), clientWidth * 351 / 750, clientWidth * (-580 + 284 + (num - row) * 606) / 750, clientWidth * 90 / 750, clientWidth * 50 / 750);
+                    }
+                    if (pos == 5) {
+                        var data = {};
+                        data.x = clientWidth * 72.5 / 750;
+                        data.y = clientWidth * (-567.5 + 284 + (num - row) * 606) / 750;
+                        data.width = clientWidth * 100 / 750;
+                        data.id = id;
+                        data.current = current;
+                        data.star = star;
+                        data.passStar = passStar;
+                        arrPos.push(data);
+                        ctx.drawImage(getCar(pos, status, end).color, clientWidth * (122.5 - getCar(pos, status, end).width / 2) / 750, clientWidth * (-517.5 - getCar(pos, status, end).height / 2 + 284 + (num - row) * 606) / 750, clientWidth *
+                            getCar(pos, status, end).width / 750, clientWidth * getCar(pos, status, end).height / 750);
+                        ctx.drawImage(drawText(star, status, title), clientWidth * 100 / 750, clientWidth * (-580 + 284 + (num - row) * 606) / 750, clientWidth * 90 / 750, clientWidth * 50 / 750);
+                    }
+                }
+            }
+            for (var i = 0; i < arrSlice.length; i++) {
+                var row = parseInt(i / 6);
+                var pos = i % 6;
+                drawCar(row, pos, arrSlice[i].status, arrSlice[i].end, arrSlice[i].name, arrSlice[i].id, arrSlice[i].star, arrSlice[i].current,arrSlice[i].passStar)
+            }
+
+
+            //开始车道小车绘制
+
+            var arrStart = arrPassList.slice(0, 2);
+            for (var j = 0; j < arrStart.length; j++) {
+                var posStart = j % 6;
+                drawCar(-1, posStart, arrStart[j].status, arrStart[j].end, arrStart[j].name, arrStart[j].id, arrStart[j].star, arrStart[j].current,arrStart[j].passStar)
+            }
+        }
+        /*请求处理函数*/
+        function handlePassList(res) {
+            // var rows = res.checkpointPage.rows.reverse();
+            myAllStar = res.myAllStar ? res.myAllStar : 0; //所有的星星数
+            var rows = res.checkpointPage.rows; //关卡
+            var studentPass = res.studentPassList; //通过关数
+            var arrPassList = [];
+            for (var i = 0; i < rows.length; i++) {
+                var data = {};
+                data.id = rows[i].id;
+                data.type = rows[i].checkpointType;
+                data.name = rows[i].checkpointName;
+                if (rows[i].checkpointType == 1) {
+                    data.end = true;
+                } else {
+                    data.end = false;
+                }
+                data.star = 0;
+                for (var j = 0; j < studentPass.length; j++) {
+                    if (studentPass[j].checkpointId == rows[i].id) {
+                        data.star = studentPass[j].star
+                    }
+                }
+                if (data.star == 0) {
+                    data.status = 1
+                } else {
+                    data.status = 0
+                }
+
+                if (i <= studentPass.length) {
+                    data.current = true
+                } else {
+                    data.current = false
+                }
+                data.passStar = rows[i].passStar;
+                arrPassList.push(data);
+            }
+            console.log("car============" + JSON.stringify(arrPassList));
+
+            strokeRode(arrPassList);
+            strokePass(arrPassList);
+            canvas.addEventListener('click', function(e) {
+                console.log('e.pageY' + e.pageY + 'canvas.getBoundingClientRect().top' + canvas.getBoundingClientRect().top)
+
+                var x = e.offsetX;
+                var y = e.offsetY;
+                // const box = canvas.getBoundingClientRect()
+                //   const x = (e.clientX - clientWidth*box.left/750);
+                //   const y = (e.clientY - clientWidth*box.top/750);
+
+                console.log("arrPos============" + JSON.stringify(arrPos));
+                for (var i = 0; i < arrPos.length; i++) {
+                    if (arrPos[i].current) {
+                        if (x < (arrPos[i].x + arrPos[i].width) && x > arrPos[i].x && y < (arrPos[i].y + arrPos[i].width) && y > arrPos[i].y) {
+//                          if (myAllStar >= arrPos[i].passStar) { //判断我所有的星星是否能够闯当前的星星是否能
+                              console.log("point============x的值:" + x + "x范围:" + (arrPos[i].x + arrPos[i].width));
+                              console.log("point============x:" + x + "arrPos[i].x:" + arrPos[i].x);
+                              console.log("point============y:" + y + "y的范围" + (arrPos[i].y + arrPos[i].width));
+                              console.log("point============y:" + y + "arrPos[i].y:" + arrPos[i].y);
+                              console.log("我的所有星星数量："+myAllStar+"--当前关卡需要的星星数量："+arrPos[i].passStar);
+                              console.log("come in");
+                                popup(res.myFruitNumbers, arrPos[i].id, arrPos[i].star).open()
+                            } else {
+//                            alert("当前关卡需要" + Math.ceil(arrPos[i].passStar) + "星星");
+                            }
+                        }
+                    }
+            }, false);
+        }
+        // window.addEventListener('load', load, false);
+        //
+        // function load() {
+        //
+        //     document.addEventListener('touchstart', touch, false);
+        //     document.addEventListener('touchmove', touch, false);
+        //     document.addEventListener('touchend', touch, false);
+        //
+        //     function touch(event) {
+        //         var event = event || window.event;
+        //
+        //         var oInp = document.getElementById("inp");
+        //
+        //         switch (event.type) {
+        //             case "touchstart":
+        //               console.log("Touch started (" + event.touches[0].clientX + "," + event.touches[0].clientY + ")");
+        //                 break;
+        //             case "touchend":
+        //               console.log("Touch end (" + event.changedTouches[0].clientX + "," + event.changedTouches[0].clientY + ")");
+        //                 break;
+        //             case "touchmove":
+        //                 event.preventDefault();
+        //                 console.log("Touch moved (" + event.touches[0].clientX + "," + event.touches[0].clientY + ")");
+        //                 break;
+        //         }
+        //
+        //     }
+        // }
+        imready = function() {
+            initBR();
+            api.addEventListener({
+                name: 'viewReady'
+            }, function(ret, err) {
+                if (ret) {
+                    initBR();
+                    console.log("viewReady刷新刷新???。。。。。。。")
+                } else {
+                    console.log(JSON.stringify(err));
+                }
+            });
+
+
+            // var data = {}
+            // data.method = "checkpointSearch";//获取闯关列表
+            // data.request = {
+            //     studentId: parseInt(api.getPrefs({
+            //         sync: true,
+            //         key: 'userid'
+            //     })),
+            //     page: 1,
+            //     pageSize: 100
+            // }
+            // api.showProgress();
+            // console.log("checkpointSearch请求数据"+JSON.stringify(data))
+            // ajaxRequest(data, function(ret, err) {
+            //     api.hideProgress();
+            //     console.log("checkpointSearch返回数据"+JSON.stringify(ret))
+            //     if (ret) {
+            //         if (ret.responseCode == 0) {
+            //             var response = ret.responseBody;
+            //             //alert(JSON.stringify(response))
+            //             handlePassList(response)
+            //
+            //
+            //         } else {
+            //             alert(ret.responseMsg)
+            //         }
+            //     } else {
+            //         alert(err.msg)
+            //     }
+            // })
+        }
+
+        function initBR() {
+
+            var data = {}
+            data.method = "checkpointSearch"; //获取闯关列表
+            data.request = {
+                studentId: Number(api.getPrefs({
+                    sync: true,
+                    key: 'userid'
+                })),
+                page: 1,
+                pageSize: 100
+            }
+            console.log("checkpointSearch请求数据" + JSON.stringify(data))
+            api.showProgress();
+            ajaxRequest(data, function(ret, err) {
+                console.log("checkpointSearch返回数据" + JSON.stringify(ret))
+                api.hideProgress();
+                if (ret) {
+                    if (ret.responseCode == 0) {
+                        var response = ret.responseBody;
+                        //alert(JSON.stringify(response))
+                        handlePassList(response);
+                        var data = {}
+                        data.method = "treeInfo";
+                        data.request = {
+                            studentId: Number(api.getPrefs({
+                                sync: true,
+                                key: 'userid'
+                            }))
+                        };
+                        console.log("treeInfo请求数据" + JSON.stringify(data));
+                        api.showProgress();
+                        ajaxRequest(data, function(ret, err) {
+                            console.log("treeInfo成功返回数据" + JSON.stringify(ret));
+                            api.hideProgress();
+                            if (ret) {
+                                if (ret.responseCode == 0) {
+                                    fruit = ret.responseBody.fruit;
+                                } else {
+                                    api.toast({
+                                        msg: err.responseMsg,
+                                        duration: 2000,
+                                        location: 'bottom'
+                                    });
+                                }
+                            } else {
+                                api.toast({
+                                    msg: err.responseMsg,
+                                    duration: 2000,
+                                    location: 'bottom'
+                                });
+                            }
+
+                        })
+
+
+                    } else {
+                        alert(ret.responseMsg)
+                    }
+                } else {
+                    alert(err.msg)
+                }
+            })
+
+        }
+    }
+</script>
+
+</html>

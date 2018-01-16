@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>title</title>
+	<link rel="stylesheet" type="text/css" href="../../css/api.css" />
+	<link rel="stylesheet" type="text/css" href="../../css/style.css" />
+	<style>
+	body {
+			background: url(../../image/bg_login.png) no-repeat center center;
+			background-size: 100%;
+			position: relative;
+	}
+		#header {
+			background: rgba(255, 255, 255, 0.8);
+			text-align: center;
+			width: 100%;
+			position: relative;
+			height: 0.98rem;
+		}
+
+		#header .back-icon {
+			display: inline-block;
+			width: 0.98rem;
+			height: 0.98rem;
+			background: url(../../image/icon_back.png) no-repeat center center;
+			background-size: 0.78rem 0.33rem;
+			position: absolute;
+			left: 0.24rem;
+			bottom: 0;
+		}
+
+		#header h1 {
+			font-size: 0.36rem;
+			height: 0.98rem;
+			line-height: 0.98rem;
+			margin: 0 auto;
+			color: #ff8344;
+			font-family: 'pty';
+		}
+	</style>
+</head>
+
+<body>
+	<div class="flex-wrap flex-vertical">
+		<div id="header">
+			<a class="back-icon" tapmode="active" onclick="closeWin()"></a>
+			<h1>用户协议</h1>
+		</div>
+		<div class="flex-con"></div>
+	</div>
+</body>
+<script type="template" id="dotTmpl"></script>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript">
+	imready = function() {
+		$api.fixStatusBar($api.dom('header'));
+		api.openFrame({
+			name: 'userAgreementContent',
+			url: 'userAgreementContent.html',
+			rect: {
+				x: 0,
+				y: ($api.offset($api.dom("#header"))).h,
+				w: api.frameWidth,
+				h: api.frameHeight - ($api.offset($api.dom("#header"))).h
+			}
+		});
+	};
+</script>
+
+</html>

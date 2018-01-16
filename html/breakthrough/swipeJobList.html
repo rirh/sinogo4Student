@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+<!-- 此页面为 -->
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>侧滑列表</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/swiper.min.css" />
+
+
+    <!-- Demo styles -->
+    <style scoped>
+        html,
+        body {
+            position: relative;
+            height: 100%;
+        }
+
+        body {
+            background: #eee;
+            background-color: transparent !important;
+            position: relative;
+            margin: 0;
+            padding: 0;
+        }
+
+        [v-cloak] {
+            display: none;
+            ;
+        }
+
+        .swiper-container {
+            width: 100%;
+            height: 100%;
+        }
+
+        .content {
+            background: #fff;
+        }
+
+        .content .q-title {
+            height: .88rem;
+            line-height: .88rem;
+            color: #1ebeb6;
+            font-size: .28rem;
+            margin-left: .32rem;
+        }
+
+        .content div img {
+            width: 5.1rem;
+            max-width: 5.1rem;
+            margin-left: 1.2rem;
+        }
+
+        ul {
+            margin-top: .32rem;
+        }
+
+        ul li {
+            height: .92rem;
+            width: 6.5rem;
+            background: #eee;
+            line-height: .92rem;
+            color: #333;
+            margin-top: .08rem;
+            margin-left: .5rem;
+            border-radius: .05rem;
+            position: relative;
+        }
+
+        ul li span {
+            margin-left: .23rem;
+        }
+
+        ul li img {
+            width: .36rem;
+            height: .26rem;
+            position: absolute;
+            top: .33rem;
+            right: .32rem;
+        }
+
+        .isChoose {
+            background: #1ebeb6!important;
+            color: #fff;
+        }
+
+        .q-sgf {
+            background: #FFF;
+            width: 5.8rem;
+            height: 5.8rem;
+            margin-left: 0.85rem;
+            border-radius: 0.1rem;
+            margin-top: 0.56rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Swiper -->
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <div v-for="(job,index) in homework" v-cloak class="swiper-slide">
+                <div class="content" v-for="item in job.questionTitleAttributes">
+                    <div class="q-title" v-if="item.titleTypeValue==-1">
+                        <!--文本-->
+                        {{index+1}}.{{item.titleDetails}}
+                    </div>
+                    <div class="q-img" v-else-if="item.titleTypeValue==0">
+                        <!--图片-->
+                        <img :src="item.titleDetails" alt="">
+                    </div>
+                    <div class="q-audio" v-else-if="item.titleTypeValue==1">
+                        <!--音频-->
+                        音频
+                    </div>
+                    <div class="q-video" v-else-if="item.titleTypeValue==2">
+                        <!--视频-->
+                        视频
+                    </div>
+                    <div class="q-sgf" v-else-if="item.titleTypeValue==3">
+                        <!--sgf文件-->
+
+                    </div>
+
+                </div>
+                <ul v-if="job.questionTypeValue==1">
+                    <li :class="{'isChoose':option.optionRight}" v-for="option in job.questionOptionsAttributes">
+                        <span>{{option.optionValue}}.{{option.questionOptions[0].optionDetails}}</span>
+                        <img v-show="option.optionRight" src="../../image/homework_img/icon_true.png" alt="">
+                    </li>
+                </ul>
+                <!--选项-->
+            </div>
+        </div>
+        <!-- Add Pagination -->
+    </div>
+
+</body>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript" src="../../script/vue.js"></script>
+<script type="text/javascript" src="../../script/swiper.min.js"></script>
+
+<script>
+    var assigment; //全局控制器Controller
+    initVue = function() { //初始化Vue需要的是双向数据绑定 当改变数据以后view会做相应的改变
+        var date = vueDateManager();
+        var methods = vueMethodsManager();
+        var components = vueComponentsManager();
+        assigment = new Vue({
+            el: '.swiper-container', //绑定元素
+            data: date, //本页面的静态动态全部数据
+            methods: methods, //本页面的全部方法
+            components: components,
+        })
+    }
+
+    vueDateManager = function() {
+        //初始化Vue数据date为一个json数组
+        var date = {};
+        date.homework = [{
+            "subjectId": 1,
+            "subjectName": "围棋",
+            "programmeId": 1,
+            "programmeName": "大纲1",
+            "knowledgeId": 1,
+            "knowledgeName": "知识点1",
+            "difficultyValue": 4,
+            "difficultyName": "困难",
+            "questionId": 10001,
+            "questionTitleAttributes": [{
+                "titleTypeValue": -1,
+                "titleTypeName": "文本",
+                "titleDetails": "点击棋盘上的点，对白棋完成打吃。"
+            }, {
+                "titleTypeValue": 3,
+                "titleTypeName": "SGF文件",
+                "titleDetails": "(;GE[demo+2017.07.01 16:55:09]CA[UTF-8]FF[4]SZ[9]AP[北京中棋]AB[db]AB[cc]AB[dd]AW[dc](;B[ec]C[RIGHT]))"
+            }],
+            "drawChessBoard": false,
+            "questionTypeValue": 2,
+            "questionTypeName": "对弈题",
+
+        }, {
+            "subjectId": 1,
+            "subjectName": "围棋",
+            "programmeId": 1,
+            "programmeName": "大纲1",
+            "knowledgeId": 1,
+            "knowledgeName": "知识点1",
+            "difficultyValue": 3,
+            "difficultyName": "中等",
+            "questionId": 10002,
+            "questionTitleAttributes": [{
+                "titleTypeValue": -1,
+                "titleTypeName": "文本",
+                "titleDetails": "这也是一道送命题。"
+            }, {
+                "titleTypeValue": 0,
+                "titleTypeName": "图片",
+                "titleDetails": "http://imgsrc.baidu.com/image/c0%3Dshijue%2C0%2C0%2C245%2C40/sign=080de01b9845d688b70fbae7ccab176b/72f082025aafa40f800be7f5a164034f79f019cc.jpg"
+            }],
+            "drawChessBoard": false,
+            "questionTypeValue": 1,
+            "questionTypeName": "选择题",
+            "questionOptionsAttributes": [{
+                "optionId": 1,
+                "questionId": 10002,
+                "optionValue": "A",
+                "optionName": "A",
+                "optionRight": false,
+                "questionOptions": [{
+                    "optionTypeValue": -1,
+                    "optionTypeName": "文本",
+                    "optionDetails": "这是2第一个选项"
+                }]
+            }, {
+                "optionId": 2,
+                "questionId": 10002,
+                "optionValue": "B",
+                "optionName": "B",
+                "optionRight": false,
+                "questionOptions": [{
+                    "optionTypeValue": -1,
+                    "optionTypeName": "文本",
+                    "optionDetails": "这是2第二个选项"
+                }]
+            }, {
+                "optionId": 3,
+                "questionId": 10002,
+                "optionValue": "C",
+                "optionName": "C",
+                "optionRight": true,
+                "questionOptions": [{
+                    "optionTypeValue": -1,
+                    "optionTypeName": "文本",
+                    "optionDetails": "这是2第三个选项"
+                }]
+            }, {
+                "optionId": 4,
+                "questionId": 10002,
+                "optionValue": "D",
+                "optionName": "D",
+                "optionRight": false,
+                "questionOptions": [{
+                    "optionTypeValue": -1,
+                    "optionTypeName": "文本",
+                    "optionDetails": "这是2第四个选项"
+                }]
+            }]
+        }, {
+            "subjectId": 1,
+            "subjectName": "围棋",
+            "programmeId": 1,
+            "programmeName": "大纲1",
+            "knowledgeId": 1,
+            "knowledgeName": "知识点1",
+            "difficultyValue": 3,
+            "difficultyName": "中等",
+            "questionId": 10002,
+            "questionTitleAttributes": [{
+                "titleTypeValue": -1,
+                "titleTypeName": "文本",
+                "titleDetails": "这也是一道送命题。"
+            }, {
+                "titleTypeValue": 0,
+                "titleTypeName": "图片",
+                "titleDetails": "http://pic17.huitu.com/res/20140318/370534_20140318092815018200_1.jpg"
+            }],
+            "drawChessBoard": false,
+            "questionTypeValue": 1,
+            "questionTypeName": "选择题",
+            "questionOptionsAttributes": [{
+                "optionId": 1,
+                "questionId": 10002,
+                "optionValue": "A",
+                "optionName": "A",
+                "optionRight": false,
+                "questionOptions": [{
+                    "optionTypeValue": -1,
+                    "optionTypeName": "文本",
+                    "optionDetails": "这是2第一个选项"
+                }]
+            }, {
+                "optionId": 2,
+                "questionId": 10002,
+                "optionValue": "B",
+                "optionName": "B",
+                "optionRight": false,
+                "questionOptions": [{
+                    "optionTypeValue": -1,
+                    "optionTypeName": "文本",
+                    "optionDetails": "这是2第二个选项"
+                }]
+            }, {
+                "optionId": 3,
+                "questionId": 10002,
+                "optionValue": "C",
+                "optionName": "C",
+                "optionRight": true,
+                "questionOptions": [{
+                    "optionTypeValue": -1,
+                    "optionTypeName": "文本",
+                    "optionDetails": "这是2第三个选项"
+                }]
+            }, {
+                "optionId": 4,
+                "questionId": 10002,
+                "optionValue": "D",
+                "optionName": "D",
+                "optionRight": false,
+                "questionOptions": [{
+                    "optionTypeValue": -1,
+                    "optionTypeName": "文本",
+                    "optionDetails": "这是2第四个选项"
+                }]
+            }]
+        }];
+
+        console.log("数据管理者" + JSON.stringify(date));
+        return date;
+
+    }
+    vueMethodsManager = function() {
+        //时间管理中心 每个Vue事件的处理都可以在这管理
+        var methods = {};
+        methods.init = function() {
+            var swiper = new Swiper('.swiper-container', {
+                paginationClickable: true,
+                direction: 'vertical',
+                onSlideChangeEnd: function(swiper) {
+                    console.log(swiper.activeIndex); //切换结束时，告诉我现在是第几个slide
+                }
+            });
+
+
+        }
+
+        methods.confirmationRelease = function() { //确认发布作业
+            //TODO
+
+
+
+        }
+        console.log("事件管理者：" + JSON.stringify(methods));
+        return methods;
+
+
+
+
+    }
+    vueComponentsManager = function() { //组件管理器
+        var components = {};
+        components.taskStar = {}; //星星组件
+        components.taskStar.template = "#taskStar";
+        components.taskStar.props = [];
+        components.taskStar.props.push("custStarNumber"); //要传入的数据
+        components.taskStar.props.push("leave"); //要传入的数据
+        components.taskStar.props.push("starbutton"); //要传入的数据
+        components.taskStar.props.push("starbuttonindex"); //要传入的数据
+        components.taskStar.methods = {};
+        components.taskStar.methods.removeTask = function(index) {
+            var taskbox = $api.domAll(".taskbox");
+            $api.css(taskbox[index - 1], "display:none");
+
+        };
+    }
+    imready = function() {
+        // api.parseTapmode(); //默认页面加载完成后，引擎会对 dom 里面的元素进行 tapmode 属性解析，若是之后用代码创建的 dom 元素，则需要调用该方法后 tapmode 属性才会生效
+        // $api.fixStatusBar($api.dom('header'));
+        initVue();
+        assigment.init();
+
+
+    };
+</script>
+
+</html>

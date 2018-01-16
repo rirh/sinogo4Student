@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>文档</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/fontstyle.css" />
+    <style>
+        body {
+            background: url(../../image/bg_login.png) no-repeat center center;
+            background-size: 100%;
+            position: relative;
+        }
+
+        #header {
+            background: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            width: 100%;
+            position: relative;
+            height: 0.98rem;
+        }
+
+        #header h1 {
+            font-size: 0.36rem;
+            height: 0.98rem;
+            line-height: 0.98rem;
+            margin: 0 auto;
+            color: #ff8344;
+            font-family: 'pty';
+        }
+
+        #main {
+            height: 100%;
+            position: relative;
+        }
+
+        #main .content {
+            width: 92%;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.45);
+            height: 85%;
+            border-radius: 0.1rem;
+            position: relative;
+        }
+
+        .content .logo {
+            height: 1.27rem;
+            background: url(../../image/logo1_06.png) no-repeat center center;
+            background-size: 3.69rem 1.27rem;
+        }
+
+        .content .input-content {
+            width: 86%;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .content .input-content:before {
+            position: absolute;
+            border-bottom: 1px solid #feed81;
+            right: 0;
+            bottom: 1.06rem;
+            left: 0;
+            content: "";
+            display: block;
+            -webkit-transform: scaleY(0.5);
+            -webkit-transform-origin: 0 0;
+            z-index: 3;
+        }
+
+        .content .input-content .input-item {
+            height: 1.06rem;
+            line-height: 1.06rem;
+            border-radius: 0.1rem;
+            background: #FFFFFF;
+            position: relative;
+        }
+
+        .content .input-content .input-item .userlogo {
+            height: 1.06rem;
+            width: 1.06rem;
+            background: url(../../image/icon_user.png) no-repeat center center;
+            background-size: 0.58rem 0.58rem;
+            float: left;
+            position: relative;
+        }
+
+        .content .input-content .input-item .userlogo:before {
+            position: absolute;
+            border-right: 1px solid #aaaaaa;
+            right: 0.1rem;
+            top: 0.15rem;
+            bottom: 0.15rem;
+            content: "";
+            display: block;
+            -webkit-transform: scaleX(0.5);
+            -webkit-transform-origin: 0 0;
+        }
+
+        .content .input-content .input-item .passlogo {
+            height: 1.06rem;
+            width: 1.06rem;
+            background: url(../../image/icon_pass.png) no-repeat center center;
+            background-size: 0.58rem 0.58rem;
+            float: left;
+            position: relative;
+        }
+
+        .content .input-content .input-item .passlogo:before {
+            position: absolute;
+            border-right: 1px solid #aaaaaa;
+            right: 0.1rem;
+            top: 0.15rem;
+            bottom: 0.15rem;
+            content: "";
+            display: block;
+            -webkit-transform: scaleX(0.5);
+            -webkit-transform-origin: 0 0;
+        }
+
+        .content .input-content .input-item input {
+            float: left;
+            height: 1.06rem;
+            font-size: 0.28rem;
+            font-family: 'pty';
+            color: #333333;
+            padding-left: 0.2rem;
+        }
+
+        .content .input-content .input-item .passshow {
+            position: absolute;
+            margin-right: 0.2rem;
+            background: url(../../image/icon_pass_shown.png) no-repeat center center;
+            background-size: 0.4rem 0.29rem;
+            width: 0.6rem;
+            height: 1.06rem;
+            top: 0;
+            right: .32rem;
+        }
+
+        .content .passforget {
+            height: 0.77rem;
+            line-height: 0.77rem;
+            width: 86%;
+            margin: 0 auto;
+        }
+
+        .content .passforget span {
+            float: right;
+            font-family: 'pty';
+            color: #da7508;
+            font-size: 0.28rem;
+        }
+
+        .content .btn-login {
+            width: 86%;
+            margin: 0 auto;
+            height: 1.11rem;
+            line-height: 1.11rem;
+            text-align: center!important;
+            color: #FFF;
+            font-family: 'pty';
+            font-size: 0.34rem;
+            background: url(../../image/icon_btn_login.png) no-repeat center center;
+            background-size: 100%;
+            -webkit-text-stroke: 1px #8d4109;
+        }
+
+        .content .btn-regist {
+            width: 86%;
+            margin: 0 auto;
+            height: 1.11rem;
+            line-height: 1.11rem;
+            text-align: center;
+            color: #FFF;
+            font-size: 0.34rem;
+            font-family: 'pty';
+            -webkit-text-stroke: 1px #8d4109;
+            background: url(../../image/icon_btn_regist.png) no-repeat center center;
+            background-size: 100%;
+        }
+
+        input {
+            outline: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrap" class="flex-wrap flex-vertical">
+        <div id="header">
+            <h1>登录</h1>
+        </div>
+        <div id="main" class="flex-con">
+            <div style="height:0.2rem;"></div>
+            <div class="content">
+                <div style="height:0.8rem"></div>
+                <div class="logo">
+                </div>
+                <div style="height:0.8rem"></div>
+                <div class="input-content">
+                    <div class="input-item">
+                        <span class="userlogo"></span>
+                        <input type="tel" @blur="verPhone" v-model="phoneNum" placeholder="请输入手机号" />
+                    </div>
+                    <div class="input-item">
+                        <span class="passlogo">	</span>
+                        <input class="password" v-model="Password" type="password" placeholder="请输入密码" />
+                        <span class="passshow" @click="changeInputType();"></span>
+                    </div>
+                </div>
+                <div class="passforget">
+                    <span @click="openWindow('passforget')">忘记密码？</span>
+                </div>
+                <div class="btn-login" @click="login">
+                    登 录
+                </div>
+                <div style="height:0.45rem;"></div>
+                <div class="btn-regist" @click="openWindow('register')">
+                    注 册
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript" src="../../script/vue.js"></script>
+<script type="text/javascript">
+    imready = function() {
+        initVue();
+        assigment.unSwlight(); //捕获苹果端左滑返回事件和安卓端返回按钮事件
+    };
+    var assigment; //全局控制器Controller
+    initVue = function() { //初始化Vue需要的是双向数据绑定 当改变数据以后view会做相应的改变
+        var date = vueDateManager();
+        var methods = vueMethodsManager();
+        assigment = new Vue({
+            el: '#main', //绑定元素
+            data: date, //本页面的静态动态全部数据
+            methods: methods, //本页面的全部方法
+
+        })
+    };
+    //
+    vueDateManager = function() {
+        //初始化Vue数据date为一个json数组
+        var date = {};
+        date.phoneNum = "";
+        date.Password = "";
+        date.isPhone = false;
+        console.log("数据管理者" + JSON.stringify(date));
+        return date;
+
+    };
+    vueMethodsManager = function() {
+        //时间管理中心 每个Vue事件的处理都可以在这管理
+        var methods = {};
+        methods.changeInputType = function() {
+            var passInput = $api.dom(".password")
+            var cType = $api.attr(passInput, "type");
+            if (cType == 'password') {
+                $api.attr(passInput, "type", "text");
+            } else {
+                $api.attr(passInput, "type", "password");
+            }
+        };
+        methods.unSwlight = function() { //捕获苹果端左滑返回事件和安卓端返回按钮事件
+            api.addEventListener({
+                name: 'swipeleft'
+            }, function(ret, err) {
+                return;
+            });
+            api.addEventListener({
+                name: 'keyback'
+            }, function(ret, err) {
+                return;
+            });
+        }
+        methods.openWindow = function(winname) { //打开指定的wein
+            api.openWin({
+                name: winname,
+                url: winname + ".html"
+            });
+
+        }
+        methods.verPhone = function() { //过滤账号只可能是11到12位
+            if (assigment.phoneNum.length == 11 || assigment.phoneNum.length == 12) {
+                assigment.isPhone = true
+            } else {
+                assigment.isPhone = false
+            }
+        }
+        methods.login = function() { //登录
+            if (!assigment.phoneNum) {
+                alert("请输入手机号");
+                return;
+            };
+            if (!assigment.isPhone) {
+                alert("请输入正确的手机号");
+                return;
+            };
+            if (!assigment.Password) {
+                alert("请输入密码");
+                return;
+            };
+
+            api.showProgress();
+            var body = {
+                method: "studentLogin",
+                request: {
+                    "studentAccount": assigment.phoneNum,
+                    "studentPassword": assigment.Password,
+                }
+            }
+            console.log("studentLogin请求数据" + JSON.stringify(body));
+            ajaxRequest(body, function(ret, err) { //先判断此手机号码是否注册
+                api.hideProgress();
+                if (ret) {
+                  console.log("studentLogin成功返回数据" + JSON.stringify(ret));
+                    if (ret.responseCode == 0) {
+                        api.setPrefs({
+                            key: 'userid',
+                            value: ret.responseBody.id
+                        });
+                        var date = new Date();
+                        api.setPrefs({
+                            key: 'studentPassword',
+                            value: assigment.Password
+                        });
+                        api.setPrefs({
+                            key: 'loginState',
+                            value: date.getTime()
+                        });
+                        api.setPrefs({
+                            key: 'studentInfo',
+                            value: ret.responseBody
+                        });
+                        api.setPrefs({
+                            key: 'userPhone',
+                            value: ret.responseBody.studentAccount
+                        });
+                        api.setPrefs({
+                            key: 'tradePassword',
+                            value: ret.responseBody.studentPassword
+                        });
+						api.sendEvent({
+	                        name:'loginStateChanged'
+                        });
+						api.sendEvent({
+	                        name:'update'
+                        });
+						api.closeToWin({
+	                        name: 'root'
+                        });
+//                      api.openWin({
+//                          name: 'index',
+//                          url: '../../index.html',
+//                          pageParam: {
+//                              "student": ret.responseBody
+//                          }
+//                      });
+                        setTimeout("api.closeWin()",1000); //关闭当前页面
+                    } else {
+                        alert(ret.responseMsg)
+                    }
+                } else {
+                  console.log(JSON.stringify(err));
+                    alert(err.msg)
+                }
+            })
+        }
+        methods.confirmationRelease = function() { //确认发布作业
+            //TODO
+
+
+
+        }
+        console.log("事件管理者：" + JSON.stringify(methods));
+        return methods;
+
+
+
+
+    }
+</script>

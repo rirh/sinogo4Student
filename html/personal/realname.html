@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>文档</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/fontstyle.css" />
+    <style>
+        body {
+            background: url(../../image/bg_mine.png) no-repeat center center;
+            background-size: 100%;
+        }
+
+        #header {
+            background: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            width: 100%;
+            position: relative;
+            height: 0.98rem;
+        }
+
+        #header .back-icon {
+            display: inline-block;
+            width: 0.98rem;
+            height: 0.98rem;
+            background: url(../../image/icon_back.png) no-repeat center center;
+            background-size: 0.78rem 0.33rem;
+            position: absolute;
+            left: 0.24rem;
+            bottom: 0;
+        }
+
+        #header h1 {
+            font-size: 0.36rem;
+            height: 0.98rem;
+            line-height: 0.98rem;
+            margin: 0 auto;
+            color: #ff8344;
+            font-family: 'pty';
+        }
+
+        #main .input-div {
+            height: 0.9rem;
+            line-height: 0.9rem;
+            width: 100%;
+            position: relative;
+            background: rgba(255, 255, 255, 0.45);
+        }
+
+        #main .input-div:before {
+            position: absolute;
+            border-top: 1px solid #eeeeee;
+            top: 0;
+            right: 0;
+            left: 0;
+            content: "";
+            display: block;
+            -webkit-transform: scaleY(0.5);
+            -webkit-transform-origin: 0 0;
+        }
+
+        #main .input-div:after {
+            position: absolute;
+            border-bottom: 1px solid #eeeeee;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            content: "";
+            display: block;
+            -webkit-transform: scaleY(0.5);
+            -webkit-transform-origin: 0 0;
+        }
+
+        #main .input-div input {
+            height: 100%;
+            width: 90%;
+            padding-left: 0.3rem;
+        }
+
+        #main .save {
+            width: 3.5rem;
+            height: 0.93rem;
+            line-height: 0.8rem;
+            background: url(../../image/bg_btn_logout.png) no-repeat center center;
+            background-size: 100%;
+            text-align: center;
+            margin: 1rem auto;
+            font-size: 0.34rem;
+            color: #FFF;
+        }
+
+        input {
+            outline: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrap" class="flex-wrap flex-vertical">
+        <div id="header">
+            <a class="back-icon" tapmode="active" onclick="closeWin()"></a>
+            <h1>修改姓名</h1>
+        </div>
+        <div id="main" class="flex-con">
+            <div style="height:0.9rem;line-height:0.9rem;">
+                <span style="margin-left:0.3rem;color:#ff9900;font-size:0.4rem;float:left;">*</span>
+                <span style="margin-left:0.1rem;color:#333333;font-size:0.3rem;float:left;">使用自己的真实姓名，让老师和同学们找到你</span>
+            </div>
+            <div class="input-div">
+                <input v-model="studentName" type="text" placeholder="请输入姓名" />
+            </div>
+            <div class="save" onclick="saveRealNeme();">
+                保 存
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript" src="../../script/vue.js"></script>
+<script type="text/javascript">
+    imready = function() {
+        initVue();
+    }
+    var assigment; //全局控制器Controller
+    initVue = function() { //初始化Vue需要的是双向数据绑定 当改变数据以后view会做相应的改变
+        var date = vueDateManager();
+        var methods = vueMethodsManager();
+        assigment = new Vue({
+            el: '#main', //绑定元素
+            data: date, //本页面的静态动态全部数据
+            methods: methods, //本页面的全部方法
+            created: function() {
+                Vue.config.silent = true;
+            }
+        })
+    }
+
+    vueDateManager = function() {
+        //初始化Vue数据date为一个json数组
+        var date = {};
+        date.studentName = ""
+        console.log("数据管理者" + JSON.stringify(date));
+        return date;
+
+    }
+    vueMethodsManager = function() {
+            //时间管理中心 每个Vue事件的处理都可以在这管理
+            var methods = {};
+
+            methods.confirmationRelease = function() { //确认发布作业
+                //TODO
+
+            }
+            console.log("事件管理者：" + JSON.stringify(methods));
+            return methods;
+
+
+
+
+        }
+        /**
+         * 需调用修改信息接口，待实现
+         */
+    function saveRealNeme() {
+        api.sendEvent({
+            name: 'studentName',
+            extra: {
+                studentName: assigment.studentName
+            }
+        });
+        api.closeWin();
+
+    }
+</script>

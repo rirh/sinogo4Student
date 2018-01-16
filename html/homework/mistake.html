@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>title</title>
+	<link rel="stylesheet" type="text/css" href="../../css/api.css" />
+	<link rel="stylesheet" type="text/css" href="../../css/style.css" />
+	<link rel="stylesheet" type="text/css" href="../../css/fontstyle.css" />
+	<style>
+		body {
+			font-size: 0.24rem;
+			background: url(../../image/bg_other.png) no-repeat center center;
+			background-size: 100% 100%;
+			height: 100%;
+		}
+		/*-------header----------*/
+
+		#header {
+			background-color: rgba(255, 255, 255, 0.8);
+			text-align: center;
+			width: 100%;
+			position: relative;
+			height: 0.98rem;
+		}
+
+		#header .back-icon {
+			display: inline-block;
+			width: 0.98rem;
+			height: 0.98rem;
+			background: url(../../image/icon_back.png) no-repeat center center;
+			background-size: 0.78rem 0.33rem;
+			position: absolute;
+			left: 0.24rem;
+			bottom: 0;
+		}
+
+		#header h1 {
+			font-size: 0.36rem;
+			height: 0.98rem;
+			line-height: 0.98rem;
+			margin: 0 auto;
+			color: #ff8344;
+			font-family: 'pty';
+			width: 5rem;
+		}
+
+		#main {
+			position: relative;
+			height: 100%;
+			padding-top: 0.32rem;
+		}
+
+		#main .inner {
+			width: 93%;
+			margin: 0 auto;
+			height: 80%;
+			background: rgba(255, 255, 255, 0.3);
+			border-radius: 0.1rem;
+			padding-top: 0.2rem;
+		}
+
+		#main .inner .inner-1 {
+			background: url(../../image/ic_mis.png) no-repeat center center;
+			width: 5rem;
+			height: 1.48rem;
+			background-size: 5rem 1.48rem;
+			margin: 0 auto;
+			position: relative;
+			z-index: 1000;
+		}
+
+		#main .inner .inner-2 {
+			background: url(../../image/bg_work_note.png) no-repeat center center;
+			width: 6.4rem;
+			height: 2.2rem;
+			background-size: 6.4rem 2.2rem;
+			margin: -0.5rem auto;
+			position: relative;
+			z-index: 0;
+			padding-top: 0.4rem;
+		}
+
+		#main .inner .inner-2 .title {
+			background: url(../../image/bg_mis.png) no-repeat center center;
+			background-size: 2.21rem 1.73rem;
+			width: 2.21rem;
+			height: 1.73rem;
+			line-height: 1.73rem;
+			text-align: center;
+			margin-left: 0.8rem;
+			float: left;
+			font-size: 0.26rem;
+			color: #333;
+		}
+
+		#main .inner .inner-2 .btn {
+			background: url(../../image/bg_btn.png) no-repeat center center;
+			background-size: 1.65rem 1.65rem;
+			width: 1.65rem;
+			height: 1.65rem;
+			line-height: 1.65rem;
+			text-align: center;
+			float: right;
+			margin-right: 0.8rem;
+			font-family: 'pty';
+			font-size: 0.28rem;
+			color: #FFF;
+			-webkit-text-stroke: 0.01rem #FF8344;
+		}
+
+		#main .nail-one {
+			position: absolute;
+			width: 0.19rem;
+			height: 0.89rem;
+			top: -0.3rem;
+			left: 0.8rem;
+			z-index: 2;
+		}
+
+		#main .nail-two {
+			position: absolute;
+			width: 0.19rem;
+			height: 0.89rem;
+			top: -0.3rem;
+			right: 0.8rem;
+			z-index: 2;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="wrap" class="flex-wrap flex-vertical">
+		<div id="header">
+			<a class="back-icon" tapmode="active" onclick="closeWin()"></a>
+			<h1 id="title">错题本</h1>
+		</div>
+		<div id="main" class="flex-con">
+			<div class="inner">
+				<div class="inner-1">&nbsp;</div>
+				<div class="inner-2">
+					<div class="title">
+						错题复习集
+					</div>
+					<div class="btn" onclick="goMistake(1);">
+						开始答题
+					</div>
+				</div>
+				<div class="inner-2" style="margin-top:0.29rem;">
+					<img class="nail-one" src="../../image/ic_nail.png" alt="" />
+					<img class="nail-two" src="../../image/ic_nail.png" alt="" />
+					<div class="title" id="no_right_count">
+						还剩0道题
+					</div>
+					<div class="btn" onclick="goMistake(2);">
+						开始扫除
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript">
+	var haveMistake = true;
+	var noRightCount=0;
+	var mistakeTotal = 0;
+	imready = function() {
+		api.addEventListener({
+	        name:'viewappear'
+        },function(ret,err){
+        	requestMistake();
+        });
+	};
+	
+	function requestMistake(){
+		var data = {};
+		var userid = api.getPrefs({
+			sync: true,
+			key: 'userid'
+		});
+
+		data.method = "errorBookSearch";
+		data.request = {
+			bookStudent:userid,
+			page: 1,
+			pageSize: 1
+		}
+		api.showProgress();
+		ajaxRequest(data, function(ret, err) {
+			api.hideProgress();
+			if (ret) {
+				if (ret.responseCode == 0) {
+					var response = ret.responseBody;
+					console.log(JSON.stringify(ret))
+					requestNoRightMistake();
+					if (response.total == 0) { //如果总数量为0，
+						haveMistake = false;
+					} else { //总数量不为0
+						mistakeTotal = response.total;
+						haveMistake = true;
+					}
+				} else {
+					alert(ret.responseMsg)
+				}
+			} else {
+				alert(err.msg)
+			}
+		})
+	}
+	
+	function requestNoRightMistake(){
+		var data = {};
+		var userid = api.getPrefs({
+			sync: true,
+			key: 'userid'
+		});
+
+		data.method = "errorBookSearch";
+		data.request = {
+			bookStudent:userid,
+			page: 1,
+			pageSize: 1,
+			errorIsRight:false//一次都没对
+		}
+		api.showProgress();
+		ajaxRequest(data, function(ret, err) {
+			api.hideProgress();
+			if (ret) {
+				if (ret.responseCode == 0) {
+					window.noRightResponse = ret.responseBody;
+					console.log("一次没对"+JSON.stringify(ret))
+					noRightCount = noRightResponse.total
+					$api.byId("no_right_count").innerHTML="还剩"+noRightCount+"道题"
+				} else {
+					alert(ret.responseMsg)
+				}
+			} else {
+				alert(err.msg)
+			}
+		})
+	}
+
+	function goMistake(tag) {
+		if(tag==1){
+			if (haveMistake) {
+				api.openWin({
+					name: 'mistake_con',
+					url: 'mistake_con.html',
+					pageParam: {
+						total: mistakeTotal,
+						type:'mistake'
+					}
+				});
+			} else {
+				goAnswer();
+			}
+		}else{
+			if(noRightCount>0){
+				api.openWin({
+			        name: 'mistake_con',
+					url: 'mistake_con.html',
+					pageParam: {
+						total: noRightCount,
+						type:'noright'
+					}
+		        });
+			}else{
+				goAnswer();
+			}
+		}
+	}
+
+	function goAnswer() {
+		api.openFrame({
+			name: 'no_mistake',
+			url: 'no_mistake.html',
+			animation: {
+				type: "push", //动画类型（详见动画类型常量）
+				subType: "from_right", //动画子类型（详见动画子类型常量）
+				duration: 300 //动画过渡时间，默认300毫秒
+			},
+			rect: {
+				x: 0,
+				y: 0,
+				w: api.winWidth,
+				h: api.winHeight
+			}
+		});
+	}
+</script>
+
+</html>

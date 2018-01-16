@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <style>
+        body {
+            background: #000;
+            height: 100%;
+        }
+
+        div{
+          position: relative;;
+          height: .9rem;
+          width: 100%;
+          background: #000;
+
+        }
+        span{
+          text-align: center;
+          display: block;
+          height: 100%;
+          width: 2rem;
+          color: #fff;
+          font-size: .28rem;
+          line-height: .9rem;
+        }
+        div span:nth-child(1){
+          position: absolute;
+          left: .23rem;
+          top: 0rem;
+        }
+        div span:nth-child(2){
+          position: absolute;
+          right: .23rem;
+          top: 0rem;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div>
+        <span onclick="reset()">重新裁剪</span>
+        <span onclick="sure()">确认</span>
+    </div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript">
+    var FNImageClip;
+    imready = function() {
+        FNImageClip = api.require('FNImageClip');
+        var  path ="/var/mobile/Containers/Data/Application/99EBFFB8-970D-4A30-B56D-1BC3AC7B33A9/Library/Caches/APICloud/Cache/getPicture/87E22FFD-B474-4464-9C35-4E48123FC95D-1121-000003E14D3F40D4.jpg";
+        
+        ImageClipOpen(api.pageParam.path);
+    };
+    reset=function(){
+      FNImageClip.reset();
+    }
+    sure=function(){
+      var timestamp = (new Date()).valueOf();
+      FNImageClip.save({
+          destPath: 'fs://imageClip/'+timestamp+'.png',
+          copyToAlbum: false,
+          quality: 1
+      }, function(ret, err) {
+          if (ret) {
+              console.log("保存的图片地址"+ret.destPath);
+              FNImageClip.close();
+              api.sendEvent({
+                  name: 'FNImageClip',
+                  extra: {
+                      path:ret.destPath,
+                  }
+              });
+             api.closeFrame({
+                 name: 'fnimageclip'
+             });
+
+
+          } else {
+              alert(JSON.stringify(err));
+          }
+      });
+    }
+
+    ImageClipOpen = function(path) {
+        FNImageClip.open({
+            rect: {
+                x: 0,
+                y: 0.9/7.5*api.winWidth,
+                w: api.winWidth,
+                h: api.winHeight-0.9/7.5*api.winWidth
+            },
+            srcPath: path,
+            highDefinition:true,
+            style: {
+                mask: '#000',
+                clip: {
+                    w: api.winWidth * 60 / 100,
+                    h: api.winHeight * 60 / 100,
+                    x: api.winWidth * 20 / 100,
+                    y: api.winHeight * 10 / 100,
+                    borderColor: '#fff',
+                    borderWidth: 0.5,
+                    appearance: 'rectangle'
+                }
+            },
+            fixedOn: api.frameName
+        }, function(ret, err) {
+            if (ret) {
+                // alert(JSON.stringify(ret));
+                if(ret.status){
+
+                }else{
+                  alert("图片错误");
+                    FNImageClip.close();
+                }
+            } else {
+                alert(JSON.stringify(err));
+            }
+        });
+    }
+</script>
+
+</html>

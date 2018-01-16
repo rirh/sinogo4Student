@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+		<style>
+			body {
+			}
+			.flex-wrap {
+				background: #f6f6f6;
+				
+			}
+			header{
+			font-size: 0.30rem;
+			height: 0.88rem;
+			}
+			.title {
+			    margin-bottom:0.4rem;
+			 	padding-right: 0.23rem;
+				padding-left: 0.23rem;
+				background: #FF8345;
+				height: 0.88rem;
+				line-height: 0.88rem;
+				text-align: center;
+				display: -webkit-flex;  /* 新版本语法: Chrome 21+ */
+			    display: flex;          /* 新版本语法: Opera 12.1, Firefox 22+ */
+			    display: -webkit-box;   /* 老版本语法: Safari, iOS, Android browser, older           WebKit browsers. */
+			    display: -moz-box;      /* 老版本语法: Firefox (buggy) */
+			    display: -ms-flexbox;   /* 混合版本语法: IE 10 */  
+				color: #323237;
+				position: relative;
+				font-size: 0.28 rem;
+				color: #ffffff;
+			}
+			.left {
+				-webkit-flex: 3;        /* Chrome */  
+			    -ms-flex: 3 ;            /* IE 10 */  
+			    flex: 3;                /* NEW, Spec - Opera 12.1, Firefox 20+ */
+			    -webkit-box-flex: 3 ;    /* OLD - iOS 6-, Safari 3.1-6 */  
+			    -moz-box-flex: 3;       /* OLD - Firefox 19- */  
+			    width:0%;
+				text-align:left;
+				font-size: 0.32rem;
+			
+			}
+			.center {
+				  
+				-webkit-flex: 10;        /* Chrome */  
+			    -ms-flex: 10 ;            /* IE 10 */  
+			    flex: 10;                /* NEW, Spec - Opera 12.1, Firefox 20+ */
+			    -webkit-box-flex: 10 ;    /* OLD - iOS 6-, Safari 3.1-6 */  
+			    -moz-box-flex: 10;       /* OLD - Firefox 19- */  
+				font-size: 0.34rem;
+			}
+			.right {
+				  -webkit-flex: 3;        /* Chrome */  
+			    -ms-flex: 3 ;            /* IE 10 */  
+			    flex: 3;                /* NEW, Spec - Opera 12.1, Firefox 20+ */
+			    -webkit-box-flex: 3 ;    /* OLD - iOS 6-, Safari 3.1-6 */  
+			    -moz-box-flex: 3;       /* OLD - Firefox 19- */  
+				width:0%;
+				color: #ffab7a;
+				text-align: right;
+				font-size: 0.32rem;
+			}
+		   #mmbox{
+		         background: #FFFFFF;
+			  	 width:100%;
+				 height: 0.80rem;
+				 overflow: hidden;
+		       }
+			#name {
+			    margin-left:0.33rem;
+				width: 6.65rem;
+				float: left;
+				height: 0.80rem;
+				font-size: 0.3rem;
+				color: #666666;
+				outline: none;
+				
+			}
+	    	.inputbox{
+				position: relative;				
+			}
+			img{
+				/*position: absolute;
+				top: 162;
+				right: 23;*/
+				display:none;
+				width:0.29rem;
+				height:0.3rem;
+				float: left;
+				margin-right:0.23rem;
+				margin-top: 0.25rem;
+			
+			}
+			.inputbox:after{
+    		border-bottom: 1px solid #d9d9d9;
+    		content:"";
+    		display:block;
+    		position:absolute;
+    		bottom:0;left:0;right:0;
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform:scaleY(0.5);
+    	}
+    		.inputbox:before{
+    		border-top: 1px solid #d9d9d9;
+    		content:"";
+    		display:block;
+    		position:absolute;
+    		top:0;left:0;right:0;
+    		-webkit-transform-origin: 0 0;
+    		-webkit-transform:scaleY(0.5);
+    	}
+		</style>
+	</head>
+	<body>
+		<div id="wrap" class="flex-wrap flex-vertical">
+			<header class="title">
+				<div class="left" onclick="api.closeWin();">
+					返回
+				</div>
+				<div class="center">
+					
+				</div>
+				<div class="right">
+				</div>
+			</header>
+			<div id="main" class="flex-con">
+				
+		</div>
+	</body>
+	<script type="text/javascript" src="../../script/api.js"></script>
+	<script type="text/javascript" src="../../script/common.js"></script>
+	<script type="text/javascript">
+
+
+		imready = function() {
+			$api.css($api.dom('.flex-word'), '	height: ' + api.frameHeight + 'px');
+			api.openFrame({
+	            name: 'FNscanner_frame',
+	            url: api.pageParam.url,
+	            rect: {
+		            x:0,
+		            y: $api.offset($api.dom('header')).h,
+		            w:"auto",
+		            h:"auto"
+	            }
+            });
+			api.execScript({
+				frameName:'FNscanner_frame',
+	            script: 'apiready=function(){api.sendEvent({name:"scanner",extra:{"title":window.document.title}})}'
+            });
+            api.addEventListener({
+	            name:'scanner'
+            },function(ret,err){
+            	$api.dom(".center").innerHTML=ret.value.title
+            });
+
+		};
+	</script>
+</html> 

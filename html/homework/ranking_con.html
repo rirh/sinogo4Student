@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>title</title>
+	<link rel="stylesheet" type="text/css" href="../../css/api.css" />
+	<link rel="stylesheet" type="text/css" href="../../css/style.css" />
+	<link rel="stylesheet" type="text/css" href="../../css/fontstyle.css" />
+	<style>
+		body {
+			background: url(../../image/bg_other_c.png) no-repeat;
+			background-size: 100% 100%;
+			font-size: 0.24rem;
+			position: relative;
+		}
+
+		[v-cloak] {
+			display: none;
+		}
+
+		#main .empty1 {
+			height: .5rem;
+		}
+
+		.self {
+			width: 93%;
+			background: #FFFFFF;
+			border-radius: 0.1rem;
+			height: 1.76rem;
+			margin: 0 auto;
+		}
+
+		.self .icon_image {
+			float: left;
+			width: 0.96rem;
+			height: 0.96rem;
+			margin-top: 0.4rem;
+			margin-left: 0.46rem;
+			border: 1px solid #aaa;
+			border-radius: 0.48rem;
+		}
+
+		.self .info {
+			float: left;
+			height: 0.96rem;
+			margin-top: 0.4rem;
+			margin-left: 0.2rem;
+		}
+
+		.self .info .name {
+			height: 0.48rem;
+			line-height: 0.48rem;
+			font-size: 0.28rem;
+			color: #333;
+		}
+
+		.self .info .place {
+			height: 0.48rem;
+			line-height: 0.48rem;
+			font-size: 0.26rem;
+			color: #666;
+			text-align: center;
+			vertical-align: middle;
+		}
+
+		.self .info .place img {
+			width: .29rem;
+			height: .38rem;
+			vertical-align: middle;
+		}
+
+		.self .info .place em {
+			vertical-align: middle;
+		}
+
+		.self .detail {
+			float: right;
+			height: 0.96rem;
+			margin-top: 0.4rem;
+			margin-left: 0.2rem;
+			margin-right: 0.46rem;
+		}
+
+		.self .detail .score {
+			height: 0.48rem;
+			line-height: 0.48rem;
+			font-size: 0.28rem;
+			text-align: right;
+		}
+
+		.self .detail .time {
+			height: 0.48rem;
+			line-height: 0.48rem;
+			font-size: 0.26rem;
+			color: #666;
+		}
+
+		dl {
+			margin-top: 0.24rem;
+			background: rgba(255, 255, 255, 0.6);
+			border-radius: 0.1rem;
+			width: 93%;
+			margin: 0.24rem auto;
+		}
+
+		dl .bg.current {
+			background: rgba(255, 131, 68, 0.11);
+		}
+
+		dl .item,
+		dl .item-noborder {
+			height: 1.54rem;
+			margin: 0 0.46rem;
+			position: relative;
+		}
+
+		dl .item:before {
+			border-top: 1px dotted #FF8344;
+			position: absolute;
+			content: "";
+			display: block;
+			top: 0;
+			left: 0;
+			right: 0;
+			transform-style: scaleY(0.5);
+			transform-origin: 0 0;
+		}
+
+		dd .icon_image {
+			float: left;
+			width: 0.96rem;
+			height: 0.96rem;
+			margin-top: 0.29rem;
+			border: 1px solid #aaa;
+			border-radius: 0.48rem;
+		}
+
+		.item .info,
+		.item-noborder .info {
+			float: left;
+			height: 0.96rem;
+			margin-top: 0.29rem;
+			margin-left: 0.2rem;
+		}
+
+		.item .info .name,
+		.item-noborder .info .name {
+			height: 0.48rem;
+			line-height: 0.48rem;
+			font-size: 0.28rem;
+			color: #333;
+		}
+
+		.item .info .place,
+		.item-noborder .info .place {
+			height: 0.48rem;
+			line-height: 0.48rem;
+			font-size: 0.26rem;
+			color: #666;
+			vertical-align: middle;
+		}
+
+		.item .info .place img {
+			width: .29rem;
+			height: .38rem;
+			vertical-align: middle;
+		}
+
+		.item .info .place em {
+			vertical-align: middle;
+		}
+
+		.item .detail,
+		.item-noborder .detail {
+			float: right;
+			height: 0.96rem;
+			margin-top: 0.29rem;
+			margin-left: 0.2rem;
+		}
+
+		.item .detail .score,
+		.item-noborder .detail .score {
+			height: 0.48rem;
+			line-height: 0.48rem;
+			font-size: 0.28rem;
+			text-align: right;
+		}
+
+		.item .detail .time,
+		.item-noborder .detail .time {
+			height: 0.48rem;
+			line-height: 0.48rem;
+			font-size: 0.26rem;
+			color: #666;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="main" v-cloak>
+		<div class="empty1"></div>
+		<div class="self">
+			<img class="icon_image" :src="myscorelist.studentImage | readyimg" alt="" />
+			<div class="info">
+				<div class="name">{{myscorelist.studentName}}</div>
+				<div class="place">
+					<img v-if="myscorelist.ranking ==1" :src="no1" alt="">
+					<img v-if="myscorelist.ranking ==2" :src="no2" alt="">
+					<img v-if="myscorelist.ranking ==3" :src="no3" alt="">
+					<em>第<span class="imp">{{myscorelist.ranking}}</span>名</em>
+				</div>
+			</div>
+			<div class="detail">
+				<div class="score imp">{{myscorelist.studentScore}}分</div>
+				<div class="time">用时：{{myscorelist.costTime}}秒</div>
+			</div>
+		</div>
+		<dl>
+			<dd class="item" v-for="item in studentlist">
+				<img class="icon_image" :src="item.studentImage | readyimg" alt="" />
+				<div class="info">
+					<div class="name">{{item.studentName}}</div>
+					<div class="place">
+						<img v-if="item.ranking ==1" :src="no1" alt="">
+						<img v-if="item.ranking ==2" :src="no2" alt="">
+						<img v-if="item.ranking ==3" :src="no3" alt="">
+						<em>第<span class="imp">{{item.ranking}}</span>名</em></div>
+				</div>
+				<div class="detail">
+					<div class="score imp">{{item.studentScore}}分</div>
+					<div class="time">用时：{{item.costTime}}秒</div>
+				</div>
+			</dd>
+		</dl>
+	</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/vue.js"></script>
+<script type="text/javascript">
+	var assigment; //全局控制器Controller
+	initVue = function() { //初始化Vue需要的是双向数据绑定 当改变数据以后view会做相应的改变
+		var date = vueDateManager();
+		var methods = vueMethodsManager();
+		var components = vueComponentsManager();
+		assigment = new Vue({
+			el: '#main', //绑定元素
+			data: date, //本页面的静态动态全部数据
+			methods: methods, //本页面的全部方法
+			components: components,
+		})
+	}
+	Vue.filter('readyimg', function(value) {
+		// 返回处理后的值
+		var interPath = $api.imageUrl;
+		$api.get(interPath + value, function(ret) {
+			if (ret) {
+				return interPath + value;
+			} else {
+				return "../../image/eg_head.png";
+			}
+		}, 'text');
+		console.log(interPath + value);
+		if (value) {
+			return interPath + value;
+		} else {
+			return "../../image/eg_head.png";
+		}
+	   return interPath + value;
+
+	})
+	vueDateManager = function() {
+		//初始化Vue数据date为一个json数组
+		var date = {};
+		date.no1 = "../../image/icon_no1.png";
+		date.no2 = "../../image/icon_no2.png";
+		date.no3 = "../../image/icon_no3.png";
+		date.studentlist = [{
+			"studentName": "",
+			"studentImage": "",
+			"studentId": 0,
+			"ranking": 1,
+			"studentScore": 0,
+			"costTime": 0
+		}]; //所有列表
+		date.myscorelist = {
+			"studentName": "",
+			"studentImage": "",
+			"studentId": 0,
+			"ranking": 1,
+			"studentScore": 0,
+			"costTime": 0
+		}; //我的成绩
+		console.log("数据管理者" + JSON.stringify(date));
+		return date;
+	}
+	vueMethodsManager = function() {
+		//时间管理中心 每个Vue事件的处理都可以在这管理
+		var methods = {};
+		methods.init = function() {
+			assigment.studentlist = api.pageParam.student;
+			var userid = Number(api.getPrefs({
+				sync: true,
+				key: 'userid'
+			}));
+			for (var i = 0; i < assigment.studentlist.length; i++) {
+				if (assigment.studentlist[i].studentId == userid) {
+
+					assigment.myscorelist = assigment.studentlist[i];
+				}
+			}
+		};
+		return methods;
+
+
+
+
+	}
+	vueComponentsManager = function() { //组件管理器
+		var components = {};
+		return components;
+	}
+
+	imready = function() {
+		console.log("排名传入数据" + JSON.stringify(api.pageParam));
+		initVue();
+		assigment.init();
+
+	};
+</script>
+
+</html>

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/fontstyle.css"/>
+    <style>
+    	body{
+    		font-size:0.24rem;
+    	}
+    	/*-------header----------*/
+    	#top-header{
+    		background: url(./image/bg_home_top.png) no-repeat center center;
+    		background-size:100% 100%;
+    		position:fixed;
+    		top:0;
+    		width:100%;
+    		height:0.98rem;
+    	}
+    	#header{
+		    background-color: rgba(255,255,255,0.8);
+		    text-align: center;
+		    width: 100%; position: relative;
+		    height:0.98rem;
+		}
+		#header .back-icon{
+		    display: inline-block; width: 0.98rem; height: 0.98rem;
+		    background: url(../../image/icon_back.png) no-repeat center center;
+		    background-size: 0.78rem 0.33rem;
+		    position: absolute; left: 0.24rem; bottom: 0;
+		}
+		#header h1{
+		    font-size: 0.36rem;
+		    height: 0.98rem; line-height: 0.98rem; margin: 0 auto; color: #ff8344;
+		    font-family:'pty';
+		    width:5rem;
+		}
+		#footer{
+			height:0.98rem;
+			background:#F6F6F6;
+			position: relative;
+		}
+		#footer .footer-t{
+			float:left;
+			height:0.98rem;
+			line-height:0.98rem;
+			text-align: center;
+			width:40%;
+			font-size:0.3rem;
+			color:#FF8344;
+		}
+		#footer .footer-c{
+			float:left;
+			height:0.98rem;
+			line-height:0.98rem;
+			text-align: center;
+			width:60%;
+			position: relative;
+		}
+		#footer .footer-c .span1{
+			height:0.6rem;
+			line-height:0.6rem;
+			background:url(../../image/icon_show_answer.png) no-repeat center center;
+			background-size:1.73rem 0.57rem;
+			padding: 0 0.25rem;
+			border-radius: 0.2rem;
+			color:#FF8344;
+			font-size:0.28rem;
+		}
+		#footer .footer-c .span2{
+			height:0.6rem;
+			line-height:0.6rem;
+			background:url(../../image/icon_go_mistake.png) no-repeat center center;
+			background-size:1.56rem 0.57rem;
+			padding: 0 0.2rem;
+			border-radius: 0.2rem;
+			color:#FFF;
+			font-size:0.28rem;
+			margin-left: 0.3rem;
+		}
+    </style>
+</head>
+<body>
+	<div id="wrap" class="flex-wrap flex-vertical">
+		<div id="top-header"></div>
+		<div id="header">
+			<a class="back-icon" tapmode="active" onclick="ScloseWin()" ></a>
+			<h1 id="title">加油加油</h1>
+		</div>
+		<div id="main" class="flex-con">
+		</div>
+		<div id="footer">
+			<div class="footer-t"></div>
+			<div class="footer-c">
+				<span class="span1" onclick="showRightAnswer();">直接看答案</span>
+				<span class="span2" onclick="redoMistake();">错题重做</span>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript">
+	imready = function(){
+		c(222222222222,api.pageParam);
+		var headerPos = $api.offset($api.byId('header'));
+		var footerPos = $api.offset($api.byId('footer'));
+		var y = headerPos.h;
+		var h = api.winHeight-y-footerPos.h;
+		window.data = api.pageParam.date;
+		window.result = api.pageParam.result;
+    	api.showProgress({
+        });
+    	var data ={
+			method: "getHomeWorkStudentInfo",
+			request: {
+				"publishId": api.pageParam.homework.homeworkPublishId,
+				"studentId": api.pageParam.homework.homeWorkStudentId,
+			}
+		}
+		ajaxRequest(data,function(ret,err){
+			api.hideProgress();
+			if(ret){
+				console.log("答题详情---"+JSON.stringify(ret))
+				if(ret.responseCode==0){
+					var result = ret.responseBody.answerQuestionsList;
+					var date = ret.responseBody.questionAttributeList;
+					result = dealWithResult(result);
+					date = dealWithData(date)
+					window.data=date;
+					window.result = result;
+					api.openFrame({
+				        name: 'answerResult_con',
+				        url: 'answerResult_con_831.html',
+				        rect: {
+					          x:0,
+				            y:y,
+				            w:api.winWidth,
+				            h:h
+				        },
+						pageParam:{
+							homework: api.pageParam.homework,
+							date:date,
+							result:result
+						}
+			        });
+    				initBottom(result);
+				}else{
+					alert(ret.responseMsg)
+				}
+			}else{
+				alert(err.msg)
+			}
+		})
+	};
+	function initBottom(result){
+		var errorCount = 0;
+		result = result?result:api.pageParam.result;
+		for(var i=0;i<result.length;i++){
+			if(result[i].answerIsRight){//答对了
+				
+			}else{//答错
+				errorCount++;
+			}
+		}
+		if(errorCount>0){
+			$api.dom(".footer-t").innerHTML=errorCount+"道题可订正";
+		}else{
+			$api.dom(".footer-t").innerHTML="全部正确";
+			$api.dom(".footer-c .span1").style.display="none"
+			$api.dom(".footer-c .span2").style.display="none"
+		}
+	}
+	
+	function dealWithResult(result){
+		var map = {},
+	    	newResult = [];
+		for(var i = 0; i < result.length; i++){
+		    var ai = result[i];
+		    if(!map[ai.questionId]){
+		        newResult.push({
+		            answerCostTime: ai.answerCostTime,
+		            answerIsRight: ai.answerIsRight,
+		            answerSgfText: ai.answerSgfText,
+		            choiceOptionId: ai.choiceOptionId,
+		            choiceOptionSequence: ai.choiceOptionSequence,
+		            createTime: ai.createTime,
+		            homeWorkId: ai.homeWorkId,
+		            id: ai.id,
+		            questionId: ai.questionId,
+		            questionType: ai.questionType,
+		            studentId: ai.studentId,
+		            data:[ai]
+		        });
+		        map[ai.questionId] = ai;
+		    }else{
+		        for(var j = 0; j < newResult.length; j++){
+		            var dj = newResult[j];
+		            if(dj.questionId == ai.questionId){
+		                dj.data.push(ai);
+		                break;
+		            }
+		        }
+		    }
+		}
+		for(var i=0;i<newResult.length;i++){
+			var item = newResult[i];
+			var isRight = true;
+			if(item.data&&item.data.length>1){
+				for(var j=0;j<item.data.length;j++){
+					if(!item.data[j].answerIsRight){
+						isRight=false;
+						break;
+					}
+				}
+			}else{
+				isRight=item.answerIsRight
+			}
+			item.answerIsRight=isRight;
+		}
+		console.log(JSON.stringify(newResult))
+		
+		return newResult;
+	}
+	
+	function dealWithData(data) {
+		var questionTitleAttributes = data.questionTitleAttributes;
+		for (var i = 0; i < data.length; i++) {
+			var item = data[i];
+			var questionTitleAttributes = item.questionTitleAttributes;
+			for (var j = 0; j < questionTitleAttributes.length; j++) {
+				var titleTypeValue = questionTitleAttributes[j].titleTypeValue;
+				if (titleTypeValue == -1) { //文本
+					item.textTitle = true;
+					item.textTitleValue = questionTitleAttributes[j].titleDetails
+				} else if (titleTypeValue == 0) { //图片
+					item.imgTitle = true;
+					item.imgTitleValue = questionTitleAttributes[j].titleDetails
+				} else if (titleTypeValue == 1) { //音频
+					item.audioTitle = true;
+					item.audioTitleValue = questionTitleAttributes[j].titleDetails
+				} else if (titleTypeValue == 2) { //视频
+					item.videoTitle = true;
+					item.videoTitleValue = questionTitleAttributes[j].titleDetails
+				} else if (titleTypeValue == 3) { //sgf
+					item.sgfTitle = true;
+					item.sgfTitleValue = questionTitleAttributes[j].titleDetails
+				} else {
+					//没这么干的
+				}
+			}
+			//8.30新增。添加对选择题-多选题的支持。多选题的questionTypeValue设置为 -1 （1选择，2对弈）
+			console.log(item.questionTypeValue)
+			if(item.questionTypeValue==1){
+				var questionOptionsAttributes = item.questionOptionsAttributes;
+				console.log(JSON.stringify(questionOptionsAttributes))
+				var rightCount = 0;
+				for(var j=0;j<questionOptionsAttributes.length;j++){
+					var attr = questionOptionsAttributes[j];
+					rightCount = attr.optionRight?(rightCount+1):rightCount
+				}
+				console.log(rightCount)
+				if(rightCount > 1){//如果正确答案数目大于1，则为多选题
+					item.questionTypeValue=-1;
+					item.questionTypeName="多选题"
+				}
+			}
+		}
+		return data;
+
+	}
+	
+	function showRightAnswer(){
+		api.sendEvent({
+	        name:'answerResult',
+	        extra:{
+	        	type:"showAnswer"
+	        }
+        });
+        $api.dom("#footer").style.display="none"    
+        var headerPos = $api.offset($api.byId('header'));  
+        var y = headerPos.h;
+		var h = api.winHeight-y;
+        var rect = {
+	        x:0,
+            y:y,
+            w:api.winWidth,
+            h:h
+        }
+        api.setFrameAttr({
+	        name: 'answerResult_con',
+	        rect:rect
+        });
+	}
+	
+	function redoMistake(){
+		var errList = [];
+		for(var i=0;i<result.length;i++){
+			var r = result[i];
+			if(!r.answerIsRight){
+				errList.push(data[i])	
+			}
+		}
+		api.openWin({
+	        name: 'answering',
+	        url: 'answering_title.html',
+	        pageParam:{
+	        	data:errList,
+	        	type:'redo'
+	        }
+        });
+        $api.dom("#footer").style.display="none"
+        var headerPos = $api.offset($api.byId('header'));  
+        var y = headerPos.h;
+		var h = api.winHeight-y;
+        var rect = {
+	        x:0,
+            y:y,
+            w:api.winWidth,
+            h:h
+        }
+        api.setFrameAttr({
+	        name: 'answerResult_con',
+	        rect:rect
+        });
+	}
+	
+	function ScloseWin(){
+//		api.sendEvent({
+//		    name: 'viewReady',
+//		    extra: {
+//		        key1: false,
+//		    }
+//		});
+       api.closeWin();
+
+	}
+</script>
+</html>

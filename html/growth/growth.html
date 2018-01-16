@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>成长</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/fontstyle.css"/>
+    <style>
+        body{
+            background: url(../../image/growth-bg.png) no-repeat center center;
+            background-size: 100%;
+        }
+        #header{
+            background:rgba(255,255,255,0.8);
+            text-align: center;
+            width: 100%; position: relative;
+            height:0.98rem;
+        }
+        #header a{
+            display: inline-block; width: 0.98rem; height: 0.98rem;
+            background: url(../../image/eg_head_default.png) no-repeat center center;
+            background-size: 0.77rem 0.77rem;
+            position: absolute; left: 0.24rem; bottom: 0;
+        }
+        #header h1{
+            font-size: 0.36rem;
+            height: 0.98rem; line-height: 0.98rem; margin: 0 auto; color: #ff8344;
+            font-family:'pty';
+        }
+        .growthContent{
+            box-sizing: border-box;
+            padding: 0.6rem 0.3rem;
+        }
+
+        /*树苗CSS*/
+        .growthTree{
+            text-align: center;
+            position: fixed;
+            bottom: 1.38rem;
+            width:100%;
+        }
+        .growthTree .treeContainer{
+            position:relative;
+            width:100%;
+        }
+        .growthTree .treeContainer img{
+            position:absolute;
+            bottom:0;
+            left:50%;
+            transition: ease-out all 0.2s;
+            -webkit-transition: ease-out all 0.2s;
+        }
+        .growthTree .treeContainer img.tree0{
+            width:2.93rem;
+            margin-left:-1.47rem;
+        }
+        .growthTree .treeContainer img.tree1{
+            width:3.36rem;
+            margin-left:-1.68rem;
+        }
+        .growthTree .treeContainer img.tree2{
+            width:4.15rem;
+            margin-left:-2.08rem;
+        }
+        .growthTree .treeContainer img.tree3{
+            width:6.16rem;
+            margin-left:-3.08rem;
+        }
+        .growthTree .treeContainer i{
+            position:absolute;
+            transition: ease-out all 0.2s;
+            -webkit-transition: ease-out all 0.2s;
+        }
+        .growthTree .treeContainer i.active1{
+            width:0.49rem;
+            height:0.47rem;
+            background:url(../../image/gains_gemstone.png) no-repeat;
+            background-size:100%;
+        }
+        .growthTree .treeContainer i.active2{
+            width:0.55rem;
+            height:0.6rem;
+            background:url(../../image/gains_fruit.png) no-repeat;
+            background-size:100%;
+        }
+        .growthTree .treeContainer i.active3{
+            width:0.46rem;
+            height:0.5rem;
+            background:url(../../image/gains_gold.png) no-repeat;
+            background-size:100%;
+        }
+        .growthTree .treeContainer i:nth-of-type(3){
+            top:-2.7rem;
+            left:2.1rem;
+        }
+        .growthTree .treeContainer i:nth-of-type(1){
+            top:-3.9rem;
+            left:3.3rem;
+        }
+        .growthTree .treeContainer i:nth-of-type(2){
+            top:-4.9rem;
+            left:3.5rem;
+        }
+        .growthTree .treeContainer i:nth-of-type(4){
+            top:-2.4rem;
+            left:3.3rem;
+        }
+        .growthTree .treeContainer i:nth-of-type(5){
+            top:-4.4rem;
+            left:4.5rem;
+        }
+        .bottleContainer{
+            position:fixed;
+            bottom:1.8rem;
+            left:0.5rem;
+        }
+        .bottleContainer img{
+            width:2.95rem;
+            display: none;
+        }
+        .level{
+            margin-bottom: 0.41rem;
+            position:relative;
+        }
+        .level p{
+            display: inline-block;
+            color: #ff8344;
+            font-size: 0.36rem;
+            font-family:'pty' ;
+            position : relative;
+        }
+        .level span{
+            font-family:'SimSun';
+            color: #794507;
+            font-size: 0.32rem;
+            margin-left: 0.2rem;
+        }
+        .level img{
+            width: 0.69rem;
+            left:1.5rem;
+            top:-0.1rem;
+            position:absolute;
+            z-index:4;
+        }
+        /*宝石*/
+        .gemstone{
+            margin-top: 0.4rem;
+            background: url("../../image/growthGemstone.png") no-repeat ;
+        }
+        /*金币*/
+        .gold{
+            margin-top: 0.4rem;
+            background: url("../../image/growthGold.png") no-repeat ;
+        }
+        /*能量*/
+        .energy{
+            background: url("../../image/growthEnerey.png") no-repeat ;
+        }
+        /*果实*/
+        .fruit{
+            background: url("../../image/growthFruit.png") no-repeat ;
+        }
+        .num{
+            display: inline-block;
+            margin: 0.1rem 0.11rem;
+            width: 1.6rem;
+            height:0.5rem;
+            background-size: 100% 100%;
+            position: relative;
+        }
+        .num span{
+            float: right;
+            position: absolute;
+            right: 0.2rem;
+            top: 0.16rem;
+            line-height: 0.3rem;
+            font-weight: 900;
+            font-size: 0.2rem;
+            font-family: 'Skranji';
+            color:#FFF;
+            text-shadow: 0.01rem 0.01rem 0.05rem #442204;
+        }
+        .bottle>img{
+            margin-top: 0.44rem;
+            margin-bottom: 0.39rem;
+            width: 30%;
+        }
+        .bottle p{
+            font-family:'pty';
+            font-size: 0.36rem;
+            color: #ff8344!important;
+            margin-top: 0.39rem;
+        }
+        .bottle p span{
+            font-size: 0.28rem;
+            color: #333;
+            display: inline-block;
+        }
+        .bottle p i{
+            margin-left: 0.2rem;
+            display: inline-block;
+            width: 0.5rem;
+            height: 0.5rem;
+        }
+        .bottle p.first i{
+            background: url("../../image/growthEnergy-1.png") no-repeat;
+            background-size: 100% 100%;
+            vertical-align: middle;
+        }
+        .bottle p.two{
+            margin-left: 0.67rem;
+            margin-top:0.2rem ;
+        }
+        .bottle p.two i{
+            background: url("../../image/growthGold-1.png") no-repeat;
+            background-size: 100% 100%;
+        }
+        .loadingbar {
+            position: absolute;
+            left: 2rem;
+            top:0.07rem;
+            width: 2.2rem;
+            height: 0.25rem;
+            background-color: #794507;
+            border-radius:0 0.5rem 0.5rem 0;
+            padding: 0.04rem;
+            z-index:2;
+        }
+        .loadingbar .filler_wrapper {
+            border-radius:0 0.5rem 0.5rem 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        .loadingbar .filler_wrapper .filler {
+            transition: ease-out width 0.9s;
+            -webkit-transition: ease-out width 0.9s;
+            background-color: #fff400;
+            text-align: center;
+            width: 0;
+            height: 100%;
+        }
+
+    </style>
+</head>
+<body>
+<div id="wrap" class="flex-wrap flex-vertical">
+    <div id="header">
+        <a></a>
+        <h1>成长</h1>
+    </div>
+    <div id="main" class="flex-con">
+        <div class="growthContent">
+            <div class="level">
+                <p>等级<span>{{treeInfo.treeLevel}}</span></p>
+                <img src="../../image/progress_star.png" alt=""/>
+                <!--进度条-->
+                <div class="loadingbar">
+                    <div class="filler_wrapper">
+                        <div class="filler" :style="{width:progress}"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <!--宝石-->
+                <div class="gemstone num">
+                    <span class="gemstoneNum">{{treeInfo.gemstone}}</span>
+                </div>
+                <!--金币-->
+                <div class="gold num">
+                    <span class="goldNum">{{treeInfo.gold}}</span>
+                </div>
+            </div>
+            <div class="row">
+                <!--能量-->
+                <div class="energy  num">
+                       <span class="energyNum">{{treeInfo.energy}}</span>
+                </div>
+                <!--果实-->
+                <div class="fruit num">
+                    <span class="fruitNum">{{treeInfo.fruit}}</span>
+                </div>
+            </div>
+            <!--水壶-->
+            <div class="bottle">
+                <p class="first">消耗<span><i></i> X 100</span></p>
+                <p class="two"><span><i></i> X 500</span></p>
+                <img src="../../image/growthBottle.png" alt="" @click="water()"/>
+            </div>
+
+        </div>
+
+        <div class="growthTree">
+            <div class="treeContainer">
+                <img :class="treeClass" :src="treeImg" alt=""/>
+                <i v-for="gainItem in gains" :class="{active1:gainItem!=null?'gemstone' in gainItem:false,active2:gainItem!=null?'fruit' in gainItem:false,active3:gainItem!=null?'gold' in gainItem:false}" v-cloak :style="{display:gainItem!=null?'block':'none'}" @click="pick(gainItem)"></i>
+            </div>
+        </div>
+        <div class="bottleContainer">
+            <img id='watering' src="../../image/aa.gif" alt=""/>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/vue.js"></script>
+<script type="text/javascript" src="../../script/zepto.js"></script>
+<script type="text/javascript">
+    initVue = function() { //初始化Vue需要的是双向数据绑定 当改变数据以后view会做相应的改变
+        var data = vueDateManager();
+        var methods = vueMethodsManager();
+        assigment = new Vue({
+            el: '#main', //绑定元素
+            data: data, //本页面的静态动态全部数据
+            methods: methods, //本页面的全部方法
+        })
+    }
+    vueDateManager = function() {
+        //初始化Vue数据date为一个json数组
+        var data = {};
+        data.treeInfo={};
+        data.treeClass='tree0';
+        data.treeImg='../../image/growthTree-0.png';
+        data.progress='10%';
+        data.gains=[];
+        return data;
+    }
+    vueMethodsManager = function() {
+        //时间管理中心 每个Vue事件的处理都可以在这管理
+        var methods = {};
+        function treeType(treeType){
+            assigment.treeClass='tree'+treeType;
+            assigment.treeImg='../../image/growthTree-'+treeType+'.png'
+        }
+        function fruit(maps){
+            if(maps['1']){
+                for(var i=0;i<maps['1'];i++){
+                    assigment.gains.push({'gemstone':1})
+                }
+            }
+            if(maps['2']){
+                for(var j=0;j<maps['2'];j++){
+                    assigment.gains.push({'fruit':1})
+                }
+            }
+            if(maps['3'] && maps['3']!=0){
+                assigment.gains.push({'gold':maps['3']});
+            }
+            assigment.gains.length=5;
+            //alert(JSON.stringify(assigment.gains))
+        }
+        methods.init = function() {
+            var data = {}
+            data.method = "treeInfo";
+            data.request={
+                studentId:Number(api.getPrefs({
+                    sync:true,
+	                key:'userid'
+                }))
+            };
+            console.log("treeInfo请求数据"+JSON.stringify(data));
+            api.showProgress();
+            ajaxRequest(data,function(ret,err){
+                api.hideProgress();
+                console.log("treeInfo返回数据"+JSON.stringify(ret));
+                if(ret){
+                    if(ret.responseCode==0){
+                        var response = ret.responseBody;
+                      console.log(JSON.stringify(response));
+                        assigment.treeInfo=response;
+                        assigment.progress=parseInt(100*(response.treeExperience/response.totalExperience))+'%';
+                        treeType(assigment.treeInfo.treeType);
+                        fruit(response.maps)
+                    }else{
+                        alert(ret.responseMsg)
+                    }
+                }else{
+                    alert(err.msg)
+                }
+            })
+        }
+        methods.water=function(){
+            var data = {}
+            data.method = "waterTree";
+            data.request={
+                studentId:Number(api.getPrefs({
+                    sync:true,
+	                key:'userid'
+                }))
+            };
+            console.log("waterTree请求数据"+JSON.stringify(date));
+            ajaxRequest(data,function(ret,err){
+              console.log("waterTree成功返回数据"+JSON.stringify(ret));
+                if(ret){
+                    if(ret.responseCode==0){
+                        var response = ret.responseBody;
+                        if(response){
+                            $('.bottle').find('img').hide()
+                            $('#watering').show();
+                            setTimeout(function(){
+                                $('.bottle').find('img').show();
+                                $('#watering').hide();
+                                location.href=location.href
+                            },3500);
+                        }
+
+                    }else{
+                        alert(ret.responseMsg)
+                    }
+                }else{
+                    alert(err.msg)
+                }
+            })
+        }
+        methods.pick=function(type){
+            var data = {}
+            data.method = "resourcePick";
+            if('gemstone' in type){
+                data.request={
+                    studentId:Number(api.getPrefs({
+                    sync:true,
+	                key:'userid'
+                })),
+                    gemstone:type['gemstone']
+                }
+            }
+            if('gold' in type){
+                data.request={
+                    studentId:Number(api.getPrefs({
+                    sync:true,
+	                key:'userid'
+                })),
+                    gold:type['gold']
+                }
+            }
+            if('fruit' in type){
+                data.request={
+                    studentId:Number(api.getPrefs({
+                    sync:true,
+	                key:'userid'
+                })),
+                    fruit:type['fruit']
+                }
+            }
+            console.log("resourcePick请求数据"+JSON.stringify(date));
+            ajaxRequest(data,function(ret,err){
+                if(ret){
+                    if(ret.responseCode==0){
+                      console.log("resourcePick成功返回数据"+JSON.stringify(ret))
+                        var response = ret.responseBody;
+                        if(response){
+                            location.href=location.href
+                        }
+
+                    }else{
+                        alert(ret.responseMsg)
+                    }
+                }else{
+                    alert(err.msg)
+                }
+            })
+        }
+        return methods;
+    }
+    imready=function(){
+        initVue();
+        assigment.init();
+    }
+
+
+    //    var x = 102;
+    //    var y = 24;
+    //    var oX = x.toString();
+    //    var oY = y.toString();
+    //
+    //    var oNum = [oX, oY];
+    //    for (var i = 0; i < oNum.length; i++) {
+    //        var text = '';
+    //        for (var index = 0; index < oNum[i].length; index ++) {
+    //            text += '<b>' + 0 + '</b>'
+    //        }
+    //        $('ul li').eq(i).html(text);
+    //    }
+//      setNum('.test1 b', x)
+//      setNum('.test2 b', y)
+//    function setNum(obj,num){
+//        var n = new Array;
+//        var timer = new Object;
+//        var oString = num.toString();
+//
+//        for (let i = 0; i < oString.length; i++) {
+//            n[i] = 0;
+//            timer[i] = setInterval(function(){
+//                n[i] = n[i] >= 9 ? 0 : n[i] + 1;
+//                $(obj).eq(i).html( n[i] );
+//                var text = '';
+//                for (let k = 0; k < oString.length; k++) {
+//                    text += $(obj).eq(k).html();
+//                }
+//                if (text == num) {
+//                    for(var each in timer){
+//                        clearInterval(timer[each]);
+//                    }
+//                }
+//            }, 30 * Math.pow(10, oString.length - 1 - i));
+//        }
+//    }
+
+</script>
+</html>

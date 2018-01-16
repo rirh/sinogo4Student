@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <style>
+    	html,body{
+    		background:rgba(0,0,0,0);
+    	}
+    	#header {
+			background-color: #383a3f;
+			text-align: center;
+			width: 100%;
+			position: relative;
+			height: 0.98rem;
+		}
+
+		#header .back-icon {
+			display: inline-block;
+			width: 0.98rem;
+			height: 0.98rem;
+			background: url(../../image/icon_scan_back.png) no-repeat center center;
+			background-size: 0.4rem 0.4rem;
+			position: absolute;
+			left: 0;
+			bottom: 0;
+		}
+
+		#header h1 {
+			font-size: 0.34rem;
+			height: 0.98rem;
+			line-height: 0.98rem;
+			margin: 0 auto;
+			color: #FFFFFF;
+			width: 5rem;
+		}
+		#footer{
+			background: #484A4F;
+			height:1.7rem;
+			line-height:1.7rem;
+			position: relative;
+		}
+		#main{
+			background: rgba(0,0,0,0.6) ;
+		}
+		#main .container{
+			width:5.21rem;
+			height:5.21rem;
+			margin:0 auto;
+		}
+		#main .note1{
+			text-align: center;
+			color:#CCC;
+			font-size:0.3rem;
+			margin-top: 0.3rem;
+		}
+		#main .note2{
+			height:0.48rem;
+			line-height:0.48rem;
+			text-align: center;
+			margin-top: 0.3rem;
+		}
+		#main .note2 span{
+			height:0.48rem;
+			line-height:0.48rem;
+			background: url(../../image/icon_scan_notice.png) no-repeat center left;
+			background-size: 0.48rem 0.48rem;
+			padding-left: 0.52rem;
+			text-align: center;
+			color:#FFF;
+			font-size:0.3rem;
+		}
+		#footer .light{
+			width:33%;
+			height: 100%;
+			float: left;
+			text-align: center;
+		}
+		#footer .light span{
+			margin-top:0.3rem;
+			height:1.2rem;
+			width:0.66rem;
+			line-height:2rem;
+			background: url(../../image/icon_light_off.png) no-repeat center top ;
+			background-size: 0.66rem 0.66rem;
+			color:#ccc;
+		}
+		#footer .light span.active{
+			background: url(../../image/icon_light_on.png) no-repeat center top;
+			background-size: 0.66rem 0.66rem;
+			color:#6bc30d;
+		}
+		#footer .light span:active{
+			background: url(../../image/icon_light_on.png) no-repeat center top;
+			background-size: 0.66rem 0.66rem;
+			color:#6bc30d;
+		}
+		#footer .picture{
+			width:34%;
+			height: 100%;
+			float: left;
+			text-align: center;
+		}
+		#footer .picture span{
+			margin-top:0.3rem;
+			height:1.2rem;
+			width:0.66rem;
+			line-height:2rem;
+			background: url(../../image/icon_select_off.png) no-repeat center top;
+			background-size: 0.66rem 0.66rem;
+			color:#ccc;
+		}
+		#footer .picture span.active{
+			background: url(../../image/icon_select_on.png) no-repeat center top;
+			background-size: 0.66rem 0.66rem;
+			color:#6bc30d;
+		}
+		#footer .picture span:active{
+			background: url(../../image/icon_select_on.png) no-repeat center top;
+			background-size: 0.66rem 0.66rem;
+			color:#6bc30d;
+		}
+		#footer .cancel{
+			width:33%;
+			height: 100%;
+			float: right;
+			text-align: center;
+		}
+		#footer .cancel span{
+			margin-top:0.3rem;
+			height:1.2rem;
+			width:0.66rem;
+			line-height:2rem;
+			background: url(../../image/icon_cancel_off.png) no-repeat center top;
+			background-size: 0.66rem 0.66rem;
+			color:#ccc;
+		}
+		#footer .cancel span.active{
+			background: url(../../image/icon_cancel_on.png) no-repeat center top;
+			background-size: 0.66rem 0.66rem;
+			color:#6bc30d;
+		}
+		#footer .cancel span:active{
+			background: url(../../image/icon_cancel_on.png) no-repeat center top;
+			background-size: 0.66rem 0.66rem;
+			color:#6bc30d;
+		}
+    </style>
+</head>
+<body>
+	<div id="wrap" class="flex-wrap flex-vertical">
+        <div id="header">
+			<a class="back-icon" tapmode="active" onclick="closeSelf()"></a>
+			<h1 id="title">扫一扫</h1>
+		</div>
+        <div id="main" class="flex-con">
+        	<div style="height:1.84rem;"></div>
+        	<div class="container">
+        	</div>
+        </div>
+        <div id="footer" class="">
+        	<div class="light" onclick="switchLight();">
+        		<span tapmode="active">打开</span>
+        	</div>
+        	<div class="picture" onclick="select();">
+        		<span tapmode="active">相册</span>
+        	</div>
+        	<div class="cancel" onclick="closeSelf();">
+        		<span tapmode="active">取消</span>
+        	</div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript">
+	var FNScanner;
+	var light=0;
+	imready = function(){
+		FNScanner = api.require('FNScanner');
+		
+		openScannerView();
+		
+		api.addEventListener({
+	        name:'scannerclose'
+        },function(ret,err){
+        	closeSelf();
+        });
+        
+//      api.addEventListener({
+//	        name:'viewappear'
+//      },function(ret,err){
+//      	console.log("frame. appear")
+//      });
+	};
+	
+	function openScannerView(){
+//		var h = (184+98)/750*api.winWidth;
+//		console.log("h=="+h)
+//		var w = 521/750*api.winWidth;
+//		console.log("w == "+w)
+		var containerOffset = $api.offset($api.dom("#main"));
+		console.log(JSON.stringify(containerOffset))
+		var x = containerOffset.l;
+		var y = containerOffset.t;
+		var w = containerOffset.w;
+		var h = containerOffset.h;
+		console.log("x="+x+",y="+y+",w="+w+",h="+h);
+		var rect = {x:x,y:y,w:w,h:h};
+		FNScanner.openView({
+		    autorotation: false,
+		    rect:rect
+		}, function(ret, err) {
+		    if (ret) {
+		    	if(ret.eventType=='success'){
+		    		$api.dom(".container").innerHTML="<img style='width:5.21rem;height:5.21rem;' src='"+ret.imgPath+"'>";
+		    		console.log(JSON.stringify(ret))
+		    		FNScanner.closeView();
+		    		var content = ret.content;
+		    		
+		    		dealWithContent(content);
+		    	}else if(ret.eventType=='show'){
+		    		setTimeout("showFrame();",200);
+		    	}
+		    } else {
+		    }
+		});
+	}
+	
+	function showFrame(){
+		var containerOffset = $api.offset($api.dom("#main"));
+		console.log(JSON.stringify(containerOffset))
+		var x = containerOffset.l;
+		var y = containerOffset.t;
+		var w = containerOffset.w;
+		var h = containerOffset.h;
+//		var x1 = 0;
+//		var offset1 = $api.offset($api.dom("#header"));
+//		var offset2 = $api.offset($api.dom("#footer"));
+//		var y1 = offset1.h;
+//		var y2 = offset2.h;
+		api.openFrame({
+	        name: 'scannercover',
+	        url: 'scannercover.html',
+	        rect: {
+		        x:x,
+		        y:y,
+		        w:w,
+		        h:h
+	        },
+	        scrollEnabled:false
+        });
+	}
+	
+	function dealWithContent(content){
+		if(content.indexOf('sinogo.net.cn/zqtm')==-1){
+//			api.openWin({
+//              name: 'videoPlayer',
+//              url: 'videoPlayer.html',
+//              pageParam: {url: content},
+//              rect: {
+//              x: 0,
+//              y: 0,
+//              w: 'auto',
+//              h: 'auto'
+//              },
+//              bounces: false,
+//              showProgress: true
+// 			 });
+// 			 setTimeout("closeSelf()",1000)
+			alert("这个不是一个视频课的二维码！")
+			openScannerView();
+			return ;
+		}
+		api.openWin({
+            name: 'videoPlayer',
+            url: 'videoPlayer.html',
+            pageParam: {url: content},
+            rect: {
+            x: 0,
+            y: 0,
+            w: 'auto',
+            h: 'auto'
+            },
+            bounces: false,
+            showProgress: true
+		 });
+		 setTimeout("closeSelf()",1000)
+	}
+	
+	function switchLight(){
+		FNScanner.switchLight({
+		    status: light==0?'on':'off'
+		});
+		light= light==0?1:0;
+		if(light==0){
+			$api.removeCls($api.dom(".light span"), "active");
+		}else{
+			$api.addCls($api.dom(".light span"), "active");
+		}
+	}
+	
+	function select(){
+//		api.openWin({
+//	        name: 'test',
+//	        url: 'test.html'
+//      });
+//      return;
+		api.getPicture({
+           sourceType: 'album',
+           encodingType: 'jpg',
+           mediaValue: 'pic',
+           allowEdit:false,
+           destinationType: 'url',
+           quality: 100,
+       },function(ret,err){
+			FNScanner.closeView();
+           if (ret) {
+	           var url = ret.data;
+	           api.sendEvent({
+		           name:'selectPic'
+	           });
+	           if(url){
+	           	FNScanner.decodeImg({
+	           		path:url
+				}, function(ret, err) {
+					console.log(JSON.stringify(ret))
+					console.log(JSON.stringify(err))
+					if(ret){
+						if(ret.status){//成功
+							var content = ret.content;
+							dealWithContent(content);
+							window.decodoeOk=true;
+						}else{
+							alert("二维码识别失败，请更换图片重试！")
+							openScannerView();
+						}
+					}else{
+						alert("识别失败，"+err.msg+"，请更换图片重试！")
+						openScannerView();
+					}
+				});
+	           }else{
+	                //toastAtMiddle("已取消11")
+					setTimeout("openScannerView()",300);
+	           }
+           } else {
+                //toastAtMiddle("已取消")
+					setTimeout("openScannerView()",300);
+           }
+       });
+	}
+	
+	function closeSelf(){
+        FNScanner.closeView();
+        api.closeFrame({
+        	name:"scannercover"
+        });
+		api.closeFrame({
+			name:"scanner"
+        });
+        api.sendEvent({
+	        name:'frameclose',
+	        extra:{
+	        	framename:'scanner'
+	        }
+        });
+	}
+	
+</script>
+</html>

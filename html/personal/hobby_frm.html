@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>文档</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/fontstyle.css" />
+    <style>
+    body {
+        background: url(../../image/bg_mine.png) no-repeat center center;
+        background-size: 100%;
+    }
+
+        #main dl {
+            background: rgba(254, 238, 182, 0.63);
+        }
+
+        #main dd {
+            height: .9rem;
+            line-height: .9rem;
+            border-bottom: solid 1px #eee;
+        }
+
+        #main dd span {
+            margin-left: .23rem;
+            font-size: .26rem;
+            color: #666;
+            display: block;
+            float: left;
+        }
+
+        dd img {
+            height: .42rem;
+            width: .42rem;
+            margin-left: .23rem;
+            margin-top: .24rem;
+            display: block;
+            float: left;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="flex-wrap flex-vertical" id="main">
+        <div class="flex-con">
+            <dl>
+                <dd v-for="(hobby,index) in hobbyList" @click="chooseHobby(hobby,index)"><img :src="hobby.img" alt=""><span>{{hobby.hobby}}</span></dd>
+            </dl>
+        </div>
+    </div>
+</body>
+
+</html>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript" src="../../script/vue.js"></script>
+<script type="text/javascript">
+    imready = function() {
+        initVue();
+        assigment.init();
+    }
+    var assigment; //全局控制器Controller
+    initVue = function() { //初始化Vue需要的是双向数据绑定 当改变数据以后view会做相应的改变
+        var date = vueDateManager();
+        var methods = vueMethodsManager();
+        assigment = new Vue({
+            el: '#main', //绑定元素
+            data: date, //本页面的静态动态全部数据
+            methods: methods, //本页面的全部方法
+            created: function() {}
+        })
+    }
+    vueDateManager = function() {
+        //初始化Vue数据date为一个json数组
+        var date = {};
+        date.hobbyList = [{
+            "hobby": "",
+            "id": 0
+        }];
+        date.childcity;
+        console.log("数据管理者" + JSON.stringify(date));
+        return date;
+    }
+    vueMethodsManager = function() {
+        //时间管理中心 每个Vue事件的处理都可以在这管理
+        var methods = {};
+        methods.init = function() {//根据提供的message修改选中的状态
+            assigment.hobbyList = [];//爱好数组
+            console.log("初始化的数据------------------" + JSON.stringify(api.pageParam))
+            var hobbyid;//选中的爱好
+            if(Object.prototype.toString.call(api.pageParam.message)=='[object Array]'){//判断是否为数组
+                 hobbyid= api.pageParam.message;
+            }else{
+                 hobbyid= api.pageParam.message.split(",");
+            }
+            for (var i = 0; i < api.pageParam.hobby.length; i++) {
+                var list = {};
+                list.hobby = api.pageParam.hobby[i].hobby;
+                list.id = api.pageParam.hobby[i].id;
+                if(!isEmpty(hobbyid)){
+                  for (var j = 0; j < hobbyid.length; j++) {//如果已经选择的就直接设为选中状态
+                      if (api.pageParam.hobby[i].id == hobbyid[j] || api.pageParam.hobby[i].hobby == hobbyid[j]) {
+                          list.isChoose = true;
+                          list.img = "../../image/icon_checked.png";
+                          break;
+                      } else {
+                          list.isChoose = false;
+                          list.img = "../../image/icon_unchecked.png";
+                      }
+                  }
+                }else{
+                  list.isChoose = false;
+                  list.img = "../../image/icon_unchecked.png";
+                }
+                assigment.hobbyList.push(list);
+            };
+            console.log("处理后的数据------------------" + JSON.stringify(assigment.hobbyList))
+            api.sendEvent({
+                name: 'updateHobby',
+                extra: {
+                    key1: assigment.hobbyList
+                }
+            });
+        };
+        methods.chooseHobby = function(hobby, index) {
+            assigment.hobbyList[index].isChoose = !assigment.hobbyList[index].isChoose;
+            if (assigment.hobbyList[index].isChoose) {
+                assigment.hobbyList[index].img = "../../image/icon_checked.png"
+            } else {
+                assigment.hobbyList[index].img = "../../image/icon_unchecked.png"
+            }
+            api.sendEvent({
+                name: 'updateHobby',
+                extra: {
+                    key1: assigment.hobbyList
+                }
+            });
+
+
+
+
+        }
+        console.log("事件管理者：" + JSON.stringify(methods));
+        return methods;
+
+    }
+
+
+
+
+    function openWindow(winname) {
+        api.openWin({
+            name: winname,
+            url: winname + ".html"
+        });
+    }
+</script>

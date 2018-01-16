@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<!-- 此页面Vue工作模板-->
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>studentCompletion</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+
+    <style scoped>
+    /****************************模板导入***********************************************/
+
+    .h-right {
+        text-align: right;
+        margin-right: .23rem;
+        -webkit-flex: .3;
+        /* Chrome */
+        -ms-flex: .3;
+        /* IE 10 */
+        flex: .3;
+        /* NEW, Spec - Opera 12.1, Firefox 20+ */
+        -webkit-box-flex: .3;
+        /* OLD - iOS 6-, Safari 3.1-6 */
+        -moz-box-flex: .3;
+        width: 0%;
+        display: block;
+    }
+
+    .h-left {
+        margin-left: .23rem;
+        text-align: left;
+        -webkit-flex: .3;
+        /* Chrome */
+        -ms-flex: .3;
+        /* IE 10 */
+        flex: .3;
+        /* NEW, Spec - Opera 12.1, Firefox 20+ */
+        -webkit-box-flex: .3;
+        /* OLD - iOS 6-, Safari 3.1-6 */
+        -moz-box-flex: .3;
+        width: 0%;
+        display: block;
+    }
+
+    .h-left img {
+        margin-top: .215rem;
+        width: .25rem;
+        height: .45rem;
+        background: url(../../image/setting/icon-back.png);
+        background-size: cover;
+        margin-left: 0;
+    }
+    /*****************************************************************************************/
+    </style>
+</head>
+
+<body>
+    <div class="flex-wrap flex-vertical">
+        <header>
+            <div class="h-left" onclick="closeWin();"><img src="../../image/setting/icon-back.png" />
+            </div>
+            <div class="h-conter">
+                布置作业
+            </div>
+            <div class="h-right"></div>
+        </header>
+        <div class="flex-con" id="main">
+            <footer id="footer" tapmode="" @click="confirmationRelease()">
+            </footer>
+        </div>
+
+    </div>
+</body>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript" src="../../script/vue.js"></script>
+
+<script>
+    var assigment; //全局控制器Controller
+    initVue = function() { //初始化Vue需要的是双向数据绑定 当改变数据以后view会做相应的改变
+        var date = vueDateManager();
+        var methods = vueMethodsManager();
+        assigment = new Vue({
+            el: '#main', //绑定元素
+            data: date, //本页面的静态动态全部数据
+            methods: methods, //本页面的全部方法
+            init:function(){
+              Vue.config.silent = true;
+            }
+        })
+    }
+
+    vueDateManager = function() {
+        //初始化Vue数据date为一个json数组
+        var date = {};
+        console.log("数据管理者" + JSON.stringify(date));
+        return date;
+
+    }
+    vueMethodsManager = function() {
+        //时间管理中心 每个Vue事件的处理都可以在这管理
+        var methods = {};
+
+        methods.confirmationRelease = function() { //确认发布作业
+            //TODO
+
+
+
+        }
+        console.log("事件管理者：" + JSON.stringify(methods));
+        return methods;
+    }
+    imready = function() {
+        // api.parseTapmode(); //默认页面加载完成后，引擎会对 dom 里面的元素进行 tapmode 属性解析，若是之后用代码创建的 dom 元素，则需要调用该方法后 tapmode 属性才会生效
+        // $api.fixStatusBar($api.dom('header'));
+        initVue();
+
+
+
+    };
+</script>
+
+</html>

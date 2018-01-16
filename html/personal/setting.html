@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>文档</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/fontstyle.css" />
+    <style>
+        body {
+            background: url(../../image/bg_mine.png) no-repeat center center;
+            background-size: 100%;
+        }
+
+        #header {
+            background: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            width: 100%;
+            position: relative;
+            height: 0.98rem;
+        }
+
+        #header .back-icon {
+            display: inline-block;
+            width: 0.98rem;
+            height: 0.98rem;
+            background: url(../../image/icon_back.png) no-repeat center center;
+            background-size: 0.78rem 0.33rem;
+            position: absolute;
+            left: 0.24rem;
+            bottom: 0;
+        }
+
+        #header .back-text {
+            display: inline-block;
+            width: 1.2rem;
+            height: 0.98rem;
+            position: absolute;
+            right: 0.24rem;
+            bottom: 0;
+            font-size: 0.28rem;
+            height: 0.98rem;
+            line-height: 0.98rem;
+            color: #ff8344;
+            font-family: 'pty'
+        }
+
+        #header h1 {
+            font-size: 0.36rem;
+            height: 0.98rem;
+            line-height: 0.98rem;
+            margin: 0 auto;
+            color: #ff8344;
+            font-family: 'pty';
+        }
+
+        #main .setting-item-head {
+            height: 1rem;
+            line-height: 1rem;
+            width: 92%;
+            margin: 0 auto;
+            border-radius: 0.1rem;
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        #main .setting-item-head .item-text {
+            margin-left: 0.2rem;
+            color: #333333;
+            font-size: 0.3rem;
+        }
+
+        #main .setting-item-head .head {
+            height: 0.77rem;
+            width: 0.77rem;
+            float: right;
+            margin-right: 0.2rem;
+            margin-top: 0.115rem;
+        }
+
+        #main .setting-item {
+            height: 0.9rem;
+            line-height: 0.9rem;
+            width: 92%;
+            margin: 0 auto;
+            border-radius: 0.1rem;
+            background: rgba(255, 255, 255, 0.7);
+            position: relative;
+        }
+
+        #main .setting-item.no-border {
+            position: static;
+        }
+
+        #main .setting-item:before {
+            position: absolute;
+            border-top: 1px solid #eeeeee;
+            top: 0;
+            right: 0;
+            left: 0;
+            content: "";
+            display: block;
+            -webkit-transform: scaleY(0.5);
+            -webkit-transform-origin: 0 0;
+        }
+
+        #main .setting-item .item-text {
+            margin-left: 0.2rem;
+            color: #333333;
+            font-size: 0.3rem;
+        }
+
+        #main .setting-item .item-value {
+            float: right;
+            text-align: right;
+            width: 70%;
+            margin-left: 0.2rem;
+            color: #FF9900;
+            font-size: 0.3rem;
+            margin-right: 0.2rem;
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        #main .setting-item .item-value.color666 {
+            color: #666666;
+        }
+
+        #main .setting-item .item-more {
+            height: 0.9rem;
+            width: 0.4rem;
+            background: url(../../image/icon_right.png) no-repeat center center;
+            background-size: 0.4rem 0.6rem;
+            float: right;
+            margin-right: 0.2rem;
+        }
+
+        #main .setting-item .item-more.no-icon {
+            display: none;
+        }
+
+        #main .logout {
+            width: 3.5rem;
+            height: 0.93rem;
+            line-height: 0.8rem;
+            background: url(../../image/bg_btn_logout.png) no-repeat center center;
+            background-size: 100%;
+            text-align: center;
+            margin: 0.6rem auto;
+            font-size: 0.34rem;
+            color: #FFF;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="flex-wrap flex-vertical" id="main">
+        <div id="header">
+            <a class="back-icon" tapmode="active" onclick="closeWin()"></a>
+            <h1>设置</h1>
+            <a class="back-text" tapmode="active" @click="save()">保存</a>
+        </div>
+        <div class="flex-con">
+            <div style="height:0.24rem;"></div>
+            <div class="setting-item-head" @click="imageChange">
+                <span class="item-text">{{changeIcon}}</span>
+                <img class="head" :src="iconImage" alt="">
+            </div>
+            <div class="setting-item">
+                <span class="item-text">{{name}}</span>
+                <span class="item-more"></span>
+                <span class="item-value">{{nameValue}}</span>
+            </div>
+            <div class="setting-item">
+                <span class="item-text">{{sex}}</span>
+                <span class="item-more"></span>
+                <span class="item-value">{{sexValue==0?"男":"女"}}</span>
+            </div>
+            <div class="setting-item">
+                <span class="item-text">{{school}}</span>
+                <span class="item-more"></span>
+                <span class="item-value">{{schoolValue}}</span>
+            </div>
+            <div class="setting-item">
+                <span class="item-text">{{hobby}}</span>
+                <span class="item-more"></span>
+                <span class="item-value">{{studentHobby}}</span>
+            </div>
+            <div class="setting-item">
+                <span class="item-text">{{phone}}</span>
+                <span class="item-more no-icon"></span>
+                <span class="item-value color666">{{phoneValue}}</span>
+            </div>
+            <div style="height:0.24rem;"></div>
+            <div class="setting-item no-border" @click=change_pass>
+                <span class="item-text">修改密码</span>
+                <span class="item-more"></span>
+                <span class="item-value"></span>
+            </div>
+            <div class="setting-item" style="display: none">
+                <span class="item-text">背景音乐</span>
+                <span class="item-more"></span>
+                <span class="item-value"></span>
+            </div>
+            <div class="setting-item">
+                <span class="item-text">清理缓存</span>
+                <!-- <span class="item-more"></span> -->
+                <!-- <span class="item-value"></span> -->
+            </div>
+            <div class="setting-item">
+                <span class="item-text">关于我们</span>
+                <span class="item-more"></span>
+                <span class="item-value"></span>
+            </div>
+
+            <div class="logout" onclick="exitGo()">
+                退出登录
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript" src="../../script/vue.js"></script>
+<script type="text/javascript">
+    imready = function() {
+        initVue();
+        assigment.lister();
+        var items = $api.domAll(".setting-item");
+        for (var i = 0; i < items.length; i++) {
+            items[i].index = i;
+            items[i].onclick = function() {
+                switch (this.index) {
+                    case 0: //修改姓名
+                        api.openWin({
+                            name: 'realname',
+                            url: 'realname.html',
+                            pageParam: {
+                                name: assigment.nameValue
+                            }
+                        });
+                        break;
+                    case 1: //修改性别
+                        api.actionSheet({
+                            cancelTitle: "取消",
+                            buttons: ["男", "女"],
+                            style: {
+                                fontNormalColor: "#666",
+                                titleFontColor: "#666"
+                            }
+                        }, function(ret, err) {
+                            var index = ret.buttonIndex;
+                            if (index == 1) {
+                                assigment.sexValue = 0;
+                            } else if (index == 2) {
+                                assigment.sexValue = 1;
+                            }
+                        });
+                        break;
+                    case 2: //修改学校
+                        openWindow('school_win');
+                        break;
+                    case 3: //修改爱好
+                        var msg;
+                        if (isEmpty(assigment.hobbyId)) {
+                            msg = new Array();
+                            openWindow('hobby_win', msg);
+                        } else {
+                            msg = assigment.studentHobby;
+                        };
+                        openWindow('hobby_win', msg);
+                        break;
+                    case 4: //手机号不可修改
+                        break;
+                    case 5: //修改密码
+
+                        break;
+                    case 6: //背景音乐开关
+                        break;
+                    case 7: //清理缓存
+                        api.clearCache({}, function(ret, err) {
+                            alert("清理成功！")
+                        });
+                        break;
+                    case 8: //关于我们
+                        openWindow('about')
+                        break;
+                }
+            }
+        }
+    }
+    var assigment; //全局控制器Controller
+    initVue = function() { //初始化Vue需要的是双向数据绑定 当改变数据以后view会做相应的改变
+        var date = vueDateManager();
+        var methods = vueMethodsManager();
+        assigment = new Vue({
+            el: '#main', //绑定元素
+            data: date, //本页面的静态动态全部数据
+            methods: methods, //本页面的全部方法
+            created: function() {
+                api.getPrefs({
+                    key: 'studentInfo'
+                }, function(ret, err) {
+                    if (ret) {
+                        console.log(JSON.stringify(JSON.parse(ret.value)));
+                        var Xret = JSON.parse(ret.value);
+                        if (Xret.studentImage) { //如果学生有头像的话就更换头像
+                            assigment.iconImage = $api.imageUrl + Xret.studentImage;
+                        };
+                        assigment.nameValue = Xret.studentName; //学生姓名
+                        assigment.sexValue = Xret.studentGender; //学生性别 男0女1
+                        assigment.schoolValue = Xret.schoolName; //学校名称
+
+                        var data = {};
+                        data.method = 'getHobbys';
+                        data.request = {}, api.showProgress();
+                        console.log("爱好getHobbys请求数据：" + JSON.stringify(data));
+                        ajaxRequest(data, function(ret, err) {
+                                api.hideProgress();
+                                if (ret) {
+                                    console.log("爱好getHobbys成功返回数据：" + JSON.stringify(ret));
+                                    if (ret.responseCode == 0) {
+                                        var reg = /^(?=.*\d.*\b)/;
+                                        Xret.studentHobby = Xret.studentHobby.replace(/\[|]/g, '');
+                                        c("是否为数字",reg.test(Xret.studentHobby))
+                                        if (reg.test(Xret.studentHobby)) { //判断是否包含数字
+                                             c("是否是多个数据",Xret.studentHobby.indexOf(",") > 0)
+                                            if (Xret.studentHobby.indexOf(",") > 0) {
+                                                var s = Xret.studentHobby.split(",");
+                                                console.log(s);
+                                                for (var j = 0; j < s.length; j++) {
+                                                    for (var i = 0; i < ret.responseBody.length; i++) {
+                                                        if (ret.responseBody[i].id == Number(s[j])) {
+                                                            assigment.studentHobby.push(ret.responseBody[i].hobby);
+                                                            assigment.hobbyId.push(ret.responseBody[i].id);
+                                                        }
+                                                    }
+                                                }
+                                                assigment.studentHobby = assigment.studentHobby.join(",");
+                                            } else {
+                                                if (Xret.studentHobby > 0) {
+                                                    if (Xret.studentHobby < 0) {
+                                                        assigment.studentHobby = " ";
+                                                    } else {
+                                                        assigment.studentHobby = ret.responseBody[Xret.studentHobby - 1].hobby;
+                                                    }
+                                                } else {
+                                                    assigment.studentHobby = " ";
+                                                }
+                                            }
+
+                                        } else {
+                                          console.log(  assigment.hobbyId+"==="+assigment.studentHobby);
+                                            assigment.hobbyId = assigment.studentHobby;
+                                            assigment.studentHobby="";
+                                        }
+
+
+                                    }
+                                } else {
+                                    console.log("爱好getHobbys失败返回数据：" + JSON.stringify(err));
+                                }
+                            })
+                            // assigment.studentHobby =  assigment.studentHobby.join("-"); //爱好
+                        assigment.phoneValue = Xret.studentAccount; //学生手机号
+                    } else {
+                        alert(JSON.stringify(err));
+                    }
+                });
+
+            }
+        })
+    }
+    vueDateManager = function() {
+        //初始化Vue数据date为一个json数组
+        var date = {};
+        date.changeIcon = "更换头像";
+        date.iconImage = "../../image/eg_head_default.png";
+        date.iconImagePath;
+        date.name = "姓名";
+        date.nameValue = "";
+        date.sex = "性别";
+        date.sexValue = 0;
+        date.school = "学校";
+        date.schoolValue = "";
+        date.hobby = "爱好";
+        date.hobbyId = new Array();
+        date.studentHobby = new Array();
+        date.phone = "手机号码";
+        date.phoneValue = "";
+        console.log("数据管理者" + JSON.stringify(date));
+        return date;
+    }
+    vueMethodsManager = function() {
+        //时间管理中心 每个Vue事件的处理都可以在这管理
+        var methods = {};
+        methods.lister = function() {
+            api.addEventListener({
+                name: 'studentName'
+            }, function(ret, err) {
+                if (ret) {
+                    c("姓名监听事件", ret);
+                    assigment.nameValue = ret.value.studentName;
+                }
+            });
+            api.addEventListener({
+                name: 'studentSchool'
+            }, function(ret, err) {
+                if (ret) {
+                    c("学校监听事件", ret);
+                    assigment.schoolValue = ret.value.key1.institutionName;
+                }
+            });
+            api.addEventListener({
+                name: 'studentHobby'
+            }, function(ret, err) {
+                if (ret) {
+                    c("爱好监听事件", ret);
+                    assigment.studentHobby = "";
+                    assigment.hobbyId = "";
+                    console.log(JSON.stringify(ret))
+                    for (var i = 0; i < ret.value.key1.length; i++) {
+                        if (assigment.studentHobby != "") {
+                            assigment.studentHobby = assigment.studentHobby + "," + ret.value.key1[i].hobby;
+                            assigment.hobbyId = assigment.hobbyId + "," + ret.value.key1[i].id;
+                        } else {
+                            assigment.studentHobby = assigment.studentHobby + ret.value.key1[i].hobby;
+                            assigment.hobbyId = assigment.hobbyId + ret.value.key1[i].id
+                        }
+                    }
+                    console.log(assigment.studentHobby);
+                    console.log(assigment.hobbyId);
+
+                }
+            });
+
+            api.addEventListener({
+                name: 'FNImageClip'
+            }, function(ret, err) {
+                if (ret) {
+                    c("截图监听事件", ret);
+                    assigment.iconImage = ret.value.path;
+                    assigment.loadIcon();
+                } else {
+                    alert(JSON.stringify(err));
+                }
+            });
+
+        }
+        methods.imageChange = function() { //点击头像选择事件
+
+            api.actionSheet({
+                cancelTitle: "取消",
+                buttons: ["拍照", "从手机相册选择", "查看大图"],
+                style: {
+                    fontNormalColor: "#666",
+                    titleFontColor: "#666"
+                }
+            }, function(ret, err) {
+                var index = ret.buttonIndex;
+                switch (index) {
+                    case 1:
+                        //拍照
+                        api.getPicture({
+                            sourceType: "camera",
+                            encodingType: "jpg",
+                            mediaValue: "pic",
+                            destinationType: "url",
+                            allowEdit: false,
+                            quality: 100,
+                            targetWidth: 400,
+                            targetHeight: 400,
+                            saveToPhotoAlbum: true
+                        }, function(ret, err) {
+                            if (ret) {
+                              if(isEmpty(ret.data))return;
+                                assigment.iconImage = ret.data;
+                                // assigment.loadIcon();
+                                assigment.openImageClip(assigment.iconImage);
+                            }
+                        });
+                        break;
+                    case 2:
+                        //从手机相册选择
+                        api.getPicture({
+                            sourceType: "album",
+                            encodingType: "jpg",
+                            mediaValue: "pic",
+                            destinationType: "url",
+                            allowEdit: true,
+                            quality: 100,
+                            targetWidth: 400,
+                            targetHeight: 400,
+                            saveToPhotoAlbum: false
+                        }, function(ret, err) {
+                            if (ret) {
+                              if(isEmpty(ret.data))return;
+                              assigment.iconImage = ret.data;
+                              assigment.loadIcon();
+                              // assigment.openImageClip(assigment.iconImage);
+                            }
+                        });
+                        break;
+                    case 3:
+                        //查看大图
+                        api.openFrame({
+                            name: 'preimage',
+                            url: 'preimage.html',
+                            pageParam: {
+                                icon: assigment.iconImage
+                            },
+                            rect: {
+                                x: 0,
+                                y: 0,
+                                w: api.frameWidth,
+                                h: api.frameHeight
+                            },
+                            animation: {
+                                type: "scube", //动画类型（详见动画类型常量）
+                                subType: "from_top", //动画子类型（详见动画子类型常量）
+                                duration: 500 //动画过渡时间，默认300毫秒
+                            }
+                        });
+                        break;
+                }
+            });
+
+
+        };
+        methods.openImageClip = function(path) {
+            api.openFrame({
+                name: 'fnimageclip',
+                url: 'fnimageclip.html',
+                rect: {
+                    x: 0,
+                    y: 0,
+                    w: api.winWidth,
+                    h: api.winHeight
+                },
+                pageParam: {
+                    path: path
+                },
+                bounces: false,
+                bgColor: 'rgba(0,0,0,0)',
+                vScrollBarEnabled: true,
+                hScrollBarEnabled: true
+            });
+        }
+        methods.loadIcon = function() { //上传头像
+            var imageUrl = $api.imageUrl;
+            var splits = imageUrl.split(":");
+            var path = splits[0] + ":" + splits[1] + ":8086/user/image/upload"
+            api.showProgress();
+            api.ajax({
+                url: path,
+                method: 'post',
+                data: {
+                    values: {
+                        "uploadType": 2
+                    },
+                    files: {
+                        "multipartFile": assigment.iconImage
+                    }
+                }
+            }, function(ret, err) {
+                api.hideProgress();
+                console.log(JSON.stringify(err));
+                if (ret) {
+                    alert(JSON.stringify(ret));
+                } else {
+                    assigment.iconImagePath = err.body;
+                    assigment.iconImage = $api.imageUrl + err.body;
+                    console.log(assigment.iconImage);
+                }
+            });
+        }
+        methods.save = function() { //修改学生信息接口
+            var userid = api.getPrefs({
+                sync: true,
+                key: 'userid'
+            });
+            var body = {
+                method: "insertStudent",
+                request: {
+                    "studentId": Number(userid), //学生id必传
+                    "studentName": assigment.nameValue, //学生姓名
+                    "studentGender": assigment.sexValue, //学生性别
+                    "schoolName": assigment.schoolValue, //学生学校
+                    "studentImage": assigment.iconImagePath, //学生头像
+                    "studentHobby": assigment.hobbyId, //学生爱好
+                }
+            };
+            console.log("修改个人中心请求数据" + JSON.stringify(body));
+            api.showProgress();
+            ajaxRequest(body, function(ret, err) {
+                api.hideProgress();
+                if (ret) {
+                    if (ret.responseCode == 0) {
+                        console.log("修改个人中心数据成功返回数据" + JSON.stringify(ret))
+                        api.alert({
+                            title: '提示',
+                            msg: '修改成功！',
+                        }, function(ret, err) {
+                            if (ret) { //修改密码成功调用登录接口修改
+                                assigment.changeStudentInfo(
+                                    function(ret, err) {
+                                        console.log("studentLogin返回数据" + JSON.stringify(ret));
+                                        if (ret) {
+                                            if (ret.responseCode == 0) {
+                                                api.removePrefs({
+                                                    key: 'studentInfo'
+                                                });
+                                                api.setPrefs({
+                                                    key: 'studentInfo',
+                                                    value: ret.responseBody
+                                                });
+                                                api.sendEvent({
+                                                    name: 'update',
+                                                    extra: {}
+                                                });
+                                                api.closeWin();
+                                            }
+
+                                        } else {
+                                            api.toast({
+                                                msg: ret.responseMsg,
+                                                duration: 2000,
+                                                location: 'bottom'
+                                            });
+
+                                        }
+
+                                    }
+                                )
+                            } else {
+                                alert(JSON.stringify(err));
+                            }
+                        });
+
+                    } else {
+                        api.toast({
+                            msg: ret.responseMsg,
+                            duration: 2000,
+                            location: 'bottom'
+                        });
+                    }
+                } else {
+                    api.toast({
+                        msg: ret.responseMsg,
+                        duration: 2000,
+                        location: 'bottom'
+                    });
+                }
+            })
+        };
+        methods.changeStudentInfo = function(callback) {
+            var studentPassword = api.getPrefs({ //
+                sync: true,
+                key: 'studentPassword'
+            });
+            var body = {
+                method: "studentLogin",
+                request: {
+                    "studentAccount": assigment.phoneValue,
+                    "studentPassword": studentPassword,
+                }
+            };
+            console.log("studentLogin请求数据" + JSON.stringify(body));
+            api.showProgress();
+            ajaxRequest(body, function(ret, err) { //先判断此手机号码是否注册
+                api.hideProgress();
+                callback(ret, err);
+            })
+        };
+        methods.change_pass=function(){
+            openWindow('resetpwd');
+        };
+        console.log("事件管理者：" + JSON.stringify(methods));
+        return methods;
+
+    }
+
+    function exitGo() { //退出登录
+        api.removePrefs({
+            key: 'userid'
+        });
+        api.removePrefs({
+            key: 'studentPassword'
+        });
+        api.removePrefs({
+            key: 'studentInfo'
+        });
+        api.removePrefs({
+            key: 'userPhone'
+        });
+        api.removePrefs({
+            key: 'tradePassword'
+        });
+        api.openWin({
+            name: 'login',
+            url: '../login/login.html'
+        });
+        setTimeout("api.closeWin();", 1000);
+
+    }
+
+    function openWindow(winname, pageParam) {
+        api.openWin({
+            name: winname,
+            url: winname + ".html",
+            pageParam: {
+                message: pageParam
+            }
+        });
+    }
+</script>

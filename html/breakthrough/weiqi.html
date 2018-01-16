@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+     <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+   <title>围棋</title>
+    <link rel="stylesheet" href="../../css/chessstyle.css">
+</head>
+
+<body>
+    <div class="chessboard" ontouchend="MouseDown(event);"></div>
+    <script src="../../script/jquery-1.10.2.min.js"></script>
+    <script src="../../script/chessboard.js"></script>
+    <script src="../../script/common.js"></script>
+    <script src="../../script/sgfutils.js"></script>
+</body>
+<script type="text/javascript">
+	var boardSize = 13;
+	var first = 2;//黑先
+	var answers = [];
+	var letters = "abcdefghijklmnopqrstuvwxyz";
+	var step = 0;
+
+	var rAnswer = [];
+
+	var answerSgf = '';
+
+	var typeOfQuestion = 0;//0，默认对弈；1，标记题；2，标记+对弈 3.选择题。不可点击
+	var markedAnswer=[];
+
+	window.onload=function(){
+		imready();
+	}
+
+	imready = function(){
+		//boardSize = parseInt(api.pageParam.boardSize);
+//		var sgf = api.pageParam.sgf;
+//		sgf = "http://optx5zsuy.bkt.clouddn.com/(;CA[UTF-8]FF[4]SZ[13]AP[北京中棋]AB[gd]AB[fe]AB[he]AW[ge](;B[gf];W[cf];(B[aa];W[eh];B[cc]C[RIGHT])(B[da];W[eh];B[cc]C[RIGHT])))"
+//		var a = parseSGF(sgf);
+		//{"board_size":13,"question_layout":[{"name":"gd","color":2,"id":"6-3"},{"name":"fe","color":2,"id":"5-4"},{"name":"he","color":2,"id":"7-4"},{"name":"ge","color":1,"id":"6-4"}],"answer":[[{"id":"6-5","name":"gf","color":2,"comment":"RIGHT"}]],"first":2}
+		var location = window.location;
+		location = location+"";
+		console.log("location === "+location)
+		var splits = location.split("?");
+		if(splits.length<2){
+			return;
+		}
+		var params = splits[1];
+		//sgf=111&boardSize=13&answerIsRight=true&answerSgf=2212
+		var sgf = '';
+		var paramSplits = params.split("&");
+		for(var i=0;i<paramSplits.length;i++){
+			var ps = paramSplits[i];
+			var pssplits = ps.split("=");
+			if(pssplits[0]=='sgf'){
+				sgf = pssplits[1]
+			}
+		}
+		console.log("sgf=="+sgf)
+		//2黑1白。
+		var a = parseSGF(sgf);
+		boardSize = a.board_size;
+		console.log(JSON.stringify(a))
+		first = a.first;
+		createBoard(boardSize);
+		initLayout(a.question_layout);
+
+		answers = a.answer;
+		if(answers.length==0){
+			typeOfQuestion=3;
+		}else{
+			var asas = answers[0];
+			for(var i=0;i<asas.length;i++){
+				if(asas[i].color==3){
+					typeOfQuestion=1;
+					markedAnswer=asas;
+				}
+			}
+			if(typeOfQuestion==1){
+				markedAnswer=asas;
+			}
+		}
+		var w = 512/750*window.screen.width;
+//
+		var itemw = parseInt(w/boardSize);
+		w = itemw*boardSize;
+//
+		initView(w,itemw);
+
+	}
+
+	function isMarkedRight(id){
+		var index = -1;
+		for(var i=0;i<markedAnswer.length;i++){
+			var a = markedAnswer[i];
+			if(a.id==id){
+				index=i;
+			}else{
+
+			}
+		}
+
+		if(index==-1){
+			typeOfQuestion=3;
+			return setTimeout("answerWrong('"+answerSgf+"')",200)
+		}
+
+		markedAnswer.splice(index,1);
+		if(markedAnswer.length==0){
+			typeOfQuestion=3;
+			setTimeout("answerRight('"+answerSgf+"')",200)
+		}
+	}
+
+	function isAnswerRight(id){
+		//遍历所有备选答案中所有符合的答案
+		for(var i = 0;i<answers.length;i++){
+			var answer = answers[i];//答案集合中选出一个答案来识别。
+			if(answer[step].id==id){//这个答案相符，推进正确答案集合
+				rAnswer.push(answer);
+			}
+		}
+
+		answers=rAnswer;
+		rAnswer=[];
+
+		var nowAnswer = [];//默认一个答案
+		//步骤 结束之后，
+		if(answers.length==0){//dacuole
+			typeOfQuestion=3;
+			return setTimeout("answerWrong('"+answerSgf+"')",200)
+		}
+		else if(answers.length==1){//唯一答案已确定
+			nowAnswer = answers[0]
+		}else{
+			nowAnswer = answers[0]//多答案默认一个答案
+		}
+
+		if(nowAnswer.length>0){
+			if(nowAnswer[step].comment=="RIGHT"){//彻底对咯
+				typeOfQuestion=3;
+				setTimeout("answerRight('"+answerSgf+"')",200)
+			}else{//继续下另一个颜色的棋
+				step++;
+				pushStones(nowAnswer[step],step);
+				step++;
+			}
+		}else{
+			typeOfQuestion=3;
+			setTimeout("answerWrong('"+answerSgf+"')",200)
+		}
+	}
+
+	function answerRight(sgf){
+		var extra = {
+			answerSgf:sgf,
+        	isRight:true
+		}
+		window.alert("恭喜你，答对啦！");
+		parent.window.handle(extra);
+	}
+
+	var wAlert = window.alert;
+	window.alert = function(name){
+        var iframe = document.createElement("IFRAME");
+        iframe.style.display="none";
+        iframe.setAttribute("src", 'data:text/plain,');
+        document.documentElement.appendChild(iframe);
+        window.frames[0].window.alert(name);
+        iframe.parentNode.removeChild(iframe);
+    };
+
+
+	function answerWrong(sgf){
+		var extra = {
+			answerSgf:sgf,
+        	isRight:false
+		}
+		window.alert("很遗憾，答错了！");
+		parent.window.handle(extra);
+	}
+
+	function pushStones(sub,s){
+		//1白2黑 3+
+		var id = sub.id;
+		if(sub.color==3){
+			var el = $("#"+id);
+			var cls = el.attr("class")
+			if(cls.indexOf('active')>0){
+				el.addClass(' marks ');
+				el.html('<em class="micon marks"></em>');
+			}else{
+				el.addClass(' mark ');
+			}
+			return;
+		}
+		var color = sub.color==1?'white':'black';
+		var className = 'active '+color;
+		var el = $("#"+id);
+		el.addClass(' active '+color);
+		var splits = id.split("-")
+		var j = splits[0];
+		var i = splits[1];
+
+		if(s){
+			answerSgf+=';'
+			answerSgf+=(sub.color==1?"W[":"B[");
+			answerSgf+=sub.name;
+			answerSgf+="]"
+			var cls = sub.color==1?'black-word':'white-word';
+			el.addClass(cls);
+			el.html(s+1);
+
+            if (stone[i][j] == 0) {
+				stone[i][j]=sub.color;
+                eatenChesscount(i, j, sub.color, boardSize);
+            };
+		}
+
+		//j - i
+		stone[i][j]=sub.color;
+	}
+
+	function initView(w,itemw){
+		$(".chessboard").css("width",w+"px");
+		$(".chessboard").css("height",w+"px");
+//
+		$(".chess").css("width",itemw+"px");
+		$(".chess").css("height",itemw+"px");
+		$(".chess").css("line-height",itemw+"px");
+
+		$(".active").css("width",itemw+"px");
+		$(".active").css("height",itemw+"px");
+		$(".active").css("line-height",itemw+"px");
+		$(".mark").css("width",itemw+"px");
+		$(".mark").css("height",itemw+"px");
+		$(".mark").css("line-height",itemw+"px");
+		$(".mark").css("background-size",itemw+"px,"+itemw+'px');
+//
+//		$(".marks").css("width",(itemw)+"px");
+//		$(".marks").css("height",itemw+"px");
+//		$(".marks").css("background-size",(itemw-4)+"px,"+(itemw-4)+'px');
+//		$(".micon").css("width",itemw+"px");
+//		$(".micon").css("height",itemw+"px");
+//		$(".micon").css("background-size",(itemw-4)+"px,"+(itemw-4)+'px');
+
+		var half = itemw/2
+
+		var c1 = '.chess:before {top: '+half+'px;}'
+		var c2 = '.chess:after {left: '+half+'px;}'
+		var c3 = '.chess.left:before {left: '+half+'px;top: '+half+'px;}'
+		var c4 = '.chess.left:after {left: '+half+'px;}'
+		var c5 = '.chess.right:before {right: '+half+'px;top: '+half+'px;}'
+		var c6 = '.chess.right:after {left: '+half+'px;}'
+		var c7 = '.chess.top:before {top: '+half+'px;}'
+		var c8 = '.chess.top:after {top: '+half+'px;left:'+half+'px;}'
+		var c9 = '.chess.bottom:before {top: '+half+'px;}'
+		var c10 = '.chess.bottom:after {left: '+half+'px;bottom: '+half+'px;}'
+		var c11 = '.chess.top.left:before {left: '+half+'px;top: '+half+'px;}'
+		var c12 = '.chess.top.right:after {left: '+half+'px;top: '+half+'px;}'
+		var c13 = '.chess.top.right:before {right: '+half+'px;top: '+half+'px;}'
+		var c14 = '.chess.top.left:after {left: '+half+'px;top: '+half+'px;}'
+		var c15 = '.chess.bottom.left:before {left: '+half+'px;top: '+half+'px;}'
+		var c16 = '.chess.bottom.left:after {left: '+half+'px;bottom: '+half+'px;}'
+		var c17 = '.chess.bottom.right:before {right: '+half+'px;top: '+half+'px;}'
+		var c18 = '.chess.bottom.right:after {left: '+half+'px;bottom: '+half+'px;}'
+
+
+		document.styleSheets[0].insertRule(c1, 0);
+		document.styleSheets[0].insertRule(c2, 0);
+		document.styleSheets[0].insertRule(c3, 0);
+		document.styleSheets[0].insertRule(c4, 0);
+		document.styleSheets[0].insertRule(c5, 0);
+		document.styleSheets[0].insertRule(c6, 0);
+		document.styleSheets[0].insertRule(c7, 0);
+		document.styleSheets[0].insertRule(c8, 0);
+		document.styleSheets[0].insertRule(c9, 0);
+		document.styleSheets[0].insertRule(c10, 0);
+		document.styleSheets[0].insertRule(c11, 0);
+		document.styleSheets[0].insertRule(c12, 0);
+		document.styleSheets[0].insertRule(c13, 0);
+		document.styleSheets[0].insertRule(c14, 0);
+		document.styleSheets[0].insertRule(c15, 0);
+		document.styleSheets[0].insertRule(c16, 0);
+		document.styleSheets[0].insertRule(c17, 0);
+		document.styleSheets[0].insertRule(c18, 0);
+
+	}
+
+
+// window.alert = function(txt){
+//     var shield = document.createElement("DIV");
+//     shield.id = "shield";
+//     shield.style.position = "absolute";
+//     shield.style.left = "0px";
+//     shield.style.top = "0px";
+//     shield.style.right = "0px";
+//     shield.style.bottom = "0px";
+//     shield.style.width = "100%";
+//     shield.style.height = "100%";
+//     shield.style.background = "#333";
+//     shield.style.textAlign = "center";
+//     shield.style.zIndex = "10000";
+//     shield.style.filter = "alpha(opacity=75)"; //IE  取值从 0 到 100
+//     shield.style.opacity = "0.75"; //css3 取值从 0 到 1
+//
+//     var my_alert = document.createElement("DIV");
+//     my_alert.id = "my-alert";
+//     my_alert.setAttribute('tabindex',"-1");
+//     my_alert.style.display = "block";
+//     my_alert.style.width = "270px";
+//     my_alert.style.position = "fixed";
+//     my_alert.style.zIndex = "11100";
+//     my_alert.style.left = "50%";
+//     my_alert.style.marginLeft = "-135px";
+//     my_alert.style.marginTop = "0";
+//     my_alert.style.top = "50%";
+//     my_alert.style.textAlign = "center";
+//
+//     var strHtml='';
+//     strHtml += " <div style=\"background: #f8f8f8;\">\n";
+//     strHtml += " <div style=\"border-bottom: 1px solid #dedede;border-radius: 2px 2px 0 0;padding: 15px 10px;text-align: center;\">"+txt+"</div>\n";
+//     strHtml += " <div style=\"border-collapse: collapse;display: table;height: 44px;overflow: hidden;width: 100%;\"><span  id=\"doOk\" style=\"box-sizing: border-box !important;color: #0e90d2;cursor: pointer;display: table-cell !important;height: 44px;line-height: 44px;overflow: hidden;padding: 0 5px;text-align: center;text-overflow: ellipsis;white-space: nowrap;word-wrap: normal;\">确定</span></div>\n";
+//     strHtml += "</div>\n";
+//
+//     my_alert.innerHTML = strHtml;
+//     document.body.appendChild(my_alert);
+//     document.body.appendChild(shield);
+//     var c = 0;
+//     this.doAlpha = function(){
+//         if (c++ > 20){clearInterval(ad);return 0;}
+//         my_alert.style.filter = "alpha(opacity="+c+");";
+//     }
+//     var ad = setInterval("doAlpha()",5);
+//     $('body').on('tap', '#doOk', function () {
+//         my_alert.parentNode.removeChild(my_alert);
+//         shield.parentNode.removeChild(shield);
+//     })
+// }
+
+
+</script>
+</html>

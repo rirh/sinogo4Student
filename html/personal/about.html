@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>文档</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/fontstyle.css" />
+    <style>
+        body {
+            background: url(../../image/bg_mine.png) no-repeat center center;
+            background-size: 100%;
+        }
+
+        #header {
+            background: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            width: 100%;
+            position: relative;
+            height: 0.98rem;
+        }
+
+        #header .back-icon {
+            display: inline-block;
+            width: 0.98rem;
+            height: 0.98rem;
+            background: url(../../image/icon_back.png) no-repeat center center;
+            background-size: 0.78rem 0.33rem;
+            position: absolute;
+            left: 0.24rem;
+            bottom: 0;
+        }
+
+        #header h1 {
+            font-size: 0.36rem;
+            height: 0.98rem;
+            line-height: 0.98rem;
+            margin: 0 auto;
+            color: #ff8344;
+            font-family: 'pty';
+        }
+
+        #main .version {
+            position: relative;
+            height: 0.9rem;
+            line-height: 0.9rem;
+            background: rgba(255, 255, 255, 0.45);
+        }
+
+        #main .version:before {
+            position: absolute;
+            border-top: 1px solid #eeeeee;
+            top: 0;
+            left: 0;
+            right: 0;
+            content: "";
+            display: block;
+            -webkit-transform: scaleY(0.5);
+            -webkit-transform-origin: 0 0;
+        }
+
+        #main .version:after {
+            position: absolute;
+            border-bottom: 1px solid #eeeeee;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            content: "";
+            display: block;
+            -webkit-transform: scaleY(0.5);
+            -webkit-transform-origin: 0 0;
+        }
+
+        #main .qrcode {
+            width: 4.3rem;
+            height: 4.3rem;
+            margin: 0.2rem auto;
+            background: url(../../image/eg_qr_student.jpg) no-repeat center center;
+            background-size: 100%;
+        }
+
+        #main .note {
+            margin-top: 0.3rem;
+            text-align: center;
+            color: #333333;
+            font-size: 0.3rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrap" class="flex-wrap flex-vertical">
+        <div id="header">
+            <a class="back-icon" tapmode="active" onclick="closeWin()"></a>
+            <h1>关于我们</span>
+		</div>
+		<div id="main" class="flex-con">
+			<div style="height:0.6rem;"></div>
+			<div class="version">
+				<span style="float:left;margin-left:0.3rem;color:#333333;font-size:0.3rem;">当前版本</span>
+				<span id="version_value" class="version_value" style="float:right;margin-right:0.3rem;color:#666666;font-size:0.26rem;"></span>
+			</div>
+			<div style="height:0.15rem;"></div>
+			<div class="version" onclick="gocall()">
+				<span style="float:left;margin-left:0.3rem;color:#333333;font-size:0.3rem;">客服电话</span>
+				<span  style="float:right;margin-right:0.3rem;color:#FF9900;font-size:0.26rem;">010-68508888</span>
+			</div>
+			<div style="height:0.37rem;"></div>
+			<div class="qrcode">
+			</div>
+			<div class="note">
+				打开微信扫描下载学生端APP
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript" src="../../script/zepto.js"></script>
+<script type="text/javascript">
+	imready=function(){
+    $api.text($api.dom("#version_value"),api.version);
+	}
+  gocall=function(){
+      api.call({
+      type: 'tel_prompt',
+      number: '010-68508888'
+     });
+  }
+</script>

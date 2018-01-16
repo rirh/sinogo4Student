@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+		<style>
+			body {
+				width:100%;
+			    height:100%;
+			    background: #000000;
+			}
+			.toast{
+			     background:transparent;
+			     background:rgba(0,0,0,0.5);
+			     position: fixed;
+			     margin:auto;left:0; right:0; top:0; bottom:0;
+			     z-index: 1;
+			     display: table-cell;
+			     max-height: 60%;
+			     max-width: 60%;
+			    }
+          .middle-out{
+		
+		       position: relative; 
+		
+		       display: table-cell;
+		
+		       vertical-align: middle;
+		
+		       text-align:center;
+		
+		
+		 }
+		
+		.middle-in{
+		
+		       position: static;
+		
+		       *position:absolute;
+		
+		       top:50%;
+		
+		 }
+		
+		.middle-out .middle-in  img{
+		
+		       position:static;
+		
+		       *position:relative;
+		
+		       top:-50%;
+		
+		       left:-50%;
+		
+		 }
+
+		</style>
+	</head>
+	<body >
+		<div class="middle-out">
+	
+		　　      <div class="middle-in">
+		
+		       <img class="toast" />
+		
+		     </div>
+	
+	    </div>
+	</body>
+	<script type="text/javascript" src="../../script/api.js"></script>
+	<script type="text/javascript" src="../../script/doT.js"></script>
+	<script type="text/javascript">
+		apiready = function() {
+		api.addEventListener({
+		    name:'tap'
+		}, function(ret, err){        
+		  api.closeFrame({
+          });
+		});
+		var icon = api.pageParam.icon;
+		console.log(JSON.stringify(icon));
+		$api.css($api.dom('.middle-out'),'height:'+api.frameHeight+'px;width:'+api.frameWidth+'px');
+		if(icon!=null){
+			 document.getElementsByClassName("toast")[0].src=icon;
+		}else{
+		     document.getElementsByClassName("toast")[0].src='.././.././../../image/mine/hardicon.png';
+		}
+		};
+	</script>
+</html>

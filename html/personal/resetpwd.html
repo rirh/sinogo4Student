@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>修改密码</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/fontstyle.css" />
+    <style>
+        body {
+            background: url(../../image/bg_mine.png) no-repeat center center;
+            background-size: 100%;
+        }
+
+        #header {
+            background: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            width: 100%;
+            position: relative;
+            height: 0.98rem;
+        }
+
+        #header .back-icon {
+            display: inline-block;
+            width: 0.98rem;
+            height: 0.98rem;
+            background: url(../../image/icon_back.png) no-repeat center center;
+            background-size: 0.78rem 0.33rem;
+            position: absolute;
+            left: 0.24rem;
+            bottom: 0;
+        }
+
+        #header h1 {
+            font-size: 0.36rem;
+            height: 0.98rem;
+            line-height: 0.98rem;
+            margin: 0 auto;
+            color: #ff8344;
+            font-family: 'pty';
+        }
+
+        #main .input-div {
+            height: 0.9rem;
+            line-height: 0.9rem;
+            width: 100%;
+            position: relative;
+            background: rgba(255, 255, 255, 0.45);
+        }
+
+        #main .input-div:before {
+            position: absolute;
+            border-top: 1px solid #eeeeee;
+            top: 0;
+            right: 0;
+            left: 0;
+            content: "";
+            display: block;
+            -webkit-transform: scaleY(0.5);
+            -webkit-transform-origin: 0 0;
+        }
+
+        #main .input-div:after {
+            position: absolute;
+            border-bottom: 1px solid #eeeeee;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            content: "";
+            display: block;
+            -webkit-transform: scaleY(0.5);
+            -webkit-transform-origin: 0 0;
+        }
+
+        #main .input-div label {
+            position: relative;
+            width: 100%;
+        }
+
+        #main .input-div input {
+            height: 0.9rem;
+            width: 80%;
+            padding-left: 0.3rem;
+            color: #666;
+            font-size: 0.26rem;
+            border: 0;
+            outline: 0;
+        }
+
+        #main .input-div label span {
+            position: absolute;
+            height: 0.9rem;
+            width: 0.9rem;
+            right: 0.3rem;
+            text-align: right;
+        }
+
+        #main .input-div label:nth-of-type(1) {
+            display: none;
+        }
+
+        #main .input-div label:nth-of-type(1) i {
+            display: block;
+            width: 0.39rem;
+            height: 0.25rem;
+            margin-top: 0.325rem;
+            margin-left: 0.5rem;
+            background: url(../../image/eye_open.png) no-repeat;
+            background-size: 100%;
+        }
+
+        #main .input-div label:nth-of-type(2) i {
+            display: block;
+            width: 0.4rem;
+            height: 0.29rem;
+            margin-left: 0.5rem;
+            margin-top: 0.305rem;
+            background: url(../../image/eye_close.png) no-repeat;
+            background-size: 100%;
+        }
+
+        #main .save {
+            width: 3.5rem;
+            height: 0.93rem;
+            line-height: 0.8rem;
+            background: url(../../image/bg_btn_logout.png) no-repeat center center;
+            background-size: 100%;
+            text-align: center;
+            margin: 0.6rem auto;
+            font-size: 0.34rem;
+            color: #FFF;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrap" class="flex-wrap flex-vertical">
+        <div id="header">
+            <a class="back-icon" tapmode="active" onclick="closeWin()"></a>
+            <h1>修改密码</h1>
+        </div>
+        <div id="main" class="flex-con">
+            <div style="height:0.6rem;"></div>
+            <div class="input-div">
+                <label>
+                <input type="text" class="open_pwd" v-model="stil_psw" placeholder="请输入原密码"/>
+                <span class="eye_open"><i></i></span>
+            </label>
+                <label>
+                <input type="password" class="close_pwd" autocomplete="stil_psw" v-model="stil_psw" placeholder="请输入原密码"/>
+                <span class="eye_close"><i></i></span>
+            </label>
+            </div>
+            <div style="height:0.15rem;"></div>
+            <div class="input-div">
+                <label>
+                <input type="text" class="open_pwd" v-model="new_psw" placeholder="请输入新密码"/>
+                <span class="eye_open"><i></i></span>
+            </label>
+                <label>
+                <input type="password" class="close_pwd" v-model="new_psw" placeholder="请输入新密码"/>
+                <span class="eye_close"><i></i></span>
+            </label>
+            </div>
+            <div class="save" @click="saveRealNeme();">
+                保 存
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript" src="../../script/zepto.js"></script>
+<script type="text/javascript" src="../../script/vue.js"></script>
+<script type="text/javascript">
+    imready = function() {
+        initVue();
+        $('.open_pwd').on('change', function() {
+            $(this).parent().next().find('.close_pwd').val($(this).val())
+        })
+        $('.close_pwd').on('change', function() {
+            $(this).parent().prev().find('.open_pwd').val($(this).val())
+        })
+        $('.eye_close').click(function() {
+            $(this).parent().hide()
+            $(this).parent().prev().show()
+        })
+        $('.eye_open').click(function() {
+                $(this).parent().hide()
+                $(this).parent().next().show()
+            })
+    }
+    var assigment; //全局控制器Controller
+    initVue = function() { //初始化Vue需要的是双向数据绑定 当改变数据以后view会做相应的改变
+        var date = vueDateManager();
+        var methods = vueMethodsManager();
+        assigment = new Vue({
+            el: '#main', //绑定元素
+            data: date, //本页面的静态动态全部数据
+            methods: methods, //本页面的全部方法
+
+        })
+    }
+
+    vueDateManager = function() {
+        //初始化Vue数据date为一个json数组
+        var date = {};
+        date.stil_psw = "";
+        date.new_psw = "";
+        console.log("数据管理者" + JSON.stringify(date));
+        return date;
+
+    }
+    vueMethodsManager = function() {
+        var methods = {};
+        methods.saveRealNeme = function() { //确认发布作业
+            //TODO
+            var studentPassword = api.getPrefs({
+                sync: true,
+                key: 'studentPassword'
+            });
+            if (!assigment.stil_psw == studentPassword) {
+                api.toast({
+                    msg: '原密码输入错误',
+                    duration: 2000,
+                    location: 'bottom'
+                });
+                return;
+            }
+            api.showProgress();
+            var body = {};
+            var deviceToken = hex_md5(api.deviceId).substr(8, 16);
+            var userPhone = api.getPrefs({
+                sync: true,
+                key: 'userPhone'
+            });
+
+            body.method = "studentPasswordEdit";
+            body.request = {
+                "studentAccount": userPhone,
+                "oldPassword":assigment.stil_psw,
+                "newPassword": assigment.new_psw,
+            }
+            console.log(api.frameName + "修改密码请求数据" + JSON.stringify(body));
+            ajaxRequest(body, function(ret, err) {
+                api.hideProgress();
+                if (ret) {
+                    console.log(JSON.stringify(ret));
+                    if (ret.responseCode == 0) {
+                        if (ret.responseBody) {
+                            console.log("修改密码成功返回数据" + JSON.stringify(ret));
+                            api.alert({
+                                title: '提示',
+                                msg: '设置成功！',
+                            }, function(ret, err){
+                                if( ret ){
+                                  api.setPrefs({
+                                      key: 'userid',
+                                      value: ""
+                                  });
+                                  api.setPrefs({
+                                      key: 'studentPassword',
+                                      value: ""
+                                  });
+                                  api.setPrefs({
+                                      key: 'studentInfo',
+                                      value: ""
+                                  });
+                                  api.setPrefs({
+                                      key: 'userPhone',
+                                      value: ""
+                                  });
+                                  api.setPrefs({
+                                      key: 'tradePassword',
+                                      value: ""
+                                  });
+                                  api.openWin({
+                                      name: 'login',
+                                      url: '../login/login.html'
+                                  });
+
+                                }else{
+                                     alert( JSON.stringify( err ) );
+                                }
+                            });
+                        } else {
+                            alert("登录失败!")
+                        }
+                    } else {
+                        alert(ret.responseMsg)
+                    }
+                } else {
+                    alert(err.msg)
+                }
+            })
+        }
+        console.log("事件管理者：" + JSON.stringify(methods));
+        return methods;
+    };
+
+        /**
+         * 需调用修改信息接口，待实现
+         */
+    function saveRealNeme() {
+
+    }
+</script>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <style>
+    	html,body{
+    		background:rgba(0,0,0,0);
+    	}
+    	.top{
+    		background:rgba(0,0,0,0.5);
+    		height:1.84rem;
+    		width: 100%;
+    	}
+    	.iii{
+    		width:100%;
+    		height:5.21rem;
+    		position: relative;
+    		display: block;
+    	}
+    	.iii .i{
+    		float:left;
+    		background:rgba(0,0,0,0.5);
+    		top:0;
+    		left:0;
+    		height: 5.21rem;
+			position: absolute;
+    	}
+    	.iii .ii{
+    		float:left;
+    		background:rgba(0,0,0,0.5);
+    		height: 5.21rem;
+    		top: 0;
+    		right:0;
+			position: absolute;
+    	}
+    	 .container{
+    		float:left;
+			width:5.21rem;
+			height:5.21rem;
+			position: absolute;
+			top:0;
+			background: rgba(0,0,0,0);
+		}
+		.container img{
+    		width:0.37rem;
+    		height:0.37rem;
+    		position: absolute;
+		}
+    	.container img:nth-child(1){
+    		top:0;left:0;
+    	}
+    	.container img:nth-child(2){
+    		top:0;right:0;
+    	}
+    	.container img:nth-child(3){
+    		bottom:0;left:0;
+    	}
+    	.container img:nth-child(4){
+    		bottom:0;right:0;
+    	}
+    	.container .scanner{
+    		width:3.15rem;
+    		height:0.07rem;
+    		margin: 0 auto;
+    		left: 1.03rem;
+    		top:1rem;
+    	}
+    	.ax{
+    		background: rgba(0,0,0,0.5);
+    		position: absolute;
+    		top:7.05rem;
+    		width:100%;
+    	}
+    	.ax .note1{
+			text-align: center;
+			color:#CCC;
+			font-size:0.3rem;
+			margin-top: 0.3rem;
+		}
+		.ax .note2{
+			height:0.48rem;
+			line-height:0.48rem;
+			text-align: center;
+			margin-top: 0.3rem;
+		}
+		.ax .note2 span{
+			height:0.48rem;
+			line-height:0.48rem;
+			background: url(../../image/icon_scan_notice.png) no-repeat center left;
+			background-size: 0.48rem 0.48rem;
+			padding-left: 0.52rem;
+			text-align: center;
+			color:#FFF;
+			font-size:0.3rem;
+		}
+    </style>
+</head>
+<body>
+	<div class="top">&nbsp;</div>
+	<div id="main" class=" iii">
+		<div class="i">&nbsp;</div>
+		<div class="container">
+			<img src="../../image/icon_top_left.png" alt="" />
+			<img src="../../image/icon_top_right.png" alt="" />
+			<img src="../../image/icon_bottom_left.png" alt="" />
+			<img src="../../image/icon_bottom_right.png" alt="" />
+			<img class="scanner" src="../../image/icon_scanner.png" alt="" />
+		</div>
+		<div class="ii">&nbsp;</div>
+	</div>
+	<div class="ax">
+    	<div class="note1">
+    		二维码放入框内即可自动扫描
+    	</div>
+    	<div class="note2">
+    		<span>“棋类进课堂” 指定教材二维码</span>
+    	</div>
+	</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript">
+	var line;
+	var start ;
+	var end ;
+	var current;
+	var delta;
+	imready = function(){
+		line = $api.dom(".scanner");
+		start = 0/750*api.winWidth;
+		current = start;
+		end = 521/750*api.winWidth;
+		delta = ((end-start)/(2000/10)).toFixed(2);
+		initScannerLine();
+		initLayout();
+	};
+	
+	function initLayout(){
+		var offset = $api.offset($api.dom(".container"));
+		var other = api.frameWidth-offset.w;
+		$api.dom(".container").style.left=other/2+"px"
+		$api.dom(".i").style.width=other/2+"px"
+		$api.dom(".ii").style.width=(api.frameWidth-offset.w-other/2)+"px"
+		console.log("frameWidth = "+api.frameWidth+"-containerWidth = "+offset.w+"-iWidth = "+other/2+"-iiWidth = "+(api.frameWidth-offset.w-other/2))
+		
+		var offset1 = $api.offset($api.dom(".top"));
+		var offset2 = $api.offset($api.dom(".iii"));
+		var h =api.frameHeight - (offset1.h+offset2.h)
+		console.log("api.frameHeight=="+api.frameHeight)
+		console.log("(offset1.h+offset2.h) == "+(offset1.h+offset2.h))
+		$api.dom(".ax").style.height=h+"px"
+		
+		
+	}
+	
+	function initScannerLine(){
+		current=current+parseFloat(delta);
+		if(current>end){
+			current=start;
+		}
+		line.style.top=current+"px";
+		setTimeout("initScannerLine()",10);
+	}
+</script>
+</html>

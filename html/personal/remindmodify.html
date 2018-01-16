@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+    <style>
+    	html,body{
+    		height:100%;
+    		width:100%;
+    		background:rgba(0,0,0,0.2);
+    		position: relative;
+    	}
+    	#content{
+    		position: absolute;
+    		top:0.49rem;
+    		left:0.49rem;
+    		width:6.51rem;
+    		height:6.67rem;
+    		background: url(../../image/remind_bg.png) no-repeat center center;
+    		background-size: 6.51rem 6.67rem;
+    	}
+    	#gonow{
+    		width:52%;
+    		height:0.92rem;
+    		line-height:0.92rem;
+    		background: url(../../image/icon_gonow.png) no-repeat center center;
+    		background-size: 100%;
+    		top:7.66rem;
+    		left:24%;
+    		margin: 0 auto;
+    		position: absolute;
+    		text-align: center;
+    		color:#FFF;font-size:0.32rem;
+    	}
+    	#close{
+    		width:10%;
+    		height:0.64rem;
+    		background: url(../../image/icon_close_remind.png) no-repeat center center;
+    		background-size: 0.64rem 0.64rem;
+    		top:9.8rem;
+    		left:45%;
+    		position: absolute;
+    	}
+    </style>
+</head>
+<body>
+	<div id="content"></div>
+	<div id="gonow" ontouchend="gonow();">立即前往</div> <!--39392-->
+	<div id="close" ontouchend="closeSelf();"></div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript">
+	imready = function(){
+		
+	};
+	
+	function gonow(){
+		setTimeout("closeSelf()",1000);
+	 	api.openWin({
+          name: 'setting',
+          url: './setting.html',
+      	});
+	}
+	
+	function closeSelf(){
+		api.closeFrame({
+			name:'remindmodify'
+        });
+        api.sendEvent({
+	        name:'frameclose',
+	        extra:{
+	        	framename:'remindmodify'
+	        }
+        });
+	}
+	
+	
+</script>
+</html>

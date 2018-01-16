@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>闯关</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/fontstyle.css" />
+    <style>
+        body {
+            background: url(../image/breakthrough_bg.png) no-repeat center center;
+            background-size: 100%;
+        }
+
+        #header {
+            background: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            width: 100%;
+            position: relative;
+            position: fixed !important;
+            height: 0.98rem;
+        }
+
+        #header a {
+            display: inline-block;
+            width: 0.98rem;
+            height: 0.98rem;
+            background: url(../image/eg_head_default.png) no-repeat center center;
+            background-size: 0.77rem 0.77rem;
+            position: absolute;
+            left: 0.24rem;
+            bottom: 0;
+        }
+
+        #header h1 {
+            font-size: 0.36rem;
+            height: 0.98rem;
+            line-height: 0.98rem;
+            margin: 0 auto;
+            color: #ff8344;
+            font-family: 'pty';
+        }
+
+        #main {
+            overflow-y:auto;
+        }
+
+        .popup .popup_mask {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, .5);
+            z-index: 100;
+        }
+
+        .popup .popup_body {
+            position: fixed;
+            left: 0.75rem;
+            top: 1.5rem;
+            width: 6.04rem;
+            height: 6.87rem;
+            background: url(../image/popup_bg.png) no-repeat;
+            background-size: 100%;
+            z-index: 200;
+        }
+
+        .popup_body .popup_title {
+            font-size: 0.32rem;
+            color: #fff;
+            font-family: 'pty';
+            text-shadow: #c06c12 2px 0 0, #c06c12 0 2px 0, #c06c12 -2px 0 0, #c06c12 0 -2px 0;
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
+        .popup_content {
+            padding: 0 1rem;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .popup_foot {
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+
+        .popup_close {
+            position: fixed;
+            left: 3.37rem;
+            top: 9rem;
+            width: 0.76rem;
+            height: 0.76rem;
+            background: url(../image/icon_close.png) no-repeat;
+            background-size: 100%;
+            z-index: 200;
+        }
+
+        .popup_consume {
+            display: none;
+        }
+
+        .popup_consume .popup_content div {
+            display: flex;
+        }
+
+        .popup_consume .popup_content div i {
+            width: 0.5rem;
+            margin-left: 0.8rem;
+            height: 0.54rem;
+            background: url(../image/apple.png) no-repeat;
+            background-size: 100%;
+        }
+
+        .popup_consume .popup_content div b {
+            color: #82562c;
+            font-size: 0.3rem;
+            margin: 0.1rem;
+        }
+
+        .popup_consume .popup_content div span {
+            font-size: 0.3rem;
+            color: #fff;
+            margin: 0.08rem 0;
+            text-shadow: #432305 2px 2px;
+        }
+
+        .popup_consume .popup_content p {
+            text-align: center;
+            color: #82562c;
+            font-size: 0.28rem;
+            line-height: 1.8;
+            margin-top: 0.3rem;
+        }
+
+        .popup_consume .popup_foot button {
+            width: 2.38rem;
+            height: 0.73rem;
+            background: url(../image/bg_btn_ensure.png) no-repeat;
+            background-size: 100%;
+            color: #fff;
+            font-size: 0.32rem;
+            line-height: 0.73rem;
+            text-shadow: #c06c12 2px 0 0, #c06c12 0 2px 0, #c06c12 -2px 0 0, #c06c12 0 -2px 0;
+        }
+
+        #road {
+            zoom: 0.25;
+        }
+
+        #text {
+            zoom: 0.25;
+        }
+        /*dl{
+         position: relative;
+       }
+       dd{
+         position: absolute;
+
+       }*/
+
+        #road {
+            position: relative;
+        }
+
+        .end_style img {
+            width: 6.58rem;
+            height: 4.96rem;
+            display: block;
+            margin: 0 auto;
+        }
+
+        dd img {
+            width: 6.58rem;
+            height: 4.96rem;
+            display: block;
+            margin: 0 auto;
+        }
+
+        #road_bottom {
+            position: relative;
+        }
+
+        dt img {
+            width: 6.53rem;
+            height: 4.97rem;
+            display: block;
+            margin: 0 auto;
+            margin-bottom: 1.8rem;
+        }
+
+        .pass_car1 {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.2rem;
+        }
+
+        .pass_car2 {
+            position: absolute;
+            top: 2.5rem;
+            right: 3.2rem;
+        }
+
+        .pass_car3 {
+            position: absolute;
+            top: 3.5rem;
+            left: 1rem;
+        }
+
+        .pass_car4 {
+            position: absolute;
+            top: .3rem;
+            left: 1rem;
+        }
+
+        .pass_car5 {
+            position: absolute;
+            top: 1.3rem;
+            right: 3.9rem;
+        }
+
+        .pass_car6 {
+            position: absolute;
+            top: .1rem;
+            right: 1.2rem;
+        }
+        /*通过普通关卡的车的样式*/
+
+        .main_car1 {
+            position: absolute;
+            top: 2.3rem;
+            right: 1.3rem;
+        }
+
+        .main_car2 {
+            position: absolute;
+            top: 3.5rem;
+            right: 3.4rem;
+        }
+
+        .main_car3 {
+            position: absolute;
+            top: 3.5rem;
+            left: 1.2rem;
+        }
+
+        .main_car4 {
+            position: absolute;
+            top: 0rem;
+            left: .9rem;
+        }
+
+        .main_car5 {
+            position: absolute;
+            top: 1.3rem;
+            right: 4rem;
+        }
+
+        .main_car6 {
+            position: absolute;
+            top: 0rem;
+            right: 1.2rem;
+        }
+        /*通过普通关卡的车的样式*/
+
+        .car_pass div {
+            position: relative;
+        }
+
+        .car_pass span {
+            position: absolute;
+            top: 0;
+            left: .2rem;
+            width: .94rem;
+            display: block;
+            text-align: center;
+            font-family: "pty";
+            font-size: .3rem;
+            color: #fff;
+            -webkit-text-stroke: .03rem #976f40;
+            /*text-shadow: #976f40 2px 0 0, #976f40 0 2px 0, #976f40 -2px 0 0, #976f40 0 -2px 0;*/
+            /*text-shadow:0 0 .3rem #976f40;*/
+        }
+
+        .car_pass div img {
+            height: .97rem;
+            width: .94rem;
+        }
+
+        .car_pass div ul {
+            position: absolute;
+            top: .08rem;
+            left: .02rem;
+            width: .21rem;
+            display: block;
+        }
+
+        .car_pass div ul li {
+            display: block;
+            height: .2rem;
+            width: .21rem;
+            /*border-color:RED; border-width:2px; border-style:solid;
+            background: #ff8344;*/
+            /*height: 0;*/
+        }
+
+        .car_pass div ul li img {
+            width: .17rem;
+            height: .16rem;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .master_pass div {
+            position: relative;
+        }
+
+        .master_pass span {
+            position: absolute;
+            top: 0;
+            left: .4rem;
+            width: .94rem;
+            display: block;
+            text-align: center;
+            font-family: "pty";
+            font-size: .3rem;
+            color: #fff;
+            -webkit-text-stroke: .03rem #976f40;
+            /*text-shadow: #976f40 2px 0 0, #976f40 0 2px 0, #976f40 -2px 0 0, #976f40 0 -2px 0;*/
+            /*text-shadow:0 0 .3rem #976f40;*/
+        }
+
+        .master_pass div img {
+            height: 1.21rem;
+            width: 1.56rem;
+        }
+
+        .master_pass div ul {
+            position: absolute;
+            top: .08rem;
+            left: .06rem;
+            width: .21rem;
+            display: block;
+        }
+
+        .master_pass div ul li {
+            display: block;
+            height: .24rem;
+            width: .21rem;
+            /*border-color:RED; border-width:2px; border-style:solid;
+                    background: #ff8344;*/
+            /*height: 0;*/
+        }
+
+        .master_pass div ul li img {
+            width: .22rem;
+            height: .21rem;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .car_unpass div {
+            position: relative;
+        }
+
+        .car_unpass span {
+            position: absolute;
+            top: 0;
+            left: .12rem;
+            width: .94rem;
+            display: block;
+            text-align: center;
+            font-family: "pty";
+            font-size: .3rem;
+            color: #fff;
+            -webkit-text-stroke: .03rem #976f40;
+            /*text-shadow: #976f40 2px 0 0, #976f40 0 2px 0, #976f40 -2px 0 0, #976f40 0 -2px 0;*/
+            /*text-shadow:0 0 .3rem #976f40;*/
+        }
+
+        .car_unpass div img {
+            height: .93rem;
+            width: 1.03rem;
+        }
+
+        .car_unpass div ul {
+            position: absolute;
+            top: .05rem;
+            left: .01rem;
+            width: .21rem;
+            display: block;
+        }
+
+        .car_unpass div ul li {
+            display: block;
+            height: .16rem;
+            /*border-color:RED; border-width:2px; border-style:solid;
+                    background: #ff8344;*/
+            /*height: 0;*/
+        }
+
+        .car_unpass div ul li img {
+            width: .15rem;
+            height: .13rem;
+            display: block;
+            margin: 0 auto;
+        }
+        [v-cloak]{
+          display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrap" class="flex-wrap flex-vertical">
+        <div id="main"  v-cloak class="flex-con">
+            <div v-show="road_main.length<=1" class="end_style"><img :src="road" alt=""></div>
+            <dl id="road" class="road" v-for="(pass,mindex) in road_main">
+                <dd><img :src="road" alt=""></dd>
+                <div v-for="(item,index) in pass" @click="goPass(item,index,mindex)" :class="[posobjectClass(index,'MAIN'),carObjectClass(item)]">
+                    <span>{{item.checkpointName}}</span>
+                    <div>
+                        <img :src="car | carfilter(index,item)" alt="">
+                        <ul>
+                            <li v-for="(sitem,startindex)  in 3 "><img :src="start|startfilter(startindex,item)" alt=""></li>
+                        </ul>
+                    </div>
+                </div>
+            </dl>
+            <dl id="road_bottom">
+                <dt><img :src="road_bottom" alt=""></dt>
+                <div v-for="(item,index) in road_msg[0]" @click="goPass(item,index)" :class="[posobjectClass(index,'HEAD'),carObjectClass(item)]">
+                    <span>{{item.checkpointName}}</span>
+                    <div>
+                        <img :src="car | carfilter(index,item)" alt="">
+                        <ul>
+                            <li v-for="(sitem,startindex) in 3 "><img :src="start | startfilter(startindex,item)" alt=""></li>
+                        </ul>
+                    </div>
+                </div>
+            </dl>
+        </div>
+    </div>
+
+    <div class="popup popup_consume">
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/common.js"></script>
+<script type="text/javascript" src="../script/zepto.js"></script>
+<script type="text/javascript" src="../script/vue.js"></script>
+<script type="text/javascript" src="../script/lodash.js"></script>
+<script>
+    var pass; //全局控制器Controller
+    var carMaster_t = { //通过大关的车
+        car: "../image/pass/grow_master_t.png",
+        start: {
+            light: "../image/pass/grow_masstart_t.png",
+            notlit: "../image/pass/grow_masstart_f.png"
+        }
+    };
+    var carMaster_f = { //未通过大关的车
+        car: "../image/pass/grow_master_f.png",
+        start: "../image/pass/grow_masstart_f.png"
+    };
+    var carPass_t = { //通过普通关卡
+        car: "../image/pass/grow_pass_t.png",
+        start: {
+            light: "../image/pass/grow_passstart_t.png",
+            notlit: "../image/pass/grow_passstart_f.png"
+        }
+    };
+    var carPass_f = { //未通过普通数据
+        car: "../image/pass/grow_pass_f.png",
+        start: "../image/pass/grow_unpass.png"
+    };
+    initVue = function() { //初始化Vue需要的是双向数据绑定 当改变数据以后view会做相应的改变
+        var date = vueDateManager();
+        var methods = vueMethodsManager();
+        pass = new Vue({
+            el: '#wrap', //绑定元素
+            data: date, //本页面的静态动态全部数据
+            methods: methods, //本页面的全部方法
+        });
+    }
+    Vue.filter('carfilter', function(value, flag, item) {
+        if (item.checkpointType == 0) { //关卡类型0为小关1为大关
+            if (item.id === item.stuPassList_checkpointId) {
+                value = carPass_t.car;
+            } else {
+                value = carPass_f.car;
+            }
+        } else if (item.checkpointType == 1) {
+            if (item.id === item.stuPassList_checkpointId) {
+                value = carMaster_t.car;
+            } else {
+                value = carMaster_f.car;
+            }
+        }
+        return value;
+    });
+    Vue.filter('startfilter', function(value, index, item) {
+        if (item.checkpointType == 0) { //关卡类型0为小关1为大关
+            if (item.id === item.stuPassList_checkpointId) { //判断是否闯关
+                if ((index) < item.stuPassList_star) { //判断星星个数
+                    value = carPass_t.start.light;
+                } else {
+                    value = carPass_t.start.notlit;
+                }
+            } else {
+                value = carPass_f.start;
+            }
+        } else if (item.checkpointType == 1) {
+            if (item.id === item.stuPassList_checkpointId) { //判断是否闯关
+                if ((index) < item.stuPassList_star) { //判断星星个数
+                    value = carMaster_t.start.light;
+                } else {
+                    value = carMaster_t.start.notlit;
+                }
+            } else {
+                value = carPass_f.start;
+            }
+        }
+
+        // console.log("星星==============" + value)
+        return value;
+    })
+    vueDateManager = function() { //默认数据
+        //初始化Vue数据date为一个json数组
+        var date = {};
+        date.pageSize = 1000;
+        date.page = 1;
+        date.loadEnd = false; //是否加载底部
+        date.road = "../image/pass/grow_roads.png";
+        date.road_bottom = "../image/pass/grow_bottom.png";
+        date.car = "../image/pass/grow_pass_t.png"; //车的图片
+        date.start = "../image/pass/grow_passstart_t.png"; //星星的图片
+        date.pass_car_class = ["pass_car1", "pass_car2", "pass_car3", "pass_car4", "pass_car5", "pass_car6"];
+        date.main_car_class = ["main_car1", "main_car2", "main_car3", "main_car4", "main_car5", "main_car6"];
+        date.myAllStar=0;//我的所有星星
+        date.posobjectClass = function(index, flag) {
+            switch (flag) {
+                case 'HEAD': //前六个关卡的定位
+                    return date.pass_car_class[index];
+                    break;
+                case 'MAIN': //后面关卡的定位
+                    return date.main_car_class[index];
+                    break;
+                default: //不存在的
+                    return ""
+            }
+        };
+        date.carObjectClass = function(item) {
+            switch (item.checkpointType) {
+                case 0:
+                    if (item.id === item.stuPassList_checkpointId) {
+                        return "car_pass";
+                    } else {
+                        return "car_unpass";
+                    }
+                    break;
+                case 1:
+                    return "master_pass";
+                    break;
+                default:
+
+            }
+        };
+        date.passMsg = [ //所有关卡
+            {
+                "checkpointName": "1-1", //关卡名称
+                "checkpointType": 0, //关卡类型0为小关1为大关
+                "courseCategoryId": 1,
+                "courseCategoryName": "围棋",
+                "createTime": "2017-07-05 20:50:23",
+                "createUser": 1,
+                "createUserZh": "超级管理员",
+                "id": 1,
+                "isDelete": 0,
+                "passStar": 0,
+                "publishStatus": 1,
+                "questionNumbers": 5
+            }
+        ]; //所有的关卡//所有的关卡
+        date.through = [ //闯过的关卡
+                {
+                    "checkpointId": 1,
+                    "id": 18,
+                    "passNumber": 16,
+                    "star": 3,
+                    "studentId": parseInt(api.getPrefs({
+                        sync: true,
+                        key: 'userid'
+                    }))
+                }
+            ] //通过的关卡//通过的关卡
+        date.road_msg = _.chunk(date.passMsg, 6);
+        date.road_main = _.chunk(_.drop(date.passMsg, 6), 6);
+        date.fruit = 0;
+        date.treeinfo;
+        console.log("数据管理者" + JSON.stringify(date));
+        return date;
+
+    }
+    vueMethodsManager = function() {
+        //时间管理中心 每个Vue事件的处理都可以在这管理
+        var methods = {};
+        methods.margeMsg = function() {
+            var map = new Array();
+            for (var i = 0; i < pass.passMsg.length; i++) {
+                var list = {}
+                list.checkpointName = pass.passMsg[i].checkpointName;
+                list.checkpointType = pass.passMsg[i].checkpointType;
+                list.courseCategoryId = pass.passMsg[i].courseCategoryId;
+                list.courseCategoryName = pass.passMsg[i].courseCategoryName;
+                list.createTime = pass.passMsg[i].createTime;
+                list.createUser = pass.passMsg[i].createUser;
+                list.createUserZh = pass.passMsg[i].createUserZh;
+                list.id = pass.passMsg[i].id;
+                list.isDelete = pass.passMsg[i].isDelete;
+                list.passStar = pass.passMsg[i].passStar;
+                list.publishStatus = pass.passMsg[i].publishStatus;
+                list.questionNumbers = pass.passMsg[i].questionNumbers;
+                for (var j = 0; j < pass.through.length; j++) {
+                    if (pass.through[j].checkpointId === pass.passMsg[i].id) {
+                        // var list = {};
+                        // list.checkpointName = pass.passMsg[i].checkpointName;
+                        // list.courseCategoryId = pass.passMsg[i].courseCategoryId;
+                        // list.courseCategoryName = pass.passMsg[i].courseCategoryName;
+                        // list.createTime = pass.passMsg[i].createTime;
+                        // list.createUser = pass.passMsg[i].createUser;
+                        // list.createUserZh = pass.passMsg[i].createUserZh;
+                        // list.id = pass.passMsg[i].id;
+                        // list.isDelete = pass.passMsg[i].isDelete;
+                        // list.passStar = pass.passMsg[i].passStar;
+                        // list.publishStatus = pass.passMsg[i].publishStatus;
+                        list.stuPassList_checkpointId = pass.through[j].checkpointId;
+                        list.stuPassList_id = pass.through[j].id;
+                        list.stuPassList_passNumber = pass.through[j].passNumber;
+                        list.stuPassList_star = pass.through[j].star;
+                        list.stuPassList_studentId = pass.through[j].studentId;
+                        // map.push(list);
+                        break;
+                    } else {
+                        list.stuPassList_checkpointId = null;
+                        list.stuPassList_id = null;
+                        list.stuPassList_passNumber = null;
+                        list.stuPassList_star = null;
+                        list.stuPassList_studentId = null;
+                    }
+                }
+                map.push(list);
+            };
+            pass.road_msg = _.chunk(map, 6);
+            pass.road_main = _.chunk(_.drop(map, 6), 6);
+        }; //处理数据
+        methods.init = function(callback) { //初始化数据
+            api.refreshHeaderLoadDone();
+            var request = {
+                studentId: parseInt(api.getPrefs({
+                    sync: true,
+                    key: 'userid'
+                })),
+                page: pass.page,
+                pageSize: pass.pageSize
+            }
+            goRequest("checkpointSearch", request, function(ret) {
+                if (!isEmpty(ret.responseBody.checkpointPage)) {
+                    pass.page == ret.responseBody.checkpointPage.totalPage ? pass.loadEnd = true : pass.loadEnd = false;
+                    var response = ret.responseBody;
+                    pass.passMsg = response.checkpointPage.rows;
+                    pass.through = response.studentPassList;
+                    pass.myAllStar=response.myAllStar;
+                    pass.margeMsg()
+                };
+                var list = {
+                    studentId: parseInt(api.getPrefs({
+                        sync: true,
+                        key: 'userid'
+                    }))
+                }
+                goRequest("treeInfo", list, function(ret) {
+                    pass.fruit = ret.responseBody.fruit;
+                    pass.treeinfo=ret.responseBody;
+                    callback()
+                })
+            });
+
+        };
+        methods.goPass = function(item, index, mindex) {
+            if (!isEmpty(mindex)) {
+                index = (mindex + 1) * 6 + index;
+            }
+            if(pass.myAllStar<item.passStar){
+              api.toast({
+                  msg: "闯本关卡需要"+item.passStar+"颗星星",
+                  duration: 2000,
+                  location: 'bottom'
+              });
+              return;
+            };
+            if (index <= pass.through.length) {
+                pass.popup(pass.fruit, item.id, item.stuPassList_star,item);
+            } else {
+                api.toast({
+                    msg: "请通过之前的关卡",
+                    duration: 2000,
+                    location: 'bottom'
+                });
+
+            }
+        };
+        methods.popup = function(fruit, checkpointId, star,item) {
+                console.log("打开本方法需要的数据：" + JSON.stringify(fruit) + "===" + JSON.stringify(checkpointId) + "=====" + JSON.stringify(star));
+                var popup = {}
+                var html = ''
+                html += '<div class="popup_mask"></div>';
+                html += '<div class="popup_body"><div class="popup_title">闯关消耗</div>';
+                html += '<div class="popup_content"><div><i></i><b>X</b>';
+                html += '<span>' + (Array(6).join(0) + fruit).slice(-6) + '</span></div>';
+                if (fruit > 0) {
+                    html += '<p>本次闯关需要消耗1个闯关果实请确定闯关开始</p></div>';
+                    html += '<div class="popup_foot"><button>确定</button></div></div>'
+                } else {
+                    html += '<p>当前闯关果实已经耗尽，你可以去成长果树收集果实哦</p></div>';
+                }
+                html += '<div class="popup_close"></div>';
+                $('.popup_consume').html(html);
+                $('.popup_close').click(function() {
+                    $('.popup').hide(200);
+                })
+                $('.popup_foot button').click(function() {
+                        $('.popup').hide(200);
+                        var data = {}
+                        data.method = "passReduceFruit"; //调用接口减少果实
+                        data.request = {
+                            studentId: parseInt(api.getPrefs({
+                                sync: true,
+                                key: 'userid'
+                            }))
+                        };
+                        console.log("passReduceFruit请求数据" + JSON.stringify(data));
+                        ajaxRequest(data, function(ret, err) {
+                            console.log("passReduceFruit返回数据" + JSON.stringify(ret));
+                            if (ret) {
+                                if (ret.responseCode == 0) {
+                                    api.openWin({
+                                        name: 'passDetail',
+                                        url: './breakthrough/breakthrough_detail.html',
+                                        pageParam: {
+                                            checkpointId: checkpointId,
+                                            fruit: fruit,
+                                            star: item.stuPassList_star,
+                                            passitem:item,
+                                            treeinfo:pass.treeinfo
+                                        },
+                                        reload: true
+                                    });
+                                } else {
+                                    alert(ret.responseMsg);
+                                }
+                            } else {
+                                alert(err.msg)
+                            }
+                        })
+
+
+                    })
+                    // popup.open = function() {
+                $('.popup').show(200)
+                    // }
+                return popup;
+            } //弹窗
+        console.log("事件管理者：" + JSON.stringify(methods));
+        return methods;
+    }
+
+    imready = function() {
+        initVue();
+        pass.init(function() {
+            var bTop = $('#main').height();
+            var footer = 1.06 / 7.5 * api.frameWidth;
+            var temp = bTop - (api.frameHeight - 2 * footer - 1.08 / 7.5 * api.frameWidth);
+            console.log(bTop + "----------" + temp + "------------" + footer + "---------------***************" + 1)
+            $('#main').scrollTop(temp * 1.5);
+
+        });
+        // if(api.systemType==="ios"){
+        //   api.setRefreshHeaderInfo({
+        //       visible: true,
+        //       loadingImg: 'widget://image/refresh.png',
+        //       bgColor: '#ccc',
+        //       textColor: '#fff',
+        //       textDown: '下拉加载...',
+        //       textUp: '松开加载...',
+        //       showTime: true
+        //   }, function(ret, err) {
+        //       //在这里从服务器加载数据，加载完成后调用api.refreshHeaderLoadDone()方法恢复组件到默认状态
+        //         pass.init(function() {
+        //           var bTop = $('#main').height();
+        //           var footer = 1.06 / 7.5 * api.frameWidth;
+        //           var temp = bTop - (api.frameHeight - 2 * footer - 1.08 / 7.5 * api.frameWidth);
+        //           console.log(bTop + "----------" + temp + "------------" + footer + "---------------***************" + 1)
+        //           $('#main').scrollTop(temp * 1.5);
+        //         });
+        //   });
+        // }else if(api.systemType === "android"){
+        //
+        // }
+
+        //下拉加载
+        // api.addEventListener({
+        //     name: 'scrolltobottom',
+        //     extra: {
+        //         threshold: 0 //设置距离底部多少距离时触发，默认值为0，数字类型
+        //     }
+        // }, function(ret, err) {
+        //
+        //   pass.pageindex = 1;
+        //   pass.loadEnd = false;
+        //   pass.init(function() {
+        //       var bTop = $('#main').height();
+        //       var footer=1.06/7.5*100;
+        //       $('#main').scrollTop(bTop - 0.1-footer);
+        //   });
+        //
+        //
+        // });
+        api.addEventListener({ //刷新
+            name: 'viewappear'
+        }, function(ret, err) {
+            if (ret) {
+                pass.init(function() {
+                  var bTop = $('#main').height();
+                  var footer = 1.06 / 7.5 * api.frameWidth;
+                  var temp = bTop - (api.frameHeight - 2 * footer - 1.08 / 7.5 * api.frameWidth);
+                  console.log(bTop + "----------" + temp + "------------" + footer + "---------------***************" + 1)
+                  $('#main').scrollTop(temp * 1.5);
+                });
+                console.log("viewReady刷新刷新???。。。。。。。")
+            } else {
+                pass.init(function() {
+                  var bTop = $('#main').height();
+                  var footer = 1.06 / 7.5 * api.frameWidth;
+                  var temp = bTop - (api.frameHeight - 2 * footer - 1.08 / 7.5 * api.frameWidth);
+                  console.log(bTop + "----------" + temp + "------------" + footer + "---------------***************" + 1)
+                  $('#main').scrollTop(temp * 1.5);
+                });
+            }
+        });
+        api.addEventListener({ //刷新
+            name: 'viewReady'
+        }, function(ret, err) {
+            if (ret) {
+                pass.init(function() {
+                  var bTop = $('#main').height();
+                  var footer = 1.06 / 7.5 * api.frameWidth;
+                  var temp = bTop - (api.frameHeight - 2 * footer - 1.08 / 7.5 * api.frameWidth);
+                  console.log(bTop + "----------" + temp + "------------" + footer + "---------------***************" + 1)
+                  $('#main').scrollTop(temp * 1.5);
+                });
+                console.log("viewReady刷新刷新???。。。。。。。")
+            } else {
+                pass.init(function() {
+                  var bTop = $('#main').height();
+                  var footer = 1.06 / 7.5 * api.frameWidth;
+                  var temp = bTop - (api.frameHeight - 2 * footer - 1.08 / 7.5 * api.frameWidth);
+                  console.log(bTop + "----------" + temp + "------------" + footer + "---------------***************" + 1)
+                  $('#main').scrollTop(temp * 1.5);
+                });
+            }
+        });
+
+
+
+    }
+</script>
+
+</html>

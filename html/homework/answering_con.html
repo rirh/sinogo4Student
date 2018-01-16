@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <style>
+    	html{
+    	}
+    	body{
+    		font-size:0.24rem;
+    		background:rgba(0,0,0,0);
+    		background-size: 100% 100%;
+    	}
+    	body:before {
+		  content: '';
+		  position: fixed;
+		  z-index: -1;
+		  top: 0;
+		  right: 0;
+		  bottom: 0;
+		  left: 0;
+		  background: url(../../image/bg_other_c.png) center 0 no-repeat;
+		  background-size: cover;
+		}
+    	#main{
+    		height:85%;
+    		position: relative;
+    	}
+    	#footer{
+    		height:15%;
+    		width:100%;
+    	}
+    	#footer .next-q{
+    		height:0.84rem;
+    		line-height:0.84rem;
+    		text-align:center;
+    		width:3.41rem;
+    		background:url(../../image/icon_next_q.png) no-repeat center center;
+    		background-size:3.41rem 0.84rem;
+    		border-radius:0.2rem;
+    		margin: 0.4rem auto;
+    		color:#FF8344;
+    		font-size:0.32rem;
+    	}
+
+    </style>
+</head>
+<body>
+<div id="wrap" class="flex-wrap flex-vertical">
+	<div id="main" class="flex-con">
+
+	</div>
+	<div id="footer" class="">
+		<div class="next-q" onclick="nextQuestion();">下一题</div>
+	</div>
+</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript">
+	var mySwiper ;
+	var currentQuestion = 0;
+	imready = function(){
+
+		window.data = api.pageParam.data;
+		window.homework = api.pageParam.homework;
+		window.type = api.pageParam.type;
+		var cIndex =0;
+		if( api.pageParam.cindex&& api.pageParam.cindex!='undefined'&& api.pageParam.cindex!='NaN'){
+		cIndex = parseInt(api.pageParam.cindex);
+		currentQuestion = cIndex;
+		}
+		var result = api.pageParam.result;
+		if(window.data.length==1){
+			$api.dom(".next-q").innerHTML="提交";
+		}
+		if(window.type=='noright'||window.type=='mistake'||window.type=='redo'){
+			api.openFrame({
+		        name: 'question_content_err',
+		        url: 'question_content_err.html',
+	        	bgColor: 'rgba(51,51,51,0)',
+	        	pageParam:{
+	        		data:data,
+	        		type:window.type,
+					category:api.pageParam.category,
+	        		flag: api.pageParam.flag
+	        	},
+		        rect: {
+			        x:0,
+			        y:98*api.winWidth/750,
+			        w:api.winWidth,
+			        h:api.winHeight*0.9-98*api.winWidth/750
+		        }
+	        });
+		}else{
+			api.openFrame({
+		        name: 'question_content',
+		        url: 'question_content.html',
+	        	bgColor: 'rgba(51,51,51,0)',
+	        	pageParam:{
+	        		data:data,
+	        		homework:window.homework,
+	        		cIndex:cIndex,
+	        		result:result
+	        	},
+	        	scrollEnabled:false,
+	        	bounces:false,
+		        rect: {
+			        x:0,
+			        y:98*api.winWidth/750,
+			        w:api.winWidth,
+			        h:api.winHeight*0.9-98*api.winWidth/750
+		        }
+	        });
+        }
+
+        api.addEventListener({
+	        name:'sgfAnswerResult'
+        },function(ret,err){
+        	var value = ret.value;
+        	var isRight = value.isRight;
+        	var answerSgf = value.answerSgf;
+//      	alert(isRight?"恭喜你，答对啦！":"很遗憾，打错了！")
+        	nextQuestion(isRight,answerSgf);
+        });
+
+	}
+
+	function nextQuestion(isRight,answerSgf){
+		console.log("clicked . next question ")
+		if(!isRight){
+			isRight = false;
+		}
+		if(!answerSgf){
+			answerSgf = "";
+		}
+		if(currentQuestion==(window.data.length-1)){
+            //setTimeout("goNext();",1000);
+            //学生提交时，调用11、学生回答问题 接口，把所有问题和答案组成的内容，传递给服务器。
+            // 目前暂时使用这个广播，设定当next为FALSE时，进行提交（后续如果有上一题的需求（已经和戴颖确认，这期没有），则修改next的特定值来实现）
+            api.sendEvent({
+	            name:'nextClicked',
+	            extra:{
+	            	next:false,//最后一道题，传FALSE
+	            	isRight:isRight,
+	            	answerSgf:answerSgf
+	            }
+            });
+		}else{
+			console.log("发送了广播。")
+			api.sendEvent({
+	            name:'nextClicked',
+	            extra:{
+	            	next:true,//还有下一题，传TRUE
+	            	index:currentQuestion,
+	            	isRight:isRight,
+	            	answerSgf:answerSgf
+	            }
+            });
+            currentQuestion++;
+            if(currentQuestion==(window.data.length-1)){
+            	$api.dom(".next-q").innerHTML="提交";
+            }
+		}
+	}
+	function goNext(){
+		api.hideProgress();
+		api.openWin({
+	        name: 'answerResult',
+	        url: 'answerResult_title.html'
+        });
+	}
+
+</script>
+</html>

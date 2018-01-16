@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>breakthrough</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/fontstyle.css" />
+    <style>
+        body {
+            background: url(../../image/breakthrough_bg.png) no-repeat center center;
+            background-size: 100%;
+        }
+
+        #header {
+            background: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            width: 100%;
+            position: relative;
+            height: 0.98rem;
+        }
+
+        #header .back-icon {
+            display: inline-block;
+            width: 0.98rem;
+            height: 0.98rem;
+            background: url(../../image/icon_back.png) no-repeat center center;
+            background-size: 0.78rem 0.33rem;
+            position: absolute;
+            left: 0.24rem;
+            bottom: 0;
+        }
+
+        #header h1 {
+            font-size: 0.36rem;
+            height: 0.98rem;
+            line-height: 0.98rem;
+            margin: 0 auto;
+            color: #ff8344;
+            font-family: 'pty';
+        }
+
+        #main .nav {
+            width: 6.96rem;
+            height: 1.53rem;
+            margin: 0 auto;
+        }
+
+        #main .nav ul {
+            display: flex;
+            height: 1.53rem;
+            width: 100%;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        #main .nav ul li {
+            font-size: 0.26rem;
+            color: #333;
+            width: 0.72rem;
+            height: 0.72rem;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.45);
+            text-align: center;
+            line-height: 0.72rem;
+            position: relative;
+        }
+
+        #main .nav ul li.right:after {
+            content: '';
+            position: absolute;
+            width: 0.36rem;
+            height: 0.26rem;
+            background: url(../../image/icon_right_color.png) no-repeat;
+            background-size: 100%;
+            bottom: 0.05rem;
+            left: 0.18rem;
+        }
+
+        #main .nav ul li.error:after {
+            content: '';
+            position: absolute;
+            width: 0.3rem;
+            height: 0.3rem;
+            background: url(../../image/icon_error_color.png) no-repeat;
+            background-size: 100%;
+            bottom: 0.05rem;
+            left: 0.21rem;
+        }
+
+        #main .nav ul li.current:after {
+            content: '';
+            position: absolute;
+            width: 0.39rem;
+            height: 0.45rem;
+            background: url(../../image/icon_arrow.png) no-repeat;
+            background-size: 100%;
+            bottom: -0.5rem;
+            left: 0.19rem;
+        }
+
+        .container {
+            width: 6.96rem;
+            background: rgba(255, 255, 255, 0.45);
+            border-radius: 0.1rem;
+            margin: 0 auto 0.59rem;
+            height: 8.62rem;
+            overflow-y: auto;
+        }
+
+        .title {
+            width: 6.96rem;
+            position: relative;
+        }
+
+        .q-title {
+            color: #ff8344;
+            font-size: 0.28rem;
+            line-height: 1.5;
+            margin: 0.445rem 0.7rem 0.445rem 0.2rem;
+            word-wrap: break-word
+        }
+
+        .q-audio {
+            position: absolute;
+            top: -0.95rem;
+            right: 0.2rem;
+            width: 0.5rem;
+            height: 0.5rem;
+            background: url(../../image/icon_audio.png) no-repeat center center;
+            background-size: 0.29rem 0.25rem;
+        }
+
+        .content {
+            /*width:100%;*/
+            width: 5.12rem;
+            margin: 0 auto;
+        }
+
+        .q-img {
+            width: 100%;
+        }
+
+        .q-img img {
+            width: 100%;
+            display: block;
+        }
+
+        .q-audio audio {
+            width: 100%;
+        }
+
+        .q-video video {
+            width: 100%;
+        }
+
+        .content .q-sgf {
+            width: 100%;
+        }
+
+        .q-sgf iframe {
+            width: 5.12rem;
+            height: 5.12rem;
+        }
+
+        .answer {
+            width: 6.52rem;
+            margin: 0.4rem auto 0.63rem;
+        }
+
+        .answer ul li {
+            width: 100%;
+            font-size: 0.26rem;
+            line-height: 1.8;
+            padding: 0.2rem 0.4rem;
+            box-sizing: border-box;
+            background: #eee;
+            color: #333;
+            margin-bottom: 0.08rem;
+            position: relative;
+        }
+
+        .answer ul li img {
+            width: 100%;
+        }
+
+        .answer ol li {
+            float: left;
+            width: 45%;
+            overflow: hidden;
+        }
+
+        .answer ol li:nth-of-type(odd) {
+            margin-right: 10%
+        }
+
+        .answer ol li img {
+            width: 100%;
+        }
+
+        .answer ul li i {
+            position: absolute;
+            top: 0.2rem;
+            right: 0.2rem;
+            width: 0.5rem;
+            height: 0.5rem;
+            background: url(../../image/icon_audio.png) no-repeat center center;
+            background-size: 0.29rem 0.25rem;
+        }
+
+        .answer ul li.active {
+            background: #ff8344;
+            color: #fff;
+        }
+
+        .answer ul li.active i {
+            background: url(../../image/icon_audio_white.png) no-repeat center center;
+            background-size: 0.29rem 0.25rem;
+        }
+
+        .foot {
+            text-align: center;
+            margin-bottom: 0.4rem;
+        }
+
+        .foot button {
+            width: 2.38rem;
+            height: 0.73rem;
+            background: url(../../image/bg_btn_ensure.png) no-repeat;
+            background-size: 100%;
+            color: #fff;
+            font-size: 0.32rem;
+            line-height: 0.73rem;
+            text-shadow: #c06c12 2px 0 0, #c06c12 0 2px 0, #c06c12 -2px 0 0, #c06c12 0 -2px 0;
+            border: 0;
+            outline: none;
+        }
+
+        .popup .popup_mask {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, .5);
+            z-index: 100;
+        }
+
+        .popup .popup_body {
+            position: fixed;
+            left: 0.75rem;
+            top: 1.5rem;
+            width: 6.04rem;
+            height: 6.87rem;
+            background: url(../../image/popup_bg.png) no-repeat;
+            background-size: 100%;
+            z-index: 200;
+        }
+
+        .popup_body .popup_title {
+            font-size: 0.32rem;
+            color: #fff;
+            font-family: 'pty';
+            text-shadow: #c06c12 2px 0 0, #c06c12 0 2px 0, #c06c12 -2px 0 0, #c06c12 0 -2px 0;
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
+        .popup_foot {
+            text-align: center;
+        }
+
+        .popup_close {
+            position: fixed;
+            left: 3.37rem;
+            top: 9rem;
+            width: 0.76rem;
+            height: 0.76rem;
+            background: url(../../image/icon_close.png) no-repeat;
+            background-size: 100%;
+            z-index: 200;
+        }
+
+        .popup_consume {
+            display: none;
+        }
+
+        .popup_consume .popup_content {
+            margin-top: 1.5rem;
+            padding: 0 1rem 0 0.8rem;
+        }
+
+        .popup_consume .popup_content div {
+            display: flex;
+        }
+
+        .popup_consume .popup_content div i {
+            width: 0.5rem;
+            margin-left: 0.8rem;
+            height: 0.54rem;
+            background: url(../../image/apple.png) no-repeat;
+            background-size: 100%;
+        }
+
+        .popup_consume .popup_content div b {
+            color: #82562c;
+            font-size: 0.3rem;
+            margin: 0.1rem;
+        }
+
+        .popup_consume .popup_content div span {
+            font-size: 0.3rem;
+            color: #fff;
+            margin: 0.08rem 0;
+            text-shadow: #432305 2px 2px;
+        }
+
+        .popup_consume .popup_content p {
+            text-align: center;
+            color: #82562c;
+            font-size: 0.28rem;
+            line-height: 1.8;
+            margin-top: 0.3rem;
+        }
+
+        .popup_consume .popup_foot button {
+            width: 2.38rem;
+            height: 0.73rem;
+            background: url(../../image/bg_btn_ensure.png) no-repeat;
+            background-size: 100%;
+            color: #fff;
+            font-size: 0.32rem;
+            line-height: 0.73rem;
+            text-shadow: #c06c12 2px 0 0, #c06c12 0 2px 0, #c06c12 -2px 0 0, #c06c12 0 -2px 0;
+        }
+
+        .popup_complete {
+            /*display:none;*/
+        }
+
+        .popup_complete .popup_content {
+            padding: 0 0.8rem 0 1rem;
+            text-align: center;
+            margin-top: 0.6rem;
+        }
+
+        .popup_complete .popup_content .star {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .popup_complete .popup_content .star i {
+            width: 0.97rem;
+            height: 0.95rem;
+            background: url(../../image/star_gray.png) no-repeat;
+            background-size: 100%;
+        }
+
+        .popup_complete .popup_content .star i.active {
+            background: url(../../image/star_yellow.png) no-repeat;
+            background-size: 100%;
+        }
+
+        .popup_complete .popup_content .gains {
+            width: 100%;
+            display: flex;
+            margin-top: 0.3rem;
+        }
+
+        .popup_complete .popup_content .gains div {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.8);
+            width: 1.6rem;
+            height: 1.5rem;
+            box-sizing: border-box;
+        }
+
+        .popup_complete .popup_content .gains div:nth-of-type(2) {
+            margin-left: 0.4rem;
+        }
+
+        .popup_complete .popup_content .gains div p {
+            font-family: 'pty';
+            font-size: 0.28rem;
+            color: #c06c12;
+            margin-top: 0.1rem;
+        }
+
+        .popup_complete .popup_content .gains div i {
+            display: block;
+            margin-top: 0.15rem;
+        }
+
+        .popup_complete .popup_content .gains div:nth-of-type(1) i {
+            width: 0.67rem;
+            height: 0.63rem;
+            background: url(../../image/growthEnergy-1.png) no-repeat;
+            background-size: 100%;
+            margin-left: 0.465rem;
+        }
+
+        .popup_complete .popup_content .gains div:nth-of-type(2) i {
+            width: 0.61rem;
+            height: 0.66rem;
+            background: url(../../image/coin.png) no-repeat;
+            background-size: 100%;
+            margin-left: 0.495rem;
+        }
+
+        .popup_complete .popup_foot button {
+            margin-top: 0.3rem;
+            width: 2.38rem;
+            height: 0.73rem;
+            background: url(../../image/bg_btn_ensure.png) no-repeat;
+            background-size: 100%;
+            color: #fff;
+            font-size: 0.34rem;
+            line-height: 0.73rem;
+            text-shadow: #c06c12 2px 0 0, #c06c12 0 2px 0, #c06c12 -2px 0 0, #c06c12 0 -2px 0;
+            font-family: 'pty';
+        }
+
+        .popup_fail {
+            display: none;
+        }
+
+        .popup_fail .popup_content {
+            color: #333;
+            font-size: 0.28rem;
+            line-height: 1.8;
+            margin-top: 1.2rem;
+            padding: 0 1rem 0 1.2rem;
+            text-align: center;
+        }
+
+        .popup_fail .popup_foot button {
+            width: 2.38rem;
+            height: 0.73rem;
+            color: #fff;
+            font-size: 0.32rem;
+            line-height: 0.73rem;
+            text-shadow: #c06c12 2px 0 0, #c06c12 0 2px 0, #c06c12 -2px 0 0, #c06c12 0 -2px 0;
+            font-family: 'pty';
+            margin-top: 1rem;
+        }
+
+        .popup_fail .popup_foot button:nth-of-type(1) {
+            background: url(../../image/bg_btn_reset.png) no-repeat;
+            background-size: 100%;
+        }
+
+        .popup_fail .popup_foot button:nth-of-type(2) {
+            background: url(../../image/bg_btn_ensure.png) no-repeat;
+            background-size: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main" class="flex-wrap flex-vertical">
+        <div id="header">
+            <a class="back-icon" tapmode="active" @click="gobreakthrough()"></a>
+            <h1>{{checkpointName}}</h1>
+        </div>
+        <div class="flex-con">
+            <div class="nav">
+                <ul>
+                    <li v-for="(questionId,order) in questionIds" v-cloak>{{order+1}}</li>
+                </ul>
+            </div>
+            <div class="container">
+                <div class="title" v-for="questionItem in question.questionTitleAttributes" v-cloak>
+                    <div class="q-title" v-if="questionItem.titleTypeValue==-1">
+                        {{(index+1)}} .{{questionItem.titleDetails}}
+                    </div>
+                    <div class="q-audio" v-if="questionItem.titleTypeValue==-2" @click="audioPlay(questionItem.titleDetails)"></div>
+                </div>
+                <div class="content" v-for="questionItem in question.questionTitleAttributes" v-cloak>
+                    <div class="q-img" v-if="questionItem.titleTypeValue==0">
+                        <img :src="questionItem.titleDetails" alt="" />
+                    </div>
+                    <div class="q-audio" v-if="questionItem.titleTypeValue==1">
+                        <audio :src="questionItem.titleDetails" controls="controls"></audio>
+                    </div>
+                    <div class="q-video" v-if="questionItem.titleTypeValue==2">
+                        <video :src="questionItem.titleDetails" controls="controls"></video>
+                    </div>
+                    <div class="q-sgf" v-if="questionItem.titleTypeValue==3">
+                        <iframe :sgf="questionItem.titleDetails" :loaded="false" @load="iframeLoaded"></iframe>
+                    </div>
+                </div>
+                <div class="answer">
+                    <!--<div v-for="(optionItem,index) in question.questionOptionsAttributes" >
+                    <span class="optionType" v-for="optionContent in optionItem.questionOptions">{{optionContent.optionTypeValue==0}}</span>
+                </div>-->
+                    <ul>
+                        <li v-for="(optionItem,index) in question.questionOptionsAttributes" v-cloak @click="chooseAnswer(index)">
+                            <span class="optionId" style="display: none">{{optionItem.optionId}}</span>
+                            <span class="optionRight" style="display: none">{{optionItem.optionRight}}</span>
+                            <div v-for="optionContent in optionItem.questionOptions">
+                                <span v-if="optionContent.optionTypeValue==-1">{{optionItem.optionName}}.{{optionContent.optionDetails}}</span>
+                                <i v-if="optionContent.optionTypeValue==-3" @click="audioPlay(optionContent.optionDetails)"></i>
+                                <img v-if="optionContent.optionTypeValue==0" :src="optionContent.optionDetails" />
+                            </div>
+                        </li>
+                    </ul>
+                    <!--<ol>
+                    <li class="clearfix" v-for="(optionItem,index) in question.questionOptionsAttributes" v-cloak @click="chooseAnswer(index)">
+                        <span class="optionId" style="display: none">{{optionItem.optionId}}</span>
+                        <span class="optionRight" style="display: none">{{optionItem.optionRight}}</span>
+                        <div v-for="optionContent in optionItem.questionOptions">
+                            <img v-if="optionContent.optionTypeValue==0" :src="optionContent.optionDetails"/>
+                        </div>
+                    </li>
+                </ol>-->
+                </div>
+            </div>
+            <div class="foot"><button @click="nextQuestion()">{{button}}</button></div>
+        </div>
+    </div>
+    <div class="popup popup_consume">
+
+    </div>
+    <div class="popup popup_complete">
+
+    </div>
+    <div class="popup popup_fail">
+
+    </div>
+</body>
+
+</html>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/zepto.js"></script>
+<script type="text/javascript" src="../../script/vue.js"></script>
+<script type="text/javascript">
+    var assigment; //全局控制器Controller
+    var userid;//用户id
+
+    initVue = function() { //初始化Vue需要的是双向数据绑定 当改变数据以后view会做相应的改变
+        var data = vueDateManager();
+        var methods = vueMethodsManager();
+        assigment = new Vue({
+            el: '#main', //绑定元素
+            data: data, //本页面的静态动态全部数据
+            methods: methods, //本页面的全部方法
+            updated: function() {
+                if (api.systemType == 'ios') {
+                    var sgfs = $api.domAll("iframe");
+                    for (var i = 0; i < sgfs.length; i++) {
+                        methods.iframeLoaded(sgfs[i])
+                    }
+                }
+            }
+        })
+    }
+
+    function handle(ret) {
+        console.log("回传的sgf==" + JSON.stringify(ret))
+        assigment.isRight = ret.isRight;
+        var answerSgf = ret.answerSgf;
+        assigment.isCan = true; //
+        assigment.nextQuestion();
+        assigment.isRight = false;//默认为false
+        $($api.dom("iframe")).attr("src", "");
+        $($api.dom("iframe")).attr("loaded", "false");
+
+    }
+    vueDateManager = function() {
+        //初始化Vue数据date为一个json数组
+        var data = {};
+        data.questionIds = []; //问题id集合
+        data.questionList = []; //问题列表
+        data.index = 0; //题目下标
+        data.question = {}; //当前问题
+        data.button = '下一题'; //按钮文字
+        data.optionClass = 0; //选项id
+        data.star = 0; //星星数
+        data.isRight = false; //是否正确
+        data.isCan = false; //是否是围棋题
+        data.checkpointName = "";
+        data.fruit = 0;
+        data.treeinfo;
+        return data;
+    }
+    vueMethodsManager = function() {
+        //时间管理中心 每个Vue事件的处理都可以在这管理
+        var methods = {};
+
+        function handleRes(res) {
+            var questionIdsList = [];
+            for (var i = 0; i < res.length; i++) {
+                questionIdsList.push(res[i].questionId)
+            }
+            assigment.questionIds = questionIdsList;
+            assigment.$nextTick(function() {
+                $('.nav ul li').removeClass('current right error')
+                $('.nav li').eq(0).addClass('current')
+            })
+            getQuestion(questionIdsList)
+        }
+
+        function getQuestion(questionIds) {
+            var data = {};
+            data.method = "getQuestionList";
+            data.request = questionIds;
+            console.log("getQuestionList请求数据" + JSON.stringify(data));
+            ajaxRequest(data, function(ret, err) {
+                api.hideProgress();
+                if (ret) {
+                    console.log("getQuestionList返回数据" + JSON.stringify(ret));
+
+                    if (ret.responseCode == 0) {
+                        assigment.questionList = ret.responseBody;
+                        assigment.question = assigment.questionList[assigment.index];
+                    } else {
+                        alert(ret.responseMsg)
+                    }
+                } else {
+                    alert(err.msg)
+                }
+            });
+        }
+        var popupConsume = function(fruit) {
+            function handleFruit(fruit) {
+                return (Array(6).join(0) + fruit).slice(-6);
+            }
+            var popup = {}
+            var html = ''
+            html += '<div class="popup_mask"></div>';
+            html += '<div class="popup_body"><div class="popup_title">闯关消耗</div>';
+            html += '<div class="popup_content"><div><i></i><b>X</b>';
+            html += '<span>' + handleFruit(fruit) + '</span></div>';
+            if (fruit) {
+                html += '<p>本次闯关需要消耗1个闯关果实请确定闯关开始</p></div>';
+                html += '<div class="popup_foot"><button>确定</button></div></div>'
+
+            } else {
+                html += '<p>当前闯关果实已经耗尽，你可以去成长果树收集果实哦</p></div>';
+            }
+            html += '<div class="popup_close"></div>';
+            $('.popup_consume').html(html);
+            $('.popup_close').click(function() {
+                $('.popup').hide();
+            })
+            $('.popup_foot button').click(function() {
+                var request = {
+                    studentId: parseInt(api.getPrefs({
+                        sync: true,
+                        key: 'userid'
+                    }))
+                }
+                goRequest("passReduceFruit", request, function(ret) {
+
+                    assigment.questionIds = [];
+                    assigment.questionList = [];
+                    assigment.index = 0;
+                    assigment.question = {};
+                    assigment.button = '下一题';
+                    assigment.optionClass = 0;
+                    assigment.star = 0;
+                    assigment.init();
+                    assigment.fruit = ret.responseBody;
+
+
+                })
+                $('.popup').hide();
+
+
+            })
+            popup.open = function() {
+                $('.popup_consume').show()
+            }
+            return popup;
+        }
+        var popupComplete = function(star,ener,gold) {
+            function handleStar(stars) {
+                if (stars == 3) {
+                    return '<i class="active"></i><i></i><i></i>'
+                }
+                if (stars == 4) {
+                    return '<i class="active"></i><i class="active"></i><i></i>'
+                }
+                if (stars == 5) {
+                    return '<i class="active"></i><i class="active"></i><i class="active"></i>'
+                }
+            }
+            // if (isEmpty(api.pageParam.passitem.stuPassList_passNumber)) {
+            //     if (star == 3) {
+            //         energy = 20;
+            //         coin = 100;
+            //     }
+            //     if (star == 4) {
+            //         energy = 30;
+            //         coin = 200;
+            //     }
+            //     if (star == 5) {
+            //         energy = 40;
+            //         coin = 300;
+            //     }
+            // } else {
+            //     if (star == 3) {
+            //         energy = 10;
+            //         coin = 50;
+            //     }
+            //     if (star == 4) {
+            //         energy = 15;
+            //         coin = 100;
+            //     }
+            //     if (star == 5) {
+            //         energy = 20;
+            //         coin = 150;
+            //     }
+            // }
+            var popup = {}
+            var html = ''
+            html += '<div class="popup_mask"></div>';
+            html += '<div class="popup_body"><div class="popup_title">顺利通过</div>';
+            html += '<div class="popup_content"><div class="star clearfix">' + handleStar(star) + '</div>';
+            html += '<div class="gains"><div><i></i><p>X ' + ener + '</p></div>';
+            html += '<div><i></i><p>X ' + gold + '</p></div></div></div>';
+            html += '<div class="popup_foot"><button>确定</button></div></div>'
+            $('.popup_complete').html(html);
+            $('.popup_close').click(function() {
+                $('.popup').hide();
+            })
+            $('.popup_foot button').click(function() {
+                $('.popup').hide();
+                api.sendEvent({
+                    name: 'viewReady',
+                    extra: {
+                        key1: false,
+                    }
+                });
+
+                api.closeWin();
+            })
+            popup.open = function() {
+                $('.popup_complete').show()
+            }
+            return popup;
+        }
+        var popupFail = function() {
+            var popup = {}
+            var html = ''
+            html += '<div class="popup_mask"></div>';
+            html += '<div class="popup_body"><div class="popup_title">闯关失败</div>';
+            html += '<div class="popup_content">失败是成功之母，不要气馁，下次你可以做的更好</div>';
+            html += '<div class="popup_foot"><button class="retry">重新闯关</button><button class="next">下次再来</button></div></div>'
+            $('.popup_fail').html(html);
+            $('.popup_close').click(function() {
+                $('.popup').hide();
+            })
+            $('.popup_foot .retry').click(function() {
+
+                $('.popup_fail').hide();
+                popupConsume(assigment.fruit - 1).open();
+                assigment.isOne = false;
+            })
+            $('.popup_foot .next').click(function() {
+                $('.popup').hide();
+                //刷新数据
+                api.sendEvent({
+                    name: 'viewReady',
+                    extra: {
+                        key1: false,
+                    }
+                });
+                api.closeWin({
+                    name: 'passDetail'
+                });
+            })
+            popup.open = function() {
+                $('.popup_fail').show()
+            }
+            return popup;
+        }
+        methods.init = function() {
+            assigment.checkpointName = api.pageParam.passitem.checkpointName;//关卡的名字
+            assigment.treeinfo = api.pageParam.treeinfo;
+            assigment.fruit = assigment.treeinfo.fruit;//
+            c("init*传入的大树果实信息==========",assigment.treeinfo)
+            userid = {
+                studentId: parseInt(api.getPrefs({
+                    sync: true,
+                    key: 'userid'
+                }))
+            }
+            var data = {}
+            data.method = "findQuestionByCheckPointId";
+            data.request = {
+                checkpointId: api.pageParam.checkpointId
+            }
+            api.showProgress();
+            console.log("findQuestionByCheckPointId请求数据" + JSON.stringify(data));
+            ajaxRequest(data, function(ret, err) {
+                console.log("findQuestionByCheckPointId成功返回数据" + JSON.stringify(ret));
+                if (ret) {
+                    if (ret.responseCode == 0) {
+                        var response = ret.responseBody;
+                        handleRes(response);
+                    } else {
+                        console.log(ret.responseMsg)
+                    }
+                } else {
+                    alert(err.msg)
+                }
+            })
+        }
+        methods.iframeLoaded = function(e) { //控制frame控件
+            var el = e.target; //当前控件
+            if (!el) {
+                el = e;
+            }
+            var loaded = $(el).attr("loaded");
+            console.log(loaded)
+            if (loaded == 'true') {
+                console.log("加载完了吧")
+                return;
+            }
+            //获取属性，即可使用
+            var src = "weiqi.html";
+
+            var sgf = $(el).attr("sgf");
+
+            console.log("sgf===" + sgf)
+
+            var loaded = $(el).attr("boardSize");
+
+            src += "?sgf=" + sgf;
+            $(el).attr("src", src);
+            $(el).attr("loaded", "true");
+
+        }
+        methods.nextQuestion = function() {
+            var answerList = [];
+
+
+            function handleAnswer(answer) {
+                if (answer) {
+                    return 0;
+                } else {
+                    return 1;
+                }
+            }
+
+            function getStar(answer) {
+                if (answer) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+
+            function addPower(callback) {
+                var data = {}
+                data.method = "passLastQuestion";
+                data.request = {
+                    studentId: parseInt(api.getPrefs({
+                        sync: true,
+                        key: 'userid'
+                    })),
+                    checkPointId: api.pageParam.checkpointId,
+                };
+                console.log("passLastQuestion请求数据" + JSON.stringify(data));
+                ajaxRequest(data, function(ret, err) {
+                    console.log("passLastQuestion返回数据" + JSON.stringify(ret));
+                    if (ret) {
+                        if (ret.responseCode == 0) {
+                            if (ret.responseBody) {
+                                console.log("成功添加能量！");
+                                callback();
+                            }
+                        } else {
+                            alert(ret.responseMsg);
+                        }
+                    } else {
+                        alert(err.msg)
+                    }
+                })
+            }
+
+            function savePass() {
+                var data = {}
+                data.method = "studentPassEdit";
+                data.request = {
+                    studentId: parseInt(api.getPrefs({
+                        sync: true,
+                        key: 'userid'
+                    })),
+                    checkPointId: api.pageParam.checkpointId,
+                }
+                console.log("studentPassEdit请求数据" + JSON.stringify(data));
+                ajaxRequest(data, function(ret, err) {
+                    console.log("studentPassEdit返回数据" + JSON.stringify(ret));
+                    if (ret) {
+                        if (ret.responseCode == 0) {
+
+                        } else {
+                            alert(ret.responseMsg)
+                        }
+                    } else {
+                        alert(err.msg)
+                    }
+                })
+            }
+            if (assigment.questionList[assigment.index].questionTypeValue == 2) {
+                // $api.attr($api.dom(".q-sgf"), 'display', 'block');
+                if (assigment.isRight) {
+                    $('.nav li').eq(assigment.index).addClass('right')
+                } else {
+                    $('.nav li').eq(assigment.index).addClass('error')
+                }
+
+                console.log("传入的值" + assigment.questionList[assigment.index].questionTitleAttributes[1].titleDetails);
+                console.log("返回的值" + assigment.isRight);
+                if (assigment.isCan) {
+                    var data = {}
+                    data.method = "studentPassAnswers";
+                    data.request = {
+                        studentId: parseInt(api.getPrefs({
+                            sync: true,
+                            key: 'userid'
+                        })),
+                        checkpointId: api.pageParam.checkpointId,
+                        questionId: assigment.questionList[assigment.index].questionId,
+                        isRight: handleAnswer(assigment.isRight),
+                        createTime: ''
+                    };
+                    if (answerList.length < assigment.questionIds.length) {
+                        assigment.star += getStar(assigment.isRight);
+                        answerList.push(handleAnswer(assigment.isRight));
+                        console.log("studentPassAnswers请求数据" + JSON.stringify(data));
+                        ajaxRequest(data, function(ret, err) {
+                            console.log("studentPassAnswers返回数据" + JSON.stringify(ret));
+
+                            if (ret) {
+                                if (ret.responseCode == 0) {
+
+                                } else {
+                                    alert(ret.responseMsg)
+                                }
+                            } else {
+                                alert(err.msg)
+                            }
+                        })
+                    }
+                    $('.nav li').removeClass('current');
+                    if (assigment.index >= assigment.questionIds.length - 2) {
+                        assigment.button = '确定';
+                    }
+                    if (assigment.index >= assigment.questionIds.length - 1) {
+                        assigment.index = assigment.questionIds.length - 1;
+                        savePass()
+                        if (assigment.star < 3) {
+                            popupFail().open()
+                        } else {
+                            addPower(function(){
+                              goRequest("treeInfo", userid, function(ret) {
+                                  // pass.fruit = ret.responseBody.fruit;
+                                  // pass.treeinfo=ret.responseBody;
+                                  c("传入的大树果实信息==========",assigment.treeinfo)
+                                  c("获取的大树果实信息==========",ret.responseBody);
+                                  var energy = ret.responseBody.energy-assigment.treeinfo.energy ;
+                                   var  coin = ret.responseBody.gold-assigment.treeinfo.gold;
+                                  popupComplete(assigment.star,energy,coin).open()
+                              })
+                            });
+
+                        }
+                        return;
+                    }
+                    $('.nav li').eq(assigment.index + 1).addClass('current');
+                    assigment.index = assigment.index + 1;
+                    assigment.question = assigment.questionList[assigment.index];
+                    $($api.dom("iframe")).attr("src", "");
+                    $($api.dom("iframe")).attr("loaded", "false");
+                } else {
+                    api.confirm({
+                        title: '提示信息',
+                        msg: '当前题目尚未作答，确定进入下一题，则本题按错误计算！',
+                        buttons: ['确定', '取消']
+                    }, function(ret, err) {
+                        var index = ret.buttonIndex;
+                        if (index == 1) {
+                            $('.nav li').eq(assigment.index).addClass('error')
+                            var data = {}
+                            data.method = "studentPassAnswers";
+                            data.request = {
+                                studentId: parseInt(api.getPrefs({
+                                    sync: true,
+                                    key: 'userid'
+                                })),
+                                checkpointId: api.pageParam.checkpointId,
+                                questionId: assigment.questionList[assigment.index].questionId,
+                                isRight: 1,
+                                createTime: ''
+                            }
+                            if (answerList.length < assigment.questionIds.length) {
+                                assigment.star += getStar(false);
+                                answerList.push(false)
+                                ajaxRequest(data, function(ret, err) {
+                                    if (ret) {
+                                        if (ret.responseCode == 0) {
+
+                                        } else {
+                                            alert(ret.responseMsg)
+                                        }
+                                    } else {
+                                        alert(err.msg)
+                                    }
+                                })
+                            }
+                            $('.answer li').removeClass('active')
+                            $('.nav li').removeClass('current');
+                            if (assigment.index >= assigment.questionIds.length - 2) {
+                                assigment.button = '确定';
+                            }
+                            if (assigment.index >= assigment.questionIds.length - 1) {
+                                assigment.index = assigment.questionIds.length - 1;
+                                savePass()
+                                if (assigment.star < 3) {
+                                    popupFail().open()
+                                } else {
+                                    addPower(function(){
+                                      goRequest("treeInfo", userid, function(ret) {
+                                          // pass.fruit = ret.responseBody.fruit;
+                                          c("传入的大树果实信息==========",assigment.treeinfo)
+                                          c("获取的大树果实信息==========",ret.responseBody);
+                                        var  energy = ret.responseBody.energy-assigment.treeinfo.energy ;
+                                        var  coin = ret.responseBody.gold-assigment.treeinfo.gold;
+                                          popupComplete(assigment.star,energy,coin).open()
+                                      })
+                                    })
+
+                                }
+                                return;
+                            }
+
+                            $('.nav li').eq(assigment.index + 1).addClass('current');
+                            assigment.index = assigment.index + 1;
+                            assigment.question = assigment.questionList[assigment.index];
+                            $($api.dom("iframe")).attr("src", "");
+                            $($api.dom("iframe")).attr("loaded", "false");
+
+
+
+                        }
+                    });
+                }
+
+
+            } else {
+                if ($('.answer li').hasClass('active')) {
+                    if (assigment.questionList[assigment.index].questionOptionsAttributes[assigment.optionClass].optionRight) {
+                        $('.nav li').eq(assigment.index).addClass('right')
+                    } else {
+                        $('.nav li').eq(assigment.index).addClass('error')
+                    }
+
+                    var data = {}
+                    data.method = "studentPassAnswers";
+                    data.request = {
+                        studentId: parseInt(api.getPrefs({
+                            sync: true,
+                            key: 'userid'
+                        })),
+                        checkpointId: api.pageParam.checkpointId,
+                        questionId: assigment.questionList[assigment.index].questionId,
+                        isRight: handleAnswer(assigment.questionList[assigment.index].questionOptionsAttributes[assigment.optionClass].optionRight),
+                        createTime: ''
+                    }
+                    if (answerList.length < assigment.questionIds.length) {
+                        assigment.star += getStar(assigment.questionList[assigment.index].questionOptionsAttributes[assigment.optionClass].optionRight);
+                        answerList.push(assigment.questionList[assigment.index].questionOptionsAttributes[assigment.optionClass].optionRight)
+                        console.log("studentPassAnswers请求数据" + JSON.stringify(data));
+
+                        ajaxRequest(data, function(ret, err) {
+                            console.log("studentPassAnswers返回数据" + JSON.stringify(ret));
+
+                            if (ret) {
+                                if (ret.responseCode == 0) {
+
+                                } else {
+                                    alert(ret.responseMsg)
+                                }
+                            } else {
+                                alert(err.msg)
+                            }
+                        })
+                    }
+                    $('.answer li').removeClass('active')
+                    $('.nav li').removeClass('current');
+                    if (assigment.index >= assigment.questionIds.length - 2) {
+                        assigment.button = '确定';
+                    }
+                    if (assigment.index >= assigment.questionIds.length - 1) {
+                        assigment.index = assigment.questionIds.length - 1;
+                        savePass()
+                        if (assigment.star < 3) {
+                            popupFail().open()
+                        } else {
+                            addPower(function(){
+                              goRequest("treeInfo", userid, function(ret) {
+                                  // pass.fruit = ret.responseBody.fruit;
+                                  // pass.treeinfo=ret.responseBody;
+                                  c("传入的大树果实信息==========",assigment.treeinfo)
+                                  c("获取的大树果实信息==========",ret.responseBody);
+                                var  energy = ret.responseBody.energy-assigment.treeinfo.energy ;
+                                var  coin = ret.responseBody.gold-assigment.treeinfo.gold;
+                                  popupComplete(assigment.star,energy,coin).open()
+                              })
+                            })
+
+                        }
+                        return;
+                    }
+                    $('.nav li').eq(assigment.index + 1).addClass('current');
+                    assigment.index = assigment.index + 1;
+                    assigment.question = assigment.questionList[assigment.index];
+                } else {
+                    api.confirm({
+                        title: '提示信息',
+                        msg: '当前题目尚未作答，确定进入下一题，则本题按错误计算！',
+                        buttons: ['确定', '取消']
+                    }, function(ret, err) {
+                        var index = ret.buttonIndex;
+                        if (index == 1) {
+                            $('.nav li').eq(assigment.index).addClass('error')
+                            var data = {}
+                            data.method = "studentPassAnswers";
+                            data.request = {
+                                studentId: parseInt(api.getPrefs({
+                                    sync: true,
+                                    key: 'userid'
+                                })),
+                                checkpointId: api.pageParam.checkpointId,
+                                questionId: assigment.questionList[assigment.index].questionId,
+                                isRight: 1,
+                                createTime: ''
+                            }
+                            if (answerList.length < assigment.questionIds.length) {
+                                assigment.star += getStar(false);
+                                answerList.push(false)
+                                ajaxRequest(data, function(ret, err) {
+                                    if (ret) {
+                                        if (ret.responseCode == 0) {
+
+                                        } else {
+                                            alert(ret.responseMsg)
+                                        }
+                                    } else {
+                                        alert(err.msg)
+                                    }
+                                })
+                            }
+                            $('.answer li').removeClass('active')
+                            $('.nav li').removeClass('current');
+                            if (assigment.index >= assigment.questionIds.length - 2) {
+                                assigment.button = '确定';
+                            }
+                            if (assigment.index >= assigment.questionIds.length - 1) {
+                                assigment.index = assigment.questionIds.length - 1;
+                                savePass()
+                                if (assigment.star < 3) {
+                                    popupFail().open()
+                                } else {
+                                    addPower(function(){
+                                      goRequest("treeInfo", userid, function(ret) {
+                                          // pass.fruit = ret.responseBody.fruit;
+                                          // pass.treeinfo=ret.responseBody;
+                                          c("传入的大树果实信息==========",assigment.treeinfo)
+                                          c("获取的大树果实信息==========",ret.responseBody);
+                                        var  energy = ret.responseBody.energy-assigment.treeinfo.energy ;
+                                        var  coin = ret.responseBody.gold-assigment.treeinfo.gold;
+                                          popupComplete(assigment.star,energy,coin).open()
+                                      })
+                                    })
+
+
+                                }
+                                return;
+                            }
+
+                            $('.nav li').eq(assigment.index + 1).addClass('current');
+                            assigment.index = assigment.index + 1;
+                            assigment.question = assigment.questionList[assigment.index];
+                        }
+                    });
+                }
+
+
+            };
+
+
+        }
+        methods.chooseAnswer = function(index) {
+            assigment.optionClass = index;
+            $('.answer li').removeClass('active')
+            $('.answer li').eq(index).addClass('active')
+        }
+        methods.audioPlay = function(src) {
+            api.startPlay({
+                path: src
+            }, function(ret, err) {
+                if (ret) {
+
+                } else {
+
+                }
+            });
+        }
+        methods.gobreakthrough = function() {
+            api.sendEvent({
+                name: 'viewReady',
+                extra: {
+                    key1: false,
+                    key2: 'value2'
+                }
+            });
+            api.closeWin();
+
+
+
+        }
+        return methods;
+    }
+    imready = function() {
+        initVue();
+        assigment.init();
+
+        api.addEventListener({ //android按下返回键刷新成长页面
+            name: 'keyback'
+        }, function(ret, err) {
+            api.sendEvent({
+                name: 'viewReady',
+                extra: {
+                    key1: false,
+                    key2: 'value2'
+                }
+            });
+            api.closeWin();
+
+        });
+    };
+</script>

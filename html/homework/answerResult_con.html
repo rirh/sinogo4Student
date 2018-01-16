@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>title</title>
+	<link rel="stylesheet" type="text/css" href="../../css/api.css" />
+	<link rel="stylesheet" type="text/css" href="../../css/style.css" />
+	<link rel="stylesheet" type="text/css" href="../../css/fontstyle.css" />
+    <link rel="stylesheet" href="../../css/chessstyle.css">
+	<style>
+		body {
+			font-size: 0.24rem;
+			background: rgba(0, 0, 0, 0);
+			background-size: 100% 100%;
+		}
+
+		body:before {
+			content: '';
+			position: fixed;
+			z-index: -1;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			background: url(../../image/bg_other_c.png) center 0 no-repeat;
+			background-size: cover;
+		}
+		
+		[v-cloak]{
+			display: none;
+		}
+
+		#main {
+			position: relative;
+			padding-top: 0.28rem;
+		}
+
+		#main .work-note {
+			background: url(../../image/bg_work_note.png) no-repeat;
+			background-size: 100% 100%;
+			height: 2.4rem;
+		}
+
+		#main .work-note-con {
+			color: #333;
+			font-size: 0.28rem;
+			position: absolute;
+			top: 0.28rem;
+			padding: 0.4rem;
+		}
+
+		#main .work-note-con>div {
+			height: 0.5rem;
+			padding: 0 0.4rem;
+			line-height: 0.5rem;
+			width: 100%;
+			position: relative;
+		}
+
+		#main .work-note-con>div:before {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			border-bottom: 1px solid #eee;
+			content: "";
+			display: block;
+			-webkit-transform: scaleY(0.5);
+			-webkit-transform-origin: 0 0;
+		}
+
+		#main .nail-one {
+			position: absolute;
+			width: 0.19rem;
+			height: 0.89rem;
+			top: 2.38rem;
+			left: 0.8rem;
+			z-index: 2;
+		}
+
+		#main .nail-two {
+			position: absolute;
+			width: 0.19rem;
+			height: 0.89rem;
+			top: 2.38rem;
+			right: 0.8rem;
+			z-index: 2;
+		}
+
+		#main .start-answer {
+			margin-top: 0.28rem;
+			width: 6.98rem;
+			margin-left: 0.26rem;
+			background: rgba(255, 255, 255, 0.75);
+			height: 3.78rem;
+			border-radius: 0.1rem;
+			position: relative;
+		}
+
+		#main .start-answer .start-stars {
+			background: url(../../image/icon_stars.png) no-repeat;
+			width: 2.76rem;
+			height: 1.5rem;
+			background-size: 100% 100%;
+			position: absolute;
+			top: 0.1rem;
+			left: 0;
+		}
+
+		#main .start-answer .start-start {
+			width: 2.26rem;
+			height: 2.26rem;
+			position: absolute;
+			top: 0.38rem;
+			left: 2.36rem;
+		}
+
+		#main .start-answer .start-start .score {
+			zoom: 0.25;
+		}
+
+		#main .start-answer .start-friends {
+			width: 100%;
+			position: absolute;
+			bottom: 0.48rem;
+			left: 0;
+			right: 0;
+			font-family: "pty";
+			color: #666;
+			font-size: 0.28rem;
+			text-align: center;
+			letter-spacing: 0.03rem;
+		}
+
+		#main .teacher-comment {
+			position: relative;
+		}
+
+		#main .teacher-comment .ranking {
+			margin-top: 0.1rem;
+			width: 6.98rem;
+			margin-left: 0.26rem;
+			background: rgba(255, 255, 255, 0.75);
+			height: 0.79rem;
+			border-radius: 0.1rem;
+			position: relative;
+		}
+
+		#main .teacher-comment .ranking:before {
+			position: absolute;
+			content: "";
+			display: block;
+			border-bottom: 1px dashed #d1cbb6;
+			bottom: 0px;
+			left: 0;
+			right: 0;
+			transform: scaleY(0.5);
+			transform-origin: 0 0;
+		}
+
+		#main .teacher-comment .nail-one-s {
+			position: absolute;
+			width: 0.15rem;
+			height: 0.47rem;
+			top: -0.25rem;
+			left: 0.8rem;
+			z-index: 2;
+		}
+
+		#main .teacher-comment .nail-two-s {
+			position: absolute;
+			width: 0.15rem;
+			height: 0.47rem;
+			top: -0.25rem;
+			right: 0.8rem;
+			z-index: 2;
+		}
+
+		#main .teacher-comment .ranking .ranking-t {
+			float: left;
+			height: 0.79rem;
+			line-height: 0.79rem;
+			font-size: 0.28rem;
+			color: #333;
+			padding-left: 0.3rem;
+		}
+
+		#main .teacher-comment .ranking .ranking-c {
+			float: right;
+			height: 0.79rem;
+			line-height: 0.79rem;
+			font-size: 0.26rem;
+			color: #666;
+			padding-right: 0.3rem;
+		}
+
+		#main .teacher-comment .comment {
+			width: 6.98rem;
+			margin-left: 0.26rem;
+			background: rgba(255, 255, 255, 0.75);
+			height: 1.39rem;
+			border-radius: 0.1rem;
+			position: relative;
+		}
+
+		#main .teacher-comment .comment .comment-t {
+			height: 0.59rem;
+			line-height: 0.59rem;
+			font-size: 0.28rem;
+			color: #333;
+			margin-left: 0.3rem;
+			position: relative;
+		}
+
+		#main .teacher-comment .comment .comment-t:after {
+			position: absolute;
+			content: "";
+			display: block;
+			border-bottom: 1px dashed #d9d9d9;
+			bottom: 0px;
+			left: 0;
+			right: 0;
+			transform: scaleY(0.5);
+			transform-origin: 0 0;
+		}
+
+		#main .teacher-comment .comment .comment-c {
+			line-height: 0.59rem;
+			font-size: 0.28rem;
+			color: #FF8344;
+			margin-left: 0.3rem;
+			font-family: 'pty';
+			position: relative;
+		}
+
+		#main .teacher-comment .comment .comment-c:after {
+			position: absolute;
+			content: "";
+			display: block;
+			border-bottom: 1px dashed #d9d9d9;
+			bottom: 0px;
+			left: 0;
+			right: 0;
+			transform: scaleY(0.5);
+			transform-origin: 0 0;
+		}
+
+		#main .my-answers {
+			height: 1.39rem;
+			width: 6.98rem;
+			margin-left: 0.26rem;
+			background: rgba(255, 255, 255, 0.75);
+			border-radius: 0.1rem;
+			margin-top: 0.1rem;
+			position: relative;
+		}
+
+		#main .my-answers .answers-t {
+			height: 0.9rem;
+			line-height: 0.9rem;
+			text-align: center;
+			font-size: 0.32rem;
+			color: #333;
+		}
+
+		#main .my-answers .answers-c {
+			height: 0.5rem;
+			line-height: 0.5rem;
+			text-align: center;
+			font-size: 0.28rem;
+			color: #666;
+		}
+
+		#main .question-answer {
+			margin-top: 0.1rem;
+			padding-bottom: 0.1rem;
+		}
+
+		.container {
+			width: 6.96rem;
+			background: rgba(255, 255, 255, 0.45);
+			border-radius: 0.1rem;
+			margin: 0 auto 0.59rem;
+			/*height: 8.62rem;*/
+			overflow-y: auto;
+				position:relative;
+		}
+
+		.title {
+			width: 6.96rem;
+			position: relative;
+		}
+
+
+		.q-title {
+			color: #ff8344;
+			font-size: 0.28rem;
+			line-height: 1.5;
+			margin: 0.445rem 0.7rem 0.445rem 0.2rem;
+			word-wrap: break-word
+}
+		.container .q-title-icon-wrong{
+			position: absolute;
+			width:0.44rem;
+			height:0.57rem;
+			background:url(../../image/ic_answer_error.png) no-repeat center center;
+			background-size: 100%;
+			right:0.24rem;
+			top:0.1rem;
+		}
+		.container .q-title-icon-ding{
+			position: absolute;
+			right:0.24rem;
+			top:0.1rem;
+			color:#666;
+			font-size:0.26rem;
+		}
+		.container .q-title-icon-right{
+			position: absolute;
+			width:0.44rem;
+			height:0.57rem;
+			background:url(../../image/ic_answer_right.png) no-repeat center center;
+			background-size: 100%;
+			right:0.24rem;
+			top:0.1rem;
+		}
+		.q-title{
+				color:#ff8344;
+				font-size:0.28rem;
+				line-height:1.5;
+				margin:0.445rem  0.7rem 0.445rem 0.2rem;
+				word-wrap: break-word;
+
+		}
+
+		.q-audio {
+			position: absolute;
+			top: -0.95rem;
+			right: 0.2rem;
+			width: 0.5rem;
+			height: 0.5rem;
+			background: url(../../image/icon_audio.png) no-repeat center center;
+			background-size: 0.29rem 0.25rem;
+		}
+
+		.content {
+			width: 5.12rem;
+			margin: 0 auto;
+		}
+
+		.q-img img {
+			width: 100%;
+			display: block;
+		}
+
+		.q-audio audio {
+			width: 100%;
+		}
+
+		.q-video video {
+			width: 100%;
+		}
+		.content .q-sgf{
+			width: 5.5rem;
+			height:5.5rem;
+			background:#000;
+			margin: 0 auto;
+			border-radius: 0.2rem;
+    		overflow: hidden;
+		}
+		.content .q-sgf iframe{
+			width: 100%;
+			height: 100%;
+    		overflow: hidden;
+		}
+
+		.answer {
+			width: 5.9rem;
+			margin: 0.4rem auto 0.63rem;
+		}
+
+		.answer ul li {
+			min-height: 0.9rem;
+			padding: 0.2rem 0;
+			font-size: 0.26rem;
+			padding-left: 0.4rem;
+			box-sizing: border-box;
+			background: #eee;
+			color: #333;
+			margin-bottom: 0.08rem;
+			position: relative;
+			border-radius:0.05rem;
+		}
+		
+		.answer .showrightanswer{
+			min-height: 0.9rem;
+			padding: 0.2rem 0;
+			font-size: 0.26rem;
+			padding-left: 0.8rem;
+			box-sizing: border-box;
+			background: url(../../image/icon_right_anser.png) no-repeat center center;
+			background-size: 5.9rem 0.9rem;
+			color: #FFF;
+			margin-bottom: 0.08rem;
+			position: relative;
+			border-radius:0.05rem;
+		}
+
+		.answer ul li i {
+			position: absolute;
+			top: 0.2rem;
+			right: 0.2rem;
+			width: 0.5rem;
+			height: 0.5rem;
+			background: url(../../image/icon_audio.png) no-repeat center center;
+			background-size: 0.29rem 0.25rem;
+		}
+
+		.answer ul li.active {
+			background: #ff8344;
+			color: #fff;
+		}
+
+		.answer ul li.active i {
+			background: url(../../image/icon_audio_white.png) no-repeat center center;
+			background-size: 0.29rem 0.25rem;
+		}
+		.answer ul li img{
+			max-width: 5.1rem;
+			margin:0 auto;
+		}
+		.my_answer_w {
+			background: #ff8344!important;
+		}
+
+		.my_answer_w span {
+			color: #FFF;
+		}
+
+		.my_answer_r {
+			background: #1ebeb6!important;
+		}
+
+		.my_answer_r span {
+			color: #FFF;
+		}
+		/*.right_answer{
+			background: #1ebeb6!important;
+		}*/
+	</style>
+	<SCRIPT language=javascript>
+window.onerror=function(){return true;}
+</SCRIPT>
+</head>
+
+<body>
+	<div id="wrap" class="flex-wrap flex-vertical">
+		<div id="main" v-cloak class="flex-con">
+			<img class="nail-one" src="../../image/ic_nail.png" alt="" />
+			<img class="nail-two" src="../../image/ic_nail.png" alt="" />
+			<div class="work-note">
+			</div>
+			<div class="work-note-con">
+				<div class="work-note-date"> {{times}}</div>
+				<div class="work-note-title">{{homework.homeWorkTitle}}</div>
+				<div class="work-note-class">{{homework.homeWorkClassName}}</div>
+			</div>
+			<div class="start-answer">
+				<div class="start-stars"></div>
+				<div class="start-start" onclick="goToAnswer();">
+					<canvas class="score"> </canvas>
+				</div>
+				<div class="start-friends">用时：{{duration}}</div>
+			</div>
+			<div class="teacher-comment">
+				<img class="nail-one-s" src="../../image/ic_nail_s.png" alt="" />
+				<img class="nail-two-s" src="../../image/ic_nail_s.png" alt="" />
+				<div class="ranking" onclick="goRanking();">
+					<div class="ranking-t">作业正确率排行</div>
+					<div class="ranking-c">第{{rank}}名</div>
+				</div>
+				<div class="comment">
+					<div class="comment-t">教师评语</div>
+					<div class="comment-c">{{comment}}</div>
+				</div>
+			</div>
+			<div class="my-answers">
+				<div class="answers-t">我的作答</div>
+				<div class="answers-c">{{rightJobList.length}}/{{joblist.length}}道正确</div>
+			</div>
+			<div class="question-answer">
+				<div class="container" v-for="(question,i) in joblist ">
+					<span class="q-title-icon-right" v-if="result[i].answerIsRight==true" >&nbsp;</span>
+					<span class="q-title-icon-wrong" v-if="result[i].answerIsRight==false&&result[i].dingRight==-1" >&nbsp;</span>
+					<span class="q-title-icon-ding" v-if="result[i].dingRight==0" >订错</span>
+					<span class="q-title-icon-ding" v-if="result[i].dingRight==1" >订对</span>
+					<div class="title" v-for="(questionItem,index) in question.questionTitleAttributes" v-cloak>
+						<div class="q-title" v-if="questionItem.titleTypeValue==-1">
+							{{(i+1)}} .{{questionItem.titleDetails}}
+						</div>
+						<div class="q-audio" v-if="questionItem.titleTypeValue==-2"></div>
+					</div>
+					<div class="content" v-for="questionItem in question.questionTitleAttributes" v-cloak>
+						<div class="q-img" v-if="questionItem.titleTypeValue==0">
+							<img :src="questionItem.titleDetails" alt="" />
+						</div>
+						<div class="q-audio" v-if="questionItem.titleTypeValue==1">
+							<audio :src="questionItem.titleDetails" controls="controls"></audio>
+						</div>
+						<div class="q-video" v-if="questionItem.titleTypeValue==2">
+							<video :src="questionItem.titleDetails" controls="controls"></video>
+						</div>
+						<div class="q-sgf" v-if="questionItem.titleTypeValue==3">
+							<iframe frameborder='0' :index="i" :sgf="questionItem.titleDetails" :answerIsRight="result[i].answerIsRight" :answerSgf="result[i].answerSgfText" :boardSize="question.boardSize"  :loaded="false"  @load="iframeLoaded"></iframe>
+                     	</div>
+					</div>
+					<div class="answer">
+						<ul>
+							<li :class="[{'right_answer':optionItem.optionRight},{'my_answer_w':isMyAnswer(result[i],index)}]" v-for="(optionItem,index) in question.questionOptionsAttributes" v-cloak>
+								<span class="optionId" style="display: none">{{optionItem.optionId}}</span>
+								<span class="optionRight" style="display: none">{{optionItem.optionRight}}</span>
+								<div v-for="optionContent in optionItem.questionOptions">
+									<span v-if="optionContent.optionTypeValue==-1">{{optionItem.optionName}}.{{optionContent.optionDetails}}</span>
+									<img :src="optionContent.optionDetails" v-if="optionContent.optionTypeValue==0" alt="" />
+									<i v-if="optionContent.optionTypeValue==-3" @click="audioPlay(optionContent.optionDetails)"></i>
+								</div>
+							</li>
+							<div class="showrightanswer" v-if="(question.questionTypeValue==1||question.questionTypeValue==-1)&&showAnswer==true&&result[i].answerIsRight==false" >
+								<span >答案：{{getRightAnswer(question.questionOptionsAttributes)}}</span>
+							</div>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/vue.js"></script>
+<script type="text/javascript" src="../../script/zepto.js"></script>
+<script src="../../script/jquery-1.10.2.min.js"></script>
+<script src="../../script/chessboard.js"></script>
+<script type="text/javascript" src="../../script/sgfutils.js"></script>
+<script type="text/javascript">
+	var canvas;
+	var canvasD;
+	var showRight = false;
+	var showAnswer = false;
+	
+	var letters = "abcdefghijklmnopqrstuvwxyz";
+	
+	imready = function() {
+		window.result = api.pageParam.result;
+		console.log("-----"+JSON.stringify(api.pageParam.date))
+		for(var i=0;i<window.result.length;i++){
+			window.result[i].dingRight=-1;//未订
+		}
+		window.data = api.pageParam.date;
+		window.sgfQuestion = [];
+		window.sgfResult = [];
+		window.framesLoaded = [];
+		for(var i=0;i<window.data.length;i++){
+			if(window.data[i].questionTypeValue==2){
+				var item = window.data[i];
+				item.frameCount = i;
+				window.sgfQuestion.push(item)
+				window.sgfResult.push(window.result[i]);
+				window.framesLoaded.push(false);
+			}
+		}
+
+		initVue();
+		//		$(".right_answer").css({
+		//			"background":"#fff!important"
+		//		});
+
+		assigment.init();
+        console.log("发送广播。")
+		api.addEventListener({
+			name: 'answerResult'
+		}, function(ret, err) {
+			//showAnswer
+			if (ret.value.type == 'showAnswer') { //显示答案
+				showAnswer=true;
+				showRight = true;
+				var sgfs = $api.domAll("iframe");
+				for(var i=0;i<sgfs.length;i++){
+					var sgf = $(sgfs[i]).attr('sgf');
+					console.log(sgf);
+					var qq = parseSGF(sgf);
+					var answer = qq.answer;
+					if(answer.length<=1){//单个答案
+						//保持高度不变。
+						if(answer.length==0){
+						}else{
+							console.log($(sgfs[i]).attr("answerIsRight"))
+							if($(sgfs[i]).attr("answerIsRight")=='true'){//如果回答正确则不显示
+								console.log("保持高度不变");
+							}else{//回答错误，仍然显示正确答案
+								console.log("高度加大")
+								var parent = $(sgfs[i]).parent();
+								$(parent).css("height","11.7rem");
+								$(sgfs[i]).attr("loaded",'false');
+								if($(sgfs[i]).attr("loaded")!='true'){
+									assigment.iframeLoaded(sgfs[i])
+								}
+							}
+						}
+					}else{//多答案，无论正确与否都显示多答案
+						//高度加大
+						console.log("高度加大")
+						var parent = $(sgfs[i]).parent();
+						$(parent).css("height","11.7rem");
+						$(sgfs[i]).attr("loaded",'false');
+						if($(sgfs[i]).attr("loaded")!='true'){
+							assigment.iframeLoaded(sgfs[i])
+						}
+					}
+				}
+				assigment.init();
+			}
+		});
+
+        api.addEventListener({
+	        name:'dingzhengListener'
+        },function(ret,err){
+        	//ret.value.result
+        	window.ding=true;
+          	console.log("收到订正广播--"+JSON.stringify(ret))
+        	var backResult = ret.value.result;
+			var sgfs = $api.domAll("iframe");
+			console.log("result == "+JSON.stringify(backResult))
+			var indexes = [];
+        	for(var i=0;i<backResult.length;i++){
+        		var r = backResult[i];
+        		var qid = r.questionId;
+        		for(var j=0;j<window.result.length;j++){
+        			var item = window.result[j];
+        			var qqid = item.questionId;
+        			if(qid==qqid){//831添加，修改答案。
+        				if(r.answerIsRight){//订对
+        					item.dingRight=1;
+        				}else{//订错
+        					item.dingRight=0;
+        				}
+			            item.answerSgfText= r.answerSgfText;
+			            item.choiceOptionId= r.choiceOptionId;
+			            item.choiceOptionSequence= r.choiceOptionSequence;
+			            item.createTime= r.createTime;
+			            item.homeWorkId= r.homeWorkId;
+			           	item.id= r.id;
+			            item.questionId= r.questionId;
+			            item.questionType= r.questionType;
+			            item.studentId= r.studentId;
+			            item.data=r.data;
+        			}
+        		}
+        	}
+        	console.log("window.result=="+JSON.stringify(window.result))
+        	assigment.init();
+        });
+
+	};
+
+	var assigment; //全局控制器Controller
+	initVue = function() { //初始化Vue需要的是双向数据绑定 当改变数据以后view会做相应的改变
+		var date = vueDateManager();
+
+		var methods = vueMethodsManager();
+		assigment = new Vue({
+			el: '#main', //绑定元素
+			data: date, //本页面的静态动态全部数据
+			methods: methods,//本页面的全部方法
+			updated: function(){
+				if(window.ding){//订正。
+					var sgfs = $api.domAll("iframe");
+					for(var i=0;i<sgfs.length;i++){
+						$(sgfs[i]).attr("loaded",'false');
+						if($(sgfs[i]).attr("loaded")!='true'){
+							methods.iframeLoaded(sgfs[i])
+						}
+					}
+					window.ding=false;
+				}else{
+					if(api.systemType=='ios'){
+						var sgfs = $api.domAll("iframe");
+						for(var i=0;i<sgfs.length;i++){
+							$(sgfs[i]).attr("loaded",'false');
+							if($(sgfs[i]).attr("loaded")!='true'){
+								methods.iframeLoaded(sgfs[i])
+							}
+						}
+					}
+				}
+            	
+            }
+		})
+	}
+
+	vueDateManager = function() {
+		//初始化Vue数据date为一个json数组
+		var date = {};
+		date.duration = "00:00:00"; //做题总时长
+		date.result = []; //做题的结果
+		date.joblist = []; //题目列表
+		date.rightJobList = [];
+		date.question = [];
+		date.rank = 0;
+		date.comment = "别灰心！继续加油哦~";
+		date.times = new Date().Format("yyyy-MM-dd hh:mm:ss"); //当前时间
+		date.homework = {
+			"homeWorkClassName": "....",
+			"homeWorkTitle": ".....",
+		}; //班级以及随堂作业
+		date.avg; //平均分
+		data.showAnswer=false;
+		console.log("数据管理者" + JSON.stringify(date));
+		return date;
+	}
+	vueMethodsManager = function() {
+		//时间管理中心 每个Vue事件的处理都可以在这管理
+		var methods = {};
+		methods.init = function() { //push数据
+			assigment.result = window.result;
+			assigment.joblist = api.pageParam.date;
+//			assigment.joblist = [{"boardSize":0,"difficultyName":"一星","difficultyValue":1,"drawChessBoard":false,"knowledgeId":23,"knowledgeName":"围棋常识","programmeId":27,"programmeName":"启蒙","questionId":161,"questionOptionsAttributes":[{"optionId":355,"optionName":"A","optionRight":false,"optionValue":0,"questionId":161,"questionOptions":[{"optionDetails":"一","optionTypeName":"文本","optionTypeValue":-1}]},{"optionId":356,"optionName":"B","optionRight":true,"optionValue":1,"questionId":161,"questionOptions":[{"optionDetails":"两","optionTypeName":"文本","optionTypeValue":-1}]}],"questionTitleAttributes":[{"titleDetails":"围棋是（  ）个人玩的游戏","titleTypeName":"文本","titleTypeValue":-1}],"questionTypeName":"选择题","questionTypeValue":1,"subjectId":1,"subjectName":"","textTitle":true,"textTitleValue":"围棋是（  ）个人玩的游戏"},{"boardSize":0,"difficultyName":"一星","difficultyValue":1,"drawChessBoard":false,"knowledgeId":23,"knowledgeName":"围棋常识","programmeId":27,"programmeName":"启蒙","questionId":180,"questionOptionsAttributes":[{"optionId":395,"optionName":"A","optionRight":true,"optionValue":0,"questionId":180,"questionOptions":[{"optionDetails":"积极举手，自信回答","optionTypeName":"文本","optionTypeValue":-1}]},{"optionId":396,"optionName":"B","optionRight":false,"optionValue":1,"questionId":180,"questionOptions":[{"optionDetails":"害怕自己的答案不对，不举手","optionTypeName":"文本","optionTypeValue":-1}]}],"questionTitleAttributes":[{"titleDetails":"课上老师提问问题时，应该（   ）","titleTypeName":"文本","titleTypeValue":-1}],"questionTypeName":"选择题","questionTypeValue":1,"subjectId":1,"subjectName":"","textTitle":true,"textTitleValue":"课上老师提问问题时，应该（   ）"},{"boardSize":0,"difficultyName":"一星","difficultyValue":1,"drawChessBoard":false,"knowledgeId":23,"knowledgeName":"围棋常识","programmeId":27,"programmeName":"启蒙","questionId":268,"questionOptionsAttributes":[{"optionId":595,"optionName":"A","optionRight":true,"optionValue":0,"questionId":268,"questionOptions":[{"optionDetails":"","optionTypeName":"文本","optionTypeValue":-1},{"optionDetails":"http://optx5zsuy.bkt.clouddn.com/2b1332e6fec3078e42133b8f03e04a5f.png","optionTypeName":"图片","optionTypeValue":0}]},{"optionId":596,"optionName":"B","optionRight":false,"optionValue":1,"questionId":268,"questionOptions":[{"optionDetails":"","optionTypeName":"文本","optionTypeValue":-1},{"optionDetails":"http://optx5zsuy.bkt.clouddn.com/6986eadfce27bd3f57d921ff97f67dc4.png","optionTypeName":"图片","optionTypeValue":0}]},{"optionId":597,"optionName":"C","optionRight":false,"optionValue":2,"questionId":268,"questionOptions":[{"optionDetails":"","optionTypeName":"文本","optionTypeValue":-1},{"optionDetails":"http://optx5zsuy.bkt.clouddn.com/73291562da295bbc07c665826028855d.png","optionTypeName":"图片","optionTypeValue":0}]},{"optionId":598,"optionName":"D","optionRight":false,"optionValue":3,"questionId":268,"questionOptions":[{"optionDetails":"","optionTypeName":"文本","optionTypeValue":-1},{"optionDetails":"http://optx5zsuy.bkt.clouddn.com/73eb291abe6c6f8ff4a4f62a054c0f03.png","optionTypeName":"图片","optionTypeValue":0}]}],"questionTitleAttributes":[{"titleDetails":"答案是图片；a正确","titleTypeName":"文本","titleTypeValue":-1}],"questionTypeName":"选择题","questionTypeValue":1,"subjectId":1,"subjectName":"","textTitle":true,"textTitleValue":"答案是图片；a正确"},{"boardSize":13,"difficultyName":"一星","difficultyValue":1,"drawChessBoard":true,"knowledgeId":23,"knowledgeName":"围棋常识","programmeId":27,"programmeName":"启蒙","questionId":271,"questionOptionsAttributes":[],"questionTitleAttributes":[{"titleDetails":"提被标记白子","titleTypeName":"文本","titleTypeValue":-1},{"titleDetails":"http://optx5zsuy.bkt.clouddn.com/(;CA[UTF-8]FF[4]SZ[13]AP[北京中棋]AB[gc]AB[fd]AB[hd]AW[gd]AM[gd](;B[ge]C[RIGHT])(;B[aa]C[RIGHT])(;B[bc]C[RIGHT]))","titleTypeName":"SGF","titleTypeValue":3}],"questionTypeName":"对弈题","questionTypeValue":2,"subjectId":1,"subjectName":"","textTitle":true,"textTitleValue":"提被标记白子","sgfTitle":true,"sgfTitleValue":"http://optx5zsuy.bkt.clouddn.com/(;CA[UTF-8]FF[4]SZ[13]AP[北京中棋]AB[gc]AB[fd]AB[hd]AW[gd]AM[gd](;B[ge]C[RIGHT])(;B[aa]C[RIGHT])(;B[bc]C[RIGHT]))","frameCount":3},{"boardSize":13,"difficultyName":"一星","difficultyValue":1,"drawChessBoard":true,"knowledgeId":23,"knowledgeName":"围棋常识","programmeId":27,"programmeName":"启蒙","questionId":273,"questionOptionsAttributes":[],"questionTitleAttributes":[{"titleDetails":"黑先落子","titleTypeName":"文本","titleTypeValue":-1},{"titleDetails":"http://optx5zsuy.bkt.clouddn.com/(;CA[UTF-8]FF[4]SZ[13]AP[北京中棋]AB[he]AB[ie]AB[id]AW[je]AB[jd]AB[ke](;B[jf]C[RIGHT]))","titleTypeName":"SGF","titleTypeValue":3}],"questionTypeName":"对弈题","questionTypeValue":2,"subjectId":1,"subjectName":"","textTitle":true,"textTitleValue":"黑先落子","sgfTitle":true,"sgfTitleValue":"http://optx5zsuy.bkt.clouddn.com/(;CA[UTF-8]FF[4]SZ[13]AP[北京中棋]AB[he]AB[ie]AB[id]AW[je]AB[jd]AB[ke](;B[jf]C[RIGHT]))","frameCount":4},{"boardSize":13,"difficultyName":"一星","difficultyValue":1,"drawChessBoard":true,"knowledgeId":23,"knowledgeName":"围棋常识","programmeId":27,"programmeName":"启蒙","questionId":275,"questionOptionsAttributes":[],"questionTitleAttributes":[{"titleDetails":"被标记的白子的气","titleTypeName":"文本","titleTypeValue":-1},{"titleDetails":"http://optx5zsuy.bkt.clouddn.com/(;CA[UTF-8]FF[4]SZ[13]AP[北京中棋]AB[gc]AB[fd]AW[gd]AW[ge]AB[hd]AB[he](;M[fe];M[gf]C[RIGHT]))","titleTypeName":"SGF","titleTypeValue":3}],"questionTypeName":"对弈题","questionTypeValue":2,"subjectId":1,"subjectName":"","textTitle":true,"textTitleValue":"被标记的白子的气","sgfTitle":true,"sgfTitleValue":"http://optx5zsuy.bkt.clouddn.com/(;CA[UTF-8]FF[4]SZ[13]AP[北京中棋]AB[gc]AB[fd]AW[gd]AW[ge]AB[hd]AB[he](;M[fe];M[gf]C[RIGHT]))","frameCount":5},{"boardSize":9,"difficultyName":"一星","difficultyValue":1,"drawChessBoard":true,"knowledgeId":23,"knowledgeName":"围棋常识","programmeId":27,"programmeName":"启蒙","questionId":277,"questionOptionsAttributes":[],"questionTitleAttributes":[{"titleDetails":"请标记出黑子的气","titleTypeName":"文本","titleTypeValue":-1},{"titleDetails":"http://optx5zsuy.bkt.clouddn.com/(;CA[UTF-8]FF[4]SZ[9]AP[北京中棋]AB[bg]AB[cg]AB[ch]AB[ag]AB[ci](;M[bh];M[ah];M[bi];M[di];M[dh];M[dg];M[df];M[cf];M[bf];M[af]C[RIGHT]))","titleTypeName":"SGF","titleTypeValue":3}],"questionTypeName":"对弈题","questionTypeValue":2,"subjectId":1,"subjectName":"","textTitle":true,"textTitleValue":"请标记出黑子的气","sgfTitle":true,"sgfTitleValue":"http://optx5zsuy.bkt.clouddn.com/(;CA[UTF-8]FF[4]SZ[9]AP[北京中棋]AB[bg]AB[cg]AB[ch]AB[ag]AB[ci](;M[bh];M[ah];M[bi];M[di];M[dh];M[dg];M[df];M[cf];M[bf];M[af]C[RIGHT]))","frameCount":6}]
+			assigment.question = assigment.joblist;
+			assigment.homework = api.pageParam.homework;
+			var score = 0,
+				avg = 0,
+				time = 0;
+			avg = 100 / assigment.result.length;
+			assigment.rightJobList = [];
+			for (var i = 0; i < assigment.result.length; i++) {
+				// assigment.joblist[i].
+				time += assigment.result[i].answerCostTime;
+				if (assigment.result[i].answerIsRight == true) {
+					score += avg;
+					assigment.rightJobList.push(assigment.joblist[i]);
+				}
+			}
+			assigment.duration = assigment.durationMat(time);
+			assigment.avg = score;
+			initScore();
+			fillScore(score); //加载圆环
+			assigment.getRank(); //获取正确率排行
+			if (assigment.avg == 100) {
+				assigment.comment = "满分！棒棒哒";
+				//发送广播时间不用显示下面的dom值
+			} else if (assigment.avg >= 80 && 100 > assigment.avg) {
+				assigment.comment = "你可以更棒，加油！";
+			} else if (assigment.avg >= 60 && 80 > assigment.avg) {
+				assigment.comment = "要加把劲喽！";
+			} else if (59 > assigment.avg) {
+				assigment.comment = "成绩不太好，别灰心，加油！";
+			}
+			assigment.showAnswer=showAnswer;
+
+		console.log("数据管理者" + JSON.stringify(assigment.result));
+		console.log("数据管理者" + JSON.stringify(assigment.question));
+		};
+		methods.iframeLoaded = function (e){//iframe  event 
+			if(!e)return;
+			var el = e.target;//当前控件
+			if(!el){
+				el = e;
+			}
+			var loaded =  $(el).attr("loaded");
+			if(loaded=='true'){
+				console.log("加载完了吧")
+				return;
+			}
+			//获取属性，即可使用
+			var src = "weiqiResult.html";
+
+			var sgf = $(el).attr("sgf");
+			var boardSize = $(el).attr("boardSize");
+			var answerIsRight = $(el).attr("answerIsRight");
+			var answerSgf =$(el).attr("answerSgf");
+
+			console.log("answerSgf==="+answerSgf)
+
+			src+=("?sgf="+sgf+"&boardSize="+boardSize+"&answerIsRight="+answerIsRight+"&answerSgf="+answerSgf+"&showRight="+showRight);
+			$(el).attr("src",src);
+			$(el).attr("loaded","true");
+		}
+
+		methods.getRank = function() { //获取正确率排行
+			var body = {
+				method: "countStudentRankingByHomework",
+				request: {
+					"studentId": assigment.homework.homeWorkStudentId,
+					"homeWorkId": assigment.result[0].homeWorkId,
+				}
+			}
+			console.log("countStudentRankingByHomework请求数据" + JSON.stringify(body));
+			ajaxRequest(body, function(ret, err) { //先判断此手机号码是否注册
+				console.log("countStudentRankingByHomework请求数据" + JSON.stringify(ret));
+				api.hideProgress();
+				if (ret) {
+					if (ret.responseCode == 0) {
+						assigment.rank = ret.responseBody; //获取排行
+					}
+				}
+			})
+		}
+		methods.getRightAnswer=function(optionsAttributes){
+			var answers = '';
+			for(var i=0;i<optionsAttributes.length;i++){
+				if(optionsAttributes[i].optionRight){
+					answers+="，"
+					answers+=optionsAttributes[i].optionName;
+				}
+			}
+			answers=answers.substr(1,answers.length-1)
+			return answers
+		}
+		methods.isMyAnswer=function(ret,index){
+			if(ret.data&&ret.data.length>1){
+				for(var i=0;i<ret.data.length;i++){
+					if(index==ret.data[i].choiceOptionSequence){
+						return true;
+					}
+				}
+				return false;
+			}else{
+				return index == ret.choiceOptionSequence;
+			}
+		}
+        methods.audioPlay = function(src) {
+        	console.log(src)
+            api.startPlay({
+                path: src
+            }, function(ret, err) {
+            	console.log("ret-"+JSON.stringify(ret))
+            	console.log("err-"+JSON.stringify(err))
+                if (ret) {
+					if(ret.state==0){
+						alert(ret.msg)
+					}else{
+					
+					}
+                } else {
+					alert(err.msg)
+                }
+            });
+        }
+		methods.durationMat = function(value) {
+			var theTime = parseInt(value); // 秒
+			var theTime1 = 0; // 分
+			var theTime2 = 0; // 小时
+			// alert(theTime);
+			if (theTime > 60) {
+				theTime1 = parseInt(theTime / 60);
+				theTime = parseInt(theTime % 60);
+				// alert(theTime1+"-"+theTime);
+				if (theTime1 > 60) {
+					theTime2 = parseInt(theTime1 / 60);
+					theTime1 = parseInt(theTime1 % 60);
+				}
+			}
+			var result = "" + parseInt(theTime) + "秒";
+			if (theTime1 > 0) {
+				result = "" + parseInt(theTime1) + "分" + result;
+			}
+			if (theTime2 > 0) {
+				result = "" + parseInt(theTime2) + "小时" + result;
+			}
+			return result;
+
+		}
+		console.log("事件管理者：" + JSON.stringify(methods));
+		return methods;
+	}
+
+	function goRanking() {
+		api.openWin({
+			name: 'ranking',
+			url: 'ranking_title.html',
+			pageParam: {
+				homeWorkId:assigment.result[0].homeWorkId
+			}
+		});
+	}
+
+
+	function fillScore(score) {
+		score = Math.round(score);
+		canvasR = parseInt(canvasD / 2);
+		var context = canvas.getContext('2d');
+		context.scale(4, 4);
+		context.clearRect(0, 0, canvasD, canvasD);
+		context.beginPath();
+		context.moveTo(canvasR, canvasR);
+		context.arc(canvasR, canvasR, canvasR, 0, Math.PI * 2, false);
+		context.closePath();
+		context.strokeStyle = '#d3d3d3';
+		context.stroke();
+		context.beginPath();
+		context.moveTo(canvasR, canvasR);
+		context.arc(canvasR, canvasR, canvasR, 0, Math.PI * 2, false);
+		context.closePath();
+		context.fillStyle = '#FFF';
+		context.fill();
+		context.beginPath();
+		context.moveTo(canvasR, canvasR);
+		context.arc(canvasR, canvasR, canvasR, -0.5 * Math.PI, Math.PI * 2 * score / 100 - 0.5 * Math.PI, false);
+		context.closePath();
+		context.fillStyle = '#FF8344';
+		context.fill();
+		context.beginPath();
+		context.moveTo(canvasR, canvasR);
+		context.arc(canvasR, canvasR, canvasR - 12, 0, Math.PI * 2, true);
+		context.closePath();
+		context.strokeStyle = "#d3d3d3";
+		context.stroke();
+		context.beginPath();
+		context.moveTo(canvasR, canvasR);
+		context.arc(canvasR, canvasR, canvasR - 12, 0, Math.PI * 2, true);
+		context.closePath();
+		context.fillStyle = "#efefef";
+		context.fill();
+		context.font = "20px pty";
+		context.fillStyle = '#FF8344';
+		context.textAlign = 'center';
+		context.textBaseline = 'middle';
+		context.moveTo(canvasR, canvasR);
+		context.fillText(score + "分", canvasR, canvasR);
+	}
+
+	function initScore() {
+		canvas = $api.dom(".score");
+		var offset = $api.offset($api.dom(".start-start"))
+		canvasD = offset.w;
+		$api.attr(canvas, "width", offset.w * 4);
+		$api.attr(canvas, "height", offset.h * 4);
+	}
+</script>

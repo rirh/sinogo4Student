@@ -1,0 +1,10 @@
+@font-face {
+  font-family: 'pty';
+  src: url('../res/fzpty.eot');
+  src: url('../res/fzpty.eot?#iefix') format('embedded-opentype'),
+       url('../res/fzpty.woff') format('woff'),
+	   url('../res/fzpty.ttf') format('truetype'),
+	   url('../res/fzpty.svg#pty') format('svg');
+      font-weight: normal;
+      font-style: normal;
+}

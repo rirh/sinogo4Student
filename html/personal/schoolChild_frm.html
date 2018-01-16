@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>文档</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/fontstyle.css" />
+    <style>
+    body {
+        background: url(../../image/bg_mine.png) no-repeat center center;
+        background-size: 100%;
+    }
+
+        #main dl {
+            background: rgba(254, 238, 182, 0.65);
+        }
+
+        #main dd {
+            height: .9rem;
+            line-height: .9rem;
+            border-bottom: solid 1px #eee;
+        }
+
+        #main dd span {
+            margin-left: .23rem;
+            font-size: .26rem;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="flex-wrap flex-vertical" id="main">
+        <div class="flex-con">
+            <dl>
+                <dd v-for="city in cityList" @click="goChildRegion(city)"><span>{{city.institutionName}}</span></dd>
+            </dl>
+        </div>
+    </div>
+</body>
+
+</html>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript" src="../../script/vue.js"></script>
+<script type="text/javascript">
+    imready = function() {
+        initVue();
+        assigment.init();
+    }
+    var assigment; //全局控制器Controller
+    initVue = function() { //初始化Vue需要的是双向数据绑定 当改变数据以后view会做相应的改变
+        var date = vueDateManager();
+        var methods = vueMethodsManager();
+        assigment = new Vue({
+            el: '#main', //绑定元素
+            data: date, //本页面的静态动态全部数据
+            methods: methods, //本页面的全部方法
+            created: function() {}
+        })
+    }
+    vueDateManager = function() {
+        //初始化Vue数据date为一个json数组
+        var date = {};
+        date.cityList = [{
+            "id":83,
+            "institutionRegion":null,
+            "institutionType":1,
+            "institutionCode":"",
+            "createUser":"",
+            "institutionLatitude":null,
+            "createTime":null,
+            "institutionLongitude":null,
+            "institutionStatus":null,
+            "institutionName":"应店小学",
+            "organizationId":null,
+            "institutionAddress":"润枫德尚A座2102"
+        }];
+        date.childcity;
+        console.log("数据管理者" + JSON.stringify(date));
+        return date;
+    }
+    vueMethodsManager = function() {
+        //时间管理中心 每个Vue事件的处理都可以在这管理
+        var methods = {};
+        methods.init = function() {
+            assigment.cityList = api.pageParam.city;
+        };
+        methods.goChildRegion=function(school){
+          api.sendEvent({
+              name: 'studentSchool',
+              extra: {
+                  key1: school
+              }
+          });
+          api.closeWin({
+              name: 'school_win'
+          });
+          api.closeWin();
+        }
+        console.log("事件管理者：" + JSON.stringify(methods));
+        return methods;
+
+    }
+
+
+
+
+    function openWindow(winname) {
+        api.openWin({
+            name: winname,
+            url: winname + ".html"
+        });
+    }
+</script>

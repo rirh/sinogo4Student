@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/fontstyle.css"/>
+    <style>
+    	body{
+    		font-size:0.24rem;
+    	}
+    	/*-------header----------*/
+    	#top-header{
+    		background: url(./image/bg_home_top.png) no-repeat center center;
+    		background-size:100% 100%;
+    		position:fixed;
+    		top:0;
+    		width:100%;
+    		height:0.98rem;
+    	}
+    	#header{
+		    background-color: rgba(255,255,255,0.8);
+		    text-align: center;
+		    width: 100%; position: relative;
+		    height:0.98rem;
+		}
+		#header .back-icon{
+		    display: inline-block; width: 0.98rem; height: 0.98rem;
+		    background: url(../../image/icon_back.png) no-repeat center center;
+		    background-size: 0.78rem 0.33rem;
+		    position: absolute; left: 0.24rem; bottom: 0;
+		}
+		#header h1{
+		    font-size: 0.36rem;
+		    height: 0.98rem; line-height: 0.98rem; margin: 0 auto; color: #ff8344;
+		    font-family:'pty';
+		    width:5rem;
+		}
+		#footer{
+			height:0.98rem;
+			background:#F6F6F6;
+			position: relative;
+		}
+		#footer .footer-t{
+			float:left;
+			height:0.98rem;
+			line-height:0.98rem;
+			text-align: center;
+			width:40%;
+			font-size:0.3rem;
+			color:#FF8344;
+		}
+		#footer .footer-c{
+			float:left;
+			height:0.98rem;
+			line-height:0.98rem;
+			text-align: center;
+			width:60%;
+			position: relative;
+		}
+		#footer .footer-c .span1{
+			height:0.6rem;
+			line-height:0.6rem;
+			background:url(../../image/icon_show_answer.png) no-repeat center center;
+			background-size:1.73rem 0.57rem;
+			padding: 0 0.25rem;
+			border-radius: 0.2rem;
+			color:#FF8344;
+			font-size:0.28rem;
+		}
+		#footer .footer-c .span2{
+			height:0.6rem;
+			line-height:0.6rem;
+			background:url(../../image/icon_go_mistake.png) no-repeat center center;
+			background-size:1.56rem 0.57rem;
+			padding: 0 0.2rem;
+			border-radius: 0.2rem;
+			color:#FFF;
+			font-size:0.28rem;
+			margin-left: 0.3rem;
+		}
+    </style>
+</head>
+<body>
+	<div id="wrap" class="flex-wrap flex-vertical">
+		<div id="top-header"></div>
+		<div id="header">
+			<a class="back-icon" tapmode="active" onclick="ScloseWin()" ></a>
+			<h1 id="title">加油加油</h1>
+		</div>
+		<div id="main" class="flex-con">
+		</div>
+		<div id="footer">
+			<div class="footer-t"></div>
+			<div class="footer-c">
+				<span class="span1" onclick="showRightAnswer();">直接看答案</span>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript">
+	imready = function(){
+		c(222222222222,api.pageParam);
+		var headerPos = $api.offset($api.byId('header'));
+		var footerPos = $api.offset($api.byId('footer'));
+		var y = headerPos.h;
+		var h = api.winHeight-y-footerPos.h;
+		window.data = api.pageParam.date;
+		window.result = api.pageParam.result;
+		if(api.pageParam.date){//如果是从题目一步步过来的，直接传数据
+			api.openFrame({
+		        name: 'mistakeResult_con',
+		        url: 'mistakeResult_con_831.html',
+		        rect: {
+			          x:0,
+		            y:y,
+		            w:api.winWidth,
+		            h:h
+		        },
+						pageParam:{
+							date:api.pageParam.date,
+							result:api.pageParam.result,
+							category:api.pageParam.category,
+	        				flag: api.pageParam.flag
+						}
+	        });
+        	initBottom();
+        }else{
+        }
+        
+	};
+	function initBottom(result){
+		var errorCount = 0;
+		result = result?result:api.pageParam.result;
+		for(var i=0;i<result.length;i++){
+			if(result[i].answerIsRight){//答对了
+				
+			}else{//答错
+				errorCount++;
+			}
+		}
+		if(errorCount>0){
+			$api.dom(".footer-t").innerHTML="";
+		}else{
+			$api.dom(".footer-t").innerHTML="";
+			$api.dom(".footer-c .span1").style.display="none"
+		}
+	}
+	
+	function dealWithData(data) {
+		var questionTitleAttributes = data.questionTitleAttributes;
+		for (var i = 0; i < data.length; i++) {
+			var item = data[i];
+			var questionTitleAttributes = item.questionTitleAttributes;
+			for (var j = 0; j < questionTitleAttributes.length; j++) {
+				var titleTypeValue = questionTitleAttributes[j].titleTypeValue;
+				if (titleTypeValue == -1) { //文本
+					item.textTitle = true;
+					item.textTitleValue = questionTitleAttributes[j].titleDetails
+				} else if (titleTypeValue == 0) { //图片
+					item.imgTitle = true;
+					item.imgTitleValue = questionTitleAttributes[j].titleDetails
+				} else if (titleTypeValue == 1) { //音频
+					item.audioTitle = true;
+					item.audioTitleValue = questionTitleAttributes[j].titleDetails
+				} else if (titleTypeValue == 2) { //视频
+					item.videoTitle = true;
+					item.videoTitleValue = questionTitleAttributes[j].titleDetails
+				} else if (titleTypeValue == 3) { //sgf
+					item.sgfTitle = true;
+					item.sgfTitleValue = questionTitleAttributes[j].titleDetails
+				} else {
+					//没这么干的
+				}
+			}
+		}
+		return data;
+
+	}
+	
+	function showRightAnswer(){
+		api.sendEvent({
+	        name:'answerResult',
+	        extra:{
+	        	type:"showAnswer"
+	        }
+        });
+		$api.dom("#footer").style.display="none"    
+        var headerPos = $api.offset($api.byId('header'));  
+        var y = headerPos.h;
+		var h = api.winHeight-y;
+        var rect = {
+	        x:0,
+            y:y,
+            w:api.winWidth,
+            h:h
+        }
+        api.setFrameAttr({
+	        name: 'mistakeResult_con',
+	        rect:rect
+        });
+	}
+	
+	function ScloseWin(){
+		api.sendEvent({
+		    name: 'viewReady',
+		    extra: {
+		        key1: 'value1',
+		    }
+		});
+       api.closeWin();
+
+	}
+</script>
+</html>

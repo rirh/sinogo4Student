@@ -1,0 +1,48 @@
+
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<title></title>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+    $ (function ()
+    {
+        var content = $ ("#qianduandu");
+        var items = content.find ("ul");
+        items.each (function (i, dom)
+        {
+            dom.ontouchstart = function ()
+            {
+                touchStartt (this);
+            }
+        });
+    });
+    function touchStartt (item)
+    {
+        alert (item.innerHTML);
+    }
+</script>
+</head>
+<body>
+    <div id="qianduandu">
+        <ul>
+            <li>dd1</li>
+        </ul>
+        <ul>
+            <li>dd2</li>
+        </ul>
+        <ul>
+            <li>dd3</li>
+        </ul>
+        <ul>
+            <li>dd4</li>
+        </ul>
+    </div>
+</body>
+</html>

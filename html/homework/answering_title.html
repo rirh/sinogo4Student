@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>title</title>
+	<link rel="stylesheet" type="text/css" href="../../css/api.css" />
+	<link rel="stylesheet" type="text/css" href="../../css/style.css" />
+	<link rel="stylesheet" type="text/css" href="../../css/fontstyle.css" />
+	<style>
+		body {
+			background: url(../../image/bg_other_t.png) no-repeat;
+			background-size: 100% 100%;
+			font-size: 0.24rem;
+			height: 0.98rem;
+		}
+
+		#header {
+			background-color: rgba(255, 255, 255, 0.8);
+			text-align: center;
+			width: 100%;
+			position: relative;
+			height: 0.98rem;
+		}
+
+		#header .back-icon {
+			display: inline-block;
+			width: 0.98rem;
+			height: 0.98rem;
+			background: url(../../image/icon_back.png) no-repeat center center;
+			background-size: 0.78rem 0.33rem;
+			position: absolute;
+			left: 0.24rem;
+			bottom: 0;
+		}
+
+		#header h1 {
+			font-size: 0.36rem;
+			height: 0.98rem;
+			line-height: 0.98rem;
+			margin: 0 auto;
+			color: #ff8344;
+			font-family: 'pty';
+			width: 5rem;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="header">
+		<a class="back-icon" tapmode="active" onclick="closeSelf()"></a>
+		<h1 id="title">计时：00:00:00</h1>
+	</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript">
+	var title ;
+	window.currentQuestion = 0;
+	imready = function() {
+		api.showProgress({
+        });
+		title = $api.byId("title");
+		var headerPos = $api.offset($api.byId('header'));
+		var y = headerPos.h;
+		var h = api.winHeight - y;
+		api.addEventListener({//取消iOS左滑事件
+		    name:'swipeleft'
+		}, function(ret, err){        
+		});
+		api.addEventListener({
+	        name: 'keyback'
+        },function(ret,err){
+        	closeSelf();
+        });
+        api.addEventListener({
+	        name:'nextClicked'
+        },function(ret,err){
+        	window.currentQuestion = ret.value.index;
+        	window.currentQuestion++;
+        });
+        api.addEventListener({
+	        name:'answerResultChanged'
+        },function(ret,err){
+        	window.result = ret.value.result;
+        });
+		var data = api.pageParam.data;
+		var type = api.pageParam.type;
+		if (data && data.length > 0) {
+			api.openFrame({
+				name: 'answering_con',
+				url: 'answering_con.html',
+				pageParam: {
+					data: data,
+					homework:api.pageParam.homework,
+					type:type?type:'mistake',
+					category:api.pageParam.category,
+	        		flag: api.pageParam.flag
+				},
+				rect: {
+					x: 0,
+					y: y,
+					w: api.winWidth,
+					h: h
+				}
+			});
+			setInterval("initTitleClock();",1000);
+			api.hideProgress();
+		} else {
+			window.homework = api.pageParam.homework;
+			requestHomeworkList();
+		}
+	};
+	
+	var hour = 0;
+	var minute = 0;
+	var second = 0;
+	
+	function initTitleClock(){
+		second++;
+		if(second%60==0){
+			minute = minute+1;
+			second=0;
+		}
+		if(minute!=0&&minute%60==0){
+			hour = hour+1;
+			minute=0;
+		}
+		title.innerHTML="计时："+handle(hour)+":"+handle(minute)+":"+handle(second);
+	}
+	function handle(d){
+		return d<10?("0"+d):d
+	}
+
+	function requestHomeworkList() {
+		//调用接口，根据作业id获取作业内的问题列表。。7.1 暂未提供接口，使用测试数据。
+		var data = {};
+		data.method = "getHomeWorkQuestions";
+		data.request ={
+			'publishId':window.homework.homeworkPublishId
+		} //科目id
+		console.log(api.frameName + "getQuestionList请求数据：" + JSON.stringify(data));
+		ajaxRequest(data, function(ret, err) {
+			console.log(api.frameName + "getQuestionList成功返回数据：" + JSON.stringify(ret));
+			api.refreshHeaderLoadDone()
+			api.hideProgress();
+			if (ret) {
+				if (ret.responseCode == 0) {
+					//ret = {"responseBody":[{"boardSize":0,"difficultyName":"二星","difficultyValue":2,"drawChessBoard":false,"knowledgeId":23,"knowledgeName":"围棋常识","programmeId":27,"programmeName":"启蒙","questionId":171,"questionOptionsAttributes":[{"optionId":375,"optionName":"A","optionRight":false,"optionValue":0,"questionId":171,"questionOptions":[{"optionDetails":"中心","optionTypeName":"文本","optionTypeValue":-1}]},{"optionId":376,"optionName":"B","optionRight":true,"optionValue":1,"questionId":171,"questionOptions":[{"optionDetails":"天元","optionTypeName":"文本","optionTypeValue":-1}]}],"questionTitleAttributes":[{"titleDetails":"中间的星位又叫（   ）","titleTypeName":"文本","titleTypeValue":-1}],"questionTypeName":"选择题","questionTypeValue":1,"subjectId":1,"subjectName":""},{"boardSize":13,"difficultyName":"一星","difficultyValue":1,"drawChessBoard":true,"knowledgeId":23,"knowledgeName":"围棋常识","programmeId":27,"programmeName":"启蒙","questionId":246,"questionOptionsAttributes":[],"questionTitleAttributes":[{"titleDetails":"对弈棋盘","titleTypeName":"文本","titleTypeValue":-1},{"titleDetails":"http://optx5zsuy.bkt.clouddn.com/(;CA[UTF-8]FF[4]SZ[13]AP[北京中棋]AB[gd]AB[fe]AB[he]AW[ge](;B[gf]C[RIGHT]))","titleTypeName":"SGF","titleTypeValue":3}],"questionTypeName":"对弈题","questionTypeValue":2,"subjectId":1,"subjectName":""}],"responseCode":0,"responseMsg":"成功","traceId":null};
+					var responseData = ret.responseBody;
+					var headerPos = $api.offset($api.byId('header'));
+					var y = headerPos.h;
+					var h = api.winHeight - y;
+					
+					//7.15 数据返回成功。判断是否缓存了答题记录
+					var userid = api.getPrefs({
+			            sync:true,
+			            key:'userid'
+		            });
+					var key = "publishid_"+userid+"_"+window.homework.homeworkPublishId;
+					api.getPrefs({
+	                    sync:false,
+	                    key:key
+                    },function(ret,err){
+                    	var cindex = 0;
+                    	var result = '';
+                    	if(ret){
+                    		if(ret.value){
+                    			console.log("ret.value == "+ret.value)
+                    			var value = ret.value;//计时时间_题号
+                    			var splits = value.split("_")
+                    			var delta = parseInt(splits[0]);
+                    			cindex = parseInt(splits[1]);
+                    			result = splits[2];
+                    			window.result = result;
+                    			window.currentQuestion = cindex;
+                    			//秒转 hour minute second
+								//小时数
+								hour = parseInt(delta/(60*60));
+								
+								delta = delta - hour*60*60
+								//分钟数
+								minute = parseInt(delta/60);	
+								
+								delta = delta - minute*60;
+								//秒数
+								second = delta;
+                    		}else{
+                    		}
+                    	}else{
+                    	}
+                    	api.openFrame({
+							name: 'answering_con',
+							url: 'answering_con.html',
+							pageParam: {
+								data: responseData,
+								homework: window.homework,
+								cindex:cindex,
+								result:result
+							},
+							rect: {
+								x: 0,
+								y: y,
+								w: api.winWidth,
+								h: h
+							}
+						});
+						setInterval("initTitleClock();",1000);
+                    });
+				} else {
+					api.toast({
+						msg: ret.responseMsg,
+						duration: 2000,
+						location: 'bottom'
+					});
+
+				}
+			} else {
+				api.toast({
+					msg: ret.responseMsg,
+					duration: 2000,
+					location: 'bottom'
+				});
+			}
+
+		});
+	}
+	
+	function closeSelf(){
+		if(window.homework){//只在作业中有效
+			var userid = api.getPrefs({
+	            sync:true,
+	            key:'userid'
+            });
+			var key = "publishid_"+userid+"_"+window.homework.homeworkPublishId;
+			var value = hour*60*60+minute*60+second
+			value += "_"
+			value += (window.currentQuestion)
+			value += "_"
+			value += window.result;
+			api.setPrefs({
+		        key:key,
+		        value:value
+	        });
+	        
+        }
+		api.closeWin();
+	}
+	
+</script>
+
+</html>

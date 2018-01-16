@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<!-- 此页面Vue工作模板-->
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>studentCompletion</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+
+    <style scoped>
+        /****************************模板导入***********************************************/
+
+        .h-right {
+            text-align: right;
+            margin-right: .23rem;
+            -webkit-flex: .3;
+            /* Chrome */
+            -ms-flex: .3;
+            /* IE 10 */
+            flex: .3;
+            /* NEW, Spec - Opera 12.1, Firefox 20+ */
+            -webkit-box-flex: .3;
+            /* OLD - iOS 6-, Safari 3.1-6 */
+            -moz-box-flex: .3;
+            width: 0%;
+            display: block;
+        }
+
+        .h-left {
+            margin-left: .23rem;
+            text-align: left;
+            -webkit-flex: .3;
+            /* Chrome */
+            -ms-flex: .3;
+            /* IE 10 */
+            flex: .3;
+            /* NEW, Spec - Opera 12.1, Firefox 20+ */
+            -webkit-box-flex: .3;
+            /* OLD - iOS 6-, Safari 3.1-6 */
+            -moz-box-flex: .3;
+            width: 0%;
+            display: block;
+        }
+
+        .h-left img {
+            margin-top: .215rem;
+            width: .25rem;
+            height: .45rem;
+            background: url(../../image/setting/icon-back.png);
+            background-size: cover;
+            margin-left: 0;
+        }
+        /*****************************************************************************************/
+
+        html,
+        body {
+            position: relative;
+            height: 100%;
+        }
+
+        body {
+            background: #eee;
+            background-color: transparent !important;
+            position: relative;
+            margin: 0;
+            padding: 0;
+        }
+
+        [v-cloak] {
+            display: none;
+        }
+
+        .container {
+            width: 100%;
+            min-height: 3rem;
+            margin-bottom: .32rem;
+        }
+
+        .content {
+            background: #fff;
+            width: 100%;
+            margin-bottom: .32rem;
+        }
+
+        .content .q-title {
+            margin-top: .29rem;
+            color: #1ebeb6;
+            font-size: .3rem;
+            margin-left: .32rem;
+            max-height: 5rem;
+        }
+
+        .content div img {
+            width: 5.1rem;
+            max-width: 5.1rem;
+            margin-left: 1.2rem;
+        }
+
+        ul {
+            margin-top: .32rem;
+        }
+
+        ul li {
+            height: auto;
+            min-height: .98rem;
+            width: 6.5rem;
+            background: #eee;
+            color: #333;
+            margin-top: .08rem;
+            margin-left: .5rem;
+            border-radius: .05rem;
+            position: relative;
+        }
+
+        ul li span {
+            margin-left: .23rem;
+            width: auto;
+            position: absolute;
+            left: .1rem;
+            top: .4rem;
+        }
+
+        ul li .icon_right {
+            width: .36rem;
+            height: .26rem;
+            position: absolute;
+            top: .5rem;
+            left: .23rem;
+        }
+
+        ul li dl {
+            width: auto;
+            display: inline-block;
+        }
+
+        ul li dl dd {
+            margin: .35rem .23rem .1rem .23rem;
+            font-size: .28rem;
+            text-indent: .5rem;
+        }
+
+        ul li dl dd img {
+            margin-top: .23rem;
+            margin-left: .43rem;
+            max-width: 5rem;
+            max-height: 3rem;
+        }
+
+        .result {
+            background: #ff8344!important;
+            color: #fff;
+        }
+
+        .isChoose {
+            background: #1ebeb6!important;
+            color: #fff;
+        }
+
+        .q-sgf {
+            background: #FFF;
+            width: 5.8rem;
+            height: 5.8rem;
+            margin-left: 0.85rem;
+            border-radius: 0.1rem;
+            margin-top: 0.56rem;
+        }
+
+        .templateStarBox {
+            height: 0.86rem;
+            width: auto;
+            background: #f6f6f6;
+            border-left: solid 0.06rem #a05150;
+            border-radius: 0.05rem;
+        }
+
+        .templateStar {
+            float: left;
+            height: 0.28rem;
+            width: 0.29rem;
+            margin: 0.29rem 0 0 0.23rem;
+        }
+
+        .leave {
+            margin-left: 0.28rem;
+            font-size: 0.28rem;
+            line-height: 0.86rem;
+        }
+
+        .templateStarBox button {
+            margin: 0.23rem 0.23rem 0.23rem auto;
+            width: 1rem;
+            height: 0.5rem;
+            color: #fff;
+            font-size: 0.32rem;
+            border-radius: 0.05rem;
+        }
+
+        .templateStarBox .error {
+            background: #ff8344;
+            border: solid 1px #884643;
+            float: right;
+        }
+
+        .templateStarBox .remove {
+            background: #1ebeb6;
+            border: solid 1px #884643;
+            float: right;
+        }
+
+        .changeBg {
+            background: #a05150!important;
+        }
+
+        .taskbox .task-con {
+            height: 5rem;
+            width: 100%;
+            border-bottom: 1px solid #f4f4f4;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            height: .98rem;
+            line-height: .98rem;
+            color: #666;
+            background: #eee;
+            text-align: center;
+            font-size: .32rem;
+            width: 100%;
+        }
+
+        .ischoose {
+            background: #1ebeb6!important;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="flex-wrap flex-vertical">
+        <header>
+            <div class="h-left" onclick="closeWin();"><img src="../../image/setting/icon-back.png" />
+            </div>
+            <div class="h-conter">
+                纠错
+            </div>
+            <div class="h-right"></div>
+        </header>
+        <div class="flex-con" id="main">
+            <footer @click="submiterror()" :class="{'ischoose':ischoose}">提交</footer>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript" src="../../script/vue.js"></script>
+<script>
+    var assigment; //全局控制器Controller
+    initVue = function() { //初始化Vue需要的是双向数据绑定 当改变数据以后view会做相应的改变
+        var date = vueDateManager();
+        var methods = vueMethodsManager();
+        assigment = new Vue({
+            el: '#main', //绑定元素
+            data: date, //本页面的静态动态全部数据
+            methods: methods, //本页面的全部方法
+            created: function() {
+                Vue.config.silent = true;
+            }
+        })
+    }
+
+    vueDateManager = function() {
+        //初始化Vue数据date为一个json数组
+        var date = {};
+        date.errorjob;
+        date.ischoose = false;
+        date.request;
+        console.log("数据管理者" + JSON.stringify(date));
+        return date;
+
+    }
+    vueMethodsManager = function() {
+            //时间管理中心 每个Vue事件的处理都可以在这管理
+            var methods = {};
+            methods.init = function() {
+                assigment.errorjob = api.pageParam.job;
+                assigment.openframe();
+            };
+
+
+                methods.openframe = function() {
+                    api.openFrame({
+                        name: 'joberror_frm',
+                        url: 'joberror_frm.html',
+                        bounces: true,
+                        rect: {
+                            x: 0,
+                            y: $api.offset($api.dom("header")).h,
+                            w: 'auto',
+                            h: api.frameHeight - $api.offset($api.dom("header")).h
+                        },
+                        pageParam: {
+                            job: assigment.errorjob
+                        }
+                    })
+
+
+
+                }
+                console.log("事件管理者：" + JSON.stringify(methods));
+                return methods;
+
+
+
+
+            }
+            imready = function() {
+                // api.parseTapmode(); //默认页面加载完成后，引擎会对 dom 里面的元素进行 tapmode 属性解析，若是之后用代码创建的 dom 元素，则需要调用该方法后 tapmode 属性才会生效
+                // $api.fixStatusBar($api.dom('header'));
+                initVue();
+                assigment.init();
+            };
+</script>
+
+</html>

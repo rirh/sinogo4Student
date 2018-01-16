@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>title</title>
+	<link rel="stylesheet" type="text/css" href="../../css/api.css" />
+	<link rel="stylesheet" type="text/css" href="../../css/style.css" />
+	<link rel="stylesheet" type="text/css" href="../../css/fontstyle.css" />
+	<style>
+		body {
+			font-size: 0.24rem;
+			background: rgba(0, 0, 0, 0);
+			background-size: 100% 100%;
+		}
+
+		body:before {
+			content: '';
+			position: fixed;
+			z-index: -1;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			background: url(../../image/bg_other_c.png) center 0 no-repeat;
+			background-size: cover;
+		}
+
+		#main {
+			position: relative;
+			padding-top: 0.28rem;
+		}
+
+		#main .work-note {
+			background: url(../../image/bg_work_note.png) no-repeat;
+			background-size: 100% 100%;
+			height: 2.4rem;
+		}
+
+		#main .work-note-con {
+			color: #333;
+			font-size: 0.28rem;
+			position: absolute;
+			top: 0.28rem;
+			padding: 0.4rem;
+		}
+
+		#main .work-note-con>div {
+			height: 0.5rem;
+			padding: 0 0.4rem;
+			line-height: 0.5rem;
+			width: 100%;
+			position: relative;
+		}
+
+		#main .work-note-con>div:before {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			border-bottom: 1px solid #eee;
+			content: "";
+			display: block;
+			-webkit-transform: scaleY(0.5);
+			-webkit-transform-origin: 0 0;
+		}
+
+		#main .nail-one {
+			position: absolute;
+			width: 0.19rem;
+			height: 0.89rem;
+			top: 2.38rem;
+			left: 0.8rem;
+			z-index: 2;
+		}
+
+		#main .nail-two {
+			position: absolute;
+			width: 0.19rem;
+			height: 0.89rem;
+			top: 2.38rem;
+			right: 0.8rem;
+			z-index: 2;
+		}
+
+		#main .start-answer {
+			margin-top: 0.28rem;
+			width: 6.98rem;
+			margin-left: 0.26rem;
+			background: rgba(255, 255, 255, 0.75);
+			height: 3.78rem;
+			border-radius: 0.1rem;
+			position: relative;
+		}
+
+		#main .start-answer .start-stars {
+			background: url(../../image/icon_stars.png) no-repeat;
+			width: 2.76rem;
+			height: 1.5rem;
+			background-size: 100% 100%;
+			position: absolute;
+			top: 0.1rem;
+			left: 0;
+		}
+
+		#main .start-answer .start-start {
+			width: 2.26rem;
+			height: 2.26rem;
+			position: absolute;
+			top: 0.38rem;
+			left: 2.36rem;
+		}
+
+		#main .start-answer .start-start .score {
+			zoom: 0.25;
+		}
+
+		#main .start-answer .start-friends {
+			width: 100%;
+			position: absolute;
+			bottom: 0.48rem;
+			left: 0;
+			right: 0;
+			font-family: "pty";
+			color: #666;
+			font-size: 0.28rem;
+			text-align: center;
+			letter-spacing: 0.03rem;
+		}
+
+		#main .teacher-comment {
+			position: relative;
+		}
+
+		#main .teacher-comment .ranking {
+			margin-top: 0.1rem;
+			width: 6.98rem;
+			margin-left: 0.26rem;
+			background: rgba(255, 255, 255, 0.75);
+			height: 0.79rem;
+			border-radius: 0.1rem;
+			position: relative;
+		}
+
+		#main .teacher-comment .ranking:before {
+			position: absolute;
+			content: "";
+			display: block;
+			border-bottom: 1px dashed #d1cbb6;
+			bottom: 0px;
+			left: 0;
+			right: 0;
+			transform: scaleY(0.5);
+			transform-origin: 0 0;
+		}
+
+		#main .teacher-comment .nail-one-s {
+			position: absolute;
+			width: 0.15rem;
+			height: 0.47rem;
+			top: -0.25rem;
+			left: 0.8rem;
+			z-index: 2;
+		}
+
+		#main .teacher-comment .nail-two-s {
+			position: absolute;
+			width: 0.15rem;
+			height: 0.47rem;
+			top: -0.25rem;
+			right: 0.8rem;
+			z-index: 2;
+		}
+
+		#main .teacher-comment .ranking .ranking-t {
+			float: left;
+			height: 0.79rem;
+			line-height: 0.79rem;
+			font-size: 0.28rem;
+			color: #333;
+			padding-left: 0.3rem;
+		}
+
+		#main .teacher-comment .ranking .ranking-c {
+			float: right;
+			height: 0.79rem;
+			line-height: 0.79rem;
+			font-size: 0.26rem;
+			color: #666;
+			padding-right: 0.3rem;
+		}
+
+		#main .teacher-comment .comment {
+			width: 6.98rem;
+			margin-left: 0.26rem;
+			background: rgba(255, 255, 255, 0.75);
+			height: 1.39rem;
+			border-radius: 0.1rem;
+			position: relative;
+		}
+
+		#main .teacher-comment .comment .comment-t {
+			height: 0.59rem;
+			line-height: 0.59rem;
+			font-size: 0.28rem;
+			color: #333;
+			margin-left: 0.3rem;
+			position: relative;
+		}
+
+		#main .teacher-comment .comment .comment-t:after {
+			position: absolute;
+			content: "";
+			display: block;
+			border-bottom: 1px dashed #d9d9d9;
+			bottom: 0px;
+			left: 0;
+			right: 0;
+			transform: scaleY(0.5);
+			transform-origin: 0 0;
+		}
+
+		#main .teacher-comment .comment .comment-c {
+			line-height: 0.59rem;
+			font-size: 0.28rem;
+			color: #FF8344;
+			margin-left: 0.3rem;
+			font-family: 'pty';
+			position: relative;
+		}
+
+		#main .teacher-comment .comment .comment-c:after {
+			position: absolute;
+			content: "";
+			display: block;
+			border-bottom: 1px dashed #d9d9d9;
+			bottom: 0px;
+			left: 0;
+			right: 0;
+			transform: scaleY(0.5);
+			transform-origin: 0 0;
+		}
+
+		#main .my-answers {
+			height: 1.39rem;
+			width: 6.98rem;
+			margin-left: 0.26rem;
+			background: rgba(255, 255, 255, 0.75);
+			border-radius: 0.1rem;
+			margin-top: 0.1rem;
+			position: relative;
+		}
+
+		#main .my-answers .answers-t {
+			height: 0.9rem;
+			line-height: 0.9rem;
+			text-align: center;
+			font-size: 0.32rem;
+			color: #333;
+		}
+
+		#main .my-answers .answers-c {
+			height: 0.5rem;
+			line-height: 0.5rem;
+			text-align: center;
+			font-size: 0.28rem;
+			color: #666;
+		}
+
+		#main .question-answer {
+			margin-top: 0.1rem;
+			padding-bottom: 0.1rem;
+		}
+
+		.container {
+			width: 6.96rem;
+			background: rgba(255, 255, 255, 0.45);
+			border-radius: 0.1rem;
+			margin: 0 auto 0.59rem;
+			/*height: 8.62rem;*/
+			overflow-y: auto;
+				position:relative;
+		}
+		.title{
+				width:6.96rem;
+				position:relative;
+		}
+		.container .q-title-icon-wrong{
+			position: absolute;
+			width:0.44rem;
+			height:0.57rem;
+			background:url(../../image/ic_answer_error.png) no-repeat center center;
+			background-size: 100%;
+			right:0.24rem;
+			top:0.1rem;
+		}
+		.container .q-title-icon-ding{
+			position: absolute;
+			right:0.24rem;
+			top:0.1rem;
+			color:#666;
+			font-size:0.26rem;
+		}
+		.container .q-title-icon-right{
+			position: absolute;
+			width:0.44rem;
+			height:0.57rem;
+			background:url(../../image/ic_answer_right.png) no-repeat center center;
+			background-size: 100%;
+			right:0.24rem;
+			top:0.1rem;
+		}
+		.q-title{
+				color:#ff8344;
+				font-size:0.28rem;
+				line-height:1.5;
+				margin:0.445rem  0.7rem 0.445rem 0.2rem;
+				word-wrap: break-word
+		}
+		.q-audio{
+				position:absolute;
+				top:-0.95rem;
+				right:0.2rem;
+				width:0.5rem;
+				height:0.5rem;
+				background: url(../../image/icon_audio.png) no-repeat center center;
+				background-size: 0.29rem 0.25rem;
+		}
+		.content{
+				width:5.12rem;
+				margin:0 auto;
+		}
+		.q-img img{
+				width:100%;
+				display:block;
+		}
+		.q-audio audio{
+				width:100%;
+		}
+		.q-video video{
+				width:100%;
+		}
+		.content .q-sgf{
+			width: 5.5rem;
+			height:5.5rem;
+			background:#000;
+			margin: 0 auto;
+			border-radius: 0.2rem;
+    		overflow: hidden;
+		}
+		.content .q-sgf iframe{
+			width: 100%;
+			height: 100%;
+    		overflow: hidden;
+		}
+		.answer{
+			width: 5.9rem;
+			margin: 0.4rem auto 0.63rem;
+		}
+		.answer .showrightanswer{
+			min-height: 0.9rem;
+			padding: 0.2rem 0;
+			font-size: 0.26rem;
+			padding-left: 0.8rem;
+			box-sizing: border-box;
+			background: url(../../image/icon_right_anser.png) no-repeat center center;
+			background-size: 5.9rem 0.9rem;
+			color: #FFF;
+			margin-bottom: 0.08rem;
+			position: relative;
+			border-radius:0.05rem;
+		}
+		.answer ul li{
+				min-height:0.9rem;
+				padding:0.2rem 0;
+				font-size:0.26rem;
+				padding-left:0.4rem;
+				box-sizing: border-box;
+				background:#eee;
+				color:#333;
+				margin-bottom:0.08rem;
+				position:relative;
+				border-radius:0.05rem;
+		}
+		.answer ul li i{
+				position:absolute;
+				top:0.2rem;
+				right:0.2rem;
+				width:0.5rem;
+				height:0.5rem;
+				background: url(../../image/icon_audio.png) no-repeat center center;
+				background-size: 0.29rem 0.25rem;
+		}
+		.answer ul li.active{
+				background:#ff8344;
+				color:#fff;
+		}
+		.answer ul li.active i{
+				background: url(../../image/icon_audio_white.png) no-repeat center center;
+				background-size: 0.29rem 0.25rem;
+		}
+		.answer ul li img{
+			max-width: 5.1rem;
+			margin:0 auto;
+		}
+		
+		.my_answer_w{
+			background: #ff8344!important;
+		}
+		.my_answer_w span{
+			color:#FFF;
+		}
+		.my_answer_r{
+			background: #1ebeb6!important;
+		}
+		.my_answer_r span{
+			color:#FFF;
+		}
+		/*.right_answer{
+			background: #1ebeb6!important;
+		}*/
+		
+		.q-delete{
+			margin:0 auto;
+			height:0.95rem;
+			line-height:0.95rem;
+			font-family:"pty";
+			font-size:0.34rem;
+			text-align: center;
+			background:url(../../image/icon_q_delete.png) no-repeat center center;
+			background-size:5.9rem 0.9rem;
+			color:#FFF;
+		}
+		
+	</style>
+</head>
+
+<body>
+	<div id="wrap" class="flex-wrap flex-vertical">
+		<div id="main" class="flex-con">
+			<img class="nail-one" src="../../image/ic_nail.png" alt="" />
+			<img class="nail-two" src="../../image/ic_nail.png" alt="" />
+			<div class="work-note">
+			</div>
+			<div class="work-note-con">
+				<div class="work-note-date">{{category}}  共{{allNum}}题</div>
+				<div class="work-note-title">还有{{wrongNum}}道题没有答对哦~</div>
+				<div class="work-note-class">用时：{{duration}}</div>
+			</div>
+			<div class="my-answers">
+				<div class="answers-t">我的作答</div>
+				<div class="answers-c">{{rightNum}}/{{allNum}}道正确</div>
+			</div>
+			<div class="question-answer">
+				<div class="container" v-for="(question,i) in joblist ">
+					<span class="q-title-icon-right" v-if="result[i].answerIsRight==true" >&nbsp;</span>
+					<span class="q-title-icon-wrong" v-if="result[i].answerIsRight==false" >&nbsp;</span>
+					<div class="title" v-for="(questionItem,index) in question.questionTitleAttributes" v-cloak>
+							<div class="q-title" v-if="questionItem.titleTypeValue==-1">
+									{{(i+1)}} .{{questionItem.titleDetails}}
+							</div>
+							<div class="q-audio" v-if="questionItem.titleTypeValue==-2" ></div>
+					</div>
+					<div class="content" v-for="questionItem in question.questionTitleAttributes" v-cloak>
+						<div class="q-img" v-if="questionItem.titleTypeValue==0">
+							<img :src="questionItem.titleDetails" alt="" />
+						</div>
+						<div class="q-audio" v-if="questionItem.titleTypeValue==1">
+							<audio :src="questionItem.titleDetails" controls="controls"></audio>
+						</div>
+						<div class="q-video" v-if="questionItem.titleTypeValue==2">
+							<video :src="questionItem.titleDetails" controls="controls"></video>
+						</div>
+						<div :class="[{'q-sgf':true},{'q-sgf-height':showAnswer&&showAnswerOrNot(questionItem.titleDetails,result[i].answerIsRight)}]" :q-sgf="questionItem.titleDetails" :q-id="'qid-'+question.questionId" :q-a-id="'qid-a-'+question.questionId" :answerIsRight="result[i].answerIsRight" :answerSgf="result[i].answerSgfText" :boardSize="question.boardSize" v-if="questionItem.titleTypeValue==3">
+							<div :id="'qid-'+question.questionId" class="chessboard"></div>
+							<div class="rightanswer" v-if="showAnswer&&showAnswerOrNot(questionItem.titleDetails,result[i].answerIsRight)">
+						    	<div class="radios">
+						    		<div class="triangle-down"></div>
+								</div>
+						    	<div :id="'qid-a-'+question.questionId" class="chessboard1"></div>
+						    </div>
+                     	</div>
+					</div>
+					<div class="answer">
+						<ul>
+							<li :class="[{'my_answer_w':isMyAnswer(result[i],index)},{'right_answer':optionItem.optionRight}]"   v-for="(optionItem,index) in question.questionOptionsAttributes" v-cloak >
+								<span class="optionId" style="display: none">{{optionItem.optionId}}</span>
+								<span class="optionRight" style="display: none">{{optionItem.optionRight}}</span>
+								<div v-for="optionContent in optionItem.questionOptions">
+									<span v-if="optionContent.optionTypeValue==-1">{{optionItem.optionName}}.{{optionContent.optionDetails}}</span>
+									<img :src="optionContent.optionDetails" v-if="optionContent.optionTypeValue==0" alt="" />
+									<i v-if="optionContent.optionTypeValue==-3" @click="audioPlay(optionContent.optionDetails)"></i>
+								</div>
+							</li>
+							<div class="showrightanswer" v-if="(question.questionTypeValue==1||question.questionTypeValue==-1)&&showAnswer==true&&result[i].answerIsRight==false" >
+								<span >答案：{{getRightAnswer(question.questionOptionsAttributes)}}</span>
+							</div>
+							<div @click="deleteQuestion(question.id)" class="q-delete" v-if="question.answerIsRight&&type=='mistake'">我会了，移除此题</div>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/vue.js"></script>
+<script type="text/javascript" src="../../script/zepto.js"></script>
+<script src="../../script/jquery-1.10.2.min.js"></script>
+<script src="../../script/chessboard.js"></script>
+<script type="text/javascript" src="../../script/sgfutils.js"></script>
+<script type="text/javascript">
+	var canvas;
+	var canvasD;
+	var showRight = false;
+	var showAnswer = false;
+	
+	var letters = "abcdefghijklmnopqrstuvwxyz";
+	imready = function() {
+		window.result = api.pageParam.result;
+		window.result = dealWithResult(window.result)
+		window.data = api.pageParam.date;
+		var a = 0;
+		for(var i=0;i<window.result.length;i++){
+			if(!window.result[i].answerIsRight){
+				a++;
+			}
+		}
+		window.wrongNum = a;
+		window.rightNum = window.data.length-a;
+		window.allNum = window.data.length;
+		
+		
+		initVue();
+//		$(".right_answer").css({
+//			"background":"#fff!important"
+//		});
+		
+		assigment.init();
+
+		api.addEventListener({
+	        name:'answerResult'
+        },function(ret,err){
+        	if (ret.value.type == 'showAnswer') { //显示答案
+				showAnswer=true;
+				showRight = true;
+				assigment.init();
+				assigment.$forceUpdate()
+			}
+        });
+	};
+	function updateSgfAnswer(){
+		var sgfs = $api.domAll("iframe");
+		for(var i=0;i<sgfs.length;i++){
+			$(sgfs[i]).attr("loaded",'false');
+			if($(sgfs[i]).attr("loaded")!='true'){
+				assigment.iframeLoaded(sgfs[i])
+			}
+		}
+	}
+	
+	function showSgfAnswer(){
+		var sgfs = $api.domAll("iframe");
+		for(var i=0;i<sgfs.length;i++){
+			var sgf = $(sgfs[i]).attr('sgf');
+			var qq = parseSGF(sgf);
+			var answer = qq.answer;
+			if(answer.length<=1){//单个答案
+				//保持高度不变。
+				if(answer.length==0){
+				
+				}else{
+					if($(sgfs[i]).attr("answerIsRight")=='true'){//如果回答正确则不显示
+					}else{//回答错误，仍然显示正确答案
+						var parent = $(sgfs[i]).parent();
+						$(parent).css("height","11.7rem");
+						$(sgfs[i]).attr("loaded",'false');
+						if($(sgfs[i]).attr("loaded")!='true'){
+							assigment.iframeLoaded(sgfs[i])
+						}
+					}
+				}
+			}else{//多答案，无论正确与否都显示多答案
+				//高度加大
+				var parent = $(sgfs[i]).parent();
+				$(parent).css("height","11.7rem");
+				$(sgfs[i]).attr("loaded",'false');
+				if($(sgfs[i]).attr("loaded")!='true'){
+					assigment.iframeLoaded(sgfs[i])
+				}
+			}
+		}
+	}
+	
+	function dealWithResult(result){
+		var map = {},
+	    	newResult = [];
+		for(var i = 0; i < result.length; i++){
+		    var ai = result[i];
+		    if(!map[ai.questionId]){
+		        newResult.push({
+		            answerCostTime: ai.answerCostTime,
+		            answerIsRight: ai.answerIsRight,
+		            answerSgfText: ai.answerSgfText,
+		            choiceOptionId: ai.choiceOptionId,
+		            choiceOptionSequence: ai.choiceOptionSequence,
+		            createTime: ai.createTime,
+		            homeWorkId: ai.homeWorkId,
+		            id: ai.id,
+		            questionId: ai.questionId,
+		            questionType: ai.questionType,
+		            studentId: ai.studentId,
+		            data:[ai]
+		        });
+		        map[ai.questionId] = ai;
+		    }else{
+		        for(var j = 0; j < newResult.length; j++){
+		            var dj = newResult[j];
+		            if(dj.questionId == ai.questionId){
+		                dj.data.push(ai);
+		                break;
+		            }
+		        }
+		    }
+		}
+		for(var i=0;i<newResult.length;i++){
+			var item = newResult[i];
+			var isRight = true;
+			if(item.data&&item.data.length>1){
+				for(var j=0;j<item.data.length;j++){
+					if(!item.data[j].answerIsRight){
+						isRight=false;
+						break;
+					}
+				}
+			}else{
+				isRight=item.answerIsRight
+			}
+			item.answerIsRight=isRight;
+		}
+		console.log(JSON.stringify(newResult))
+		return newResult;
+	}
+	var firstInit = true;
+	
+	var assigment; //全局控制器Controller
+	initVue = function() { //初始化Vue需要的是双向数据绑定 当改变数据以后view会做相应的改变
+		var date = vueDateManager();
+		var methods = vueMethodsManager();
+		assigment = new Vue({
+			el: '#main', //绑定元素
+			data: date, //本页面的静态动态全部数据
+			methods: methods, //本页面的全部方法
+			updated:function(){
+//				alert("Im updated --");
+//				console.log("updated layout is "+$("#main").html())
+				if(firstInit){//第一次载入
+					firstInit=false;
+					if(api.systemType=='ios'){//iOS第一次载入，加载onload方法。
+						var sgfs = $api.domAll("iframe");
+						for(var i=0;i<sgfs.length;i++){
+							methods.iframeLoaded(sgfs[i])
+						}
+					}//Android不处理
+				}else{//其他页面刷新，执行这里。
+					if(showAnswer){//显示正确答案
+						showSgfAnswer();
+					}else{//不显示
+						updateSgfAnswer();
+					}
+				}
+			}
+		})
+	}
+
+	vueDateManager = function() {
+		console.log("vueDateManager---------vueDateManager")
+		//初始化Vue数据date为一个json数组
+		var date = {};
+		date.duration = "00:00:00"; //做题总时长
+		date.result=[]; //做题的结果
+		date.joblist = []; //题目列表
+		date.rightJobList = [];
+		date.question = [];
+		date.rank = 0;
+		date.comment = "别灰心！继续加油哦~";
+		date.times = new Date().Format("yyyy-MM-dd hh:mm:ss"); //当前时间
+		date.homework = {
+			"homeWorkClassName": "....",
+			"homeWorkTitle": ".....",
+		}; //班级以及随堂作业
+		date.avg; //平均分
+		date.type = api.pageParam.flag;
+		date.category=api.pageParam.category;
+		date.wrongNum = window.wrongNum;
+		date.rightNum = window.rightNum;
+		date.allNum = window.allNum;
+		data.showAnswer=false;
+		return date;
+	}
+	vueMethodsManager = function() {
+		console.log("vueMethodsManager---------vueMethodsManager")
+		//时间管理中心 每个Vue事件的处理都可以在这管理
+		var methods = {};
+		methods.init = function() { //push数据
+			assigment.result = window.result;
+			var data = window.data;
+				console.log(JSON.stringify(window.result))
+			for(var i=0;i<window.result.length;i++){
+				data[i].answerIsRight = window.result[i].answerIsRight;
+			}
+			assigment.joblist = data;
+			for(var i=0;i<assigment.joblist.length;i++){
+				assigment.question.push(assigment.joblist[i]);
+			}
+			var score = 0,
+				avg = 0,
+				time = 0;
+			avg = 100 / assigment.result.length;
+			assigment.rightJobList = [];
+			for (var i = 0; i < assigment.result.length; i++) {
+				// assigment.joblist[i].
+				time += assigment.result[i].answerCostTime;
+				if (assigment.result[i].answerIsRight == true) {
+					score += avg;
+					assigment.rightJobList.push(assigment.joblist[i]);
+				}
+			}
+			assigment.showAnswer=showAnswer;
+			assigment.duration = assigment.durationMat(time);
+		};
+		methods.durationMat = function(value) {
+			var theTime = parseInt(value); // 秒
+			var theTime1 = 0; // 分
+			var theTime2 = 0; // 小时
+			// alert(theTime);
+			if (theTime > 60) {
+				theTime1 = parseInt(theTime / 60);
+				theTime = parseInt(theTime % 60);
+				// alert(theTime1+"-"+theTime);
+				if (theTime1 > 60) {
+					theTime2 = parseInt(theTime1 / 60);
+					theTime1 = parseInt(theTime1 % 60);
+				}
+			}
+			var result = "" + parseInt(theTime) + "秒";
+			if (theTime1 > 0) {
+				result = "" + parseInt(theTime1) + "分" + result;
+			}
+			if (theTime2 > 0) {
+				result = "" + parseInt(theTime2) + "小时" + result;
+			}
+			return result;
+
+		}
+		methods.getRightAnswer=function(optionsAttributes){
+			var answers = '';
+			for(var i=0;i<optionsAttributes.length;i++){
+				if(optionsAttributes[i].optionRight){
+					answers+="，"
+					answers+=optionsAttributes[i].optionName;
+				}
+			}
+			answers=answers.substr(1,answers.length-1)
+			return answers
+		}
+		methods.isMyAnswer=function(ret,index){
+			if(ret.data&&ret.data.length>1){
+				for(var i=0;i<ret.data.length;i++){
+					if(index==ret.data[i].choiceOptionSequence){
+						return true;
+					}
+				}
+				return false;
+			}else{
+				return index == ret.choiceOptionSequence;
+			}
+		}
+		methods.deleteQuestion = function(id){
+			var deleteRequest = {
+				method:"errorBookDelete",
+				request:{
+					errorBookId:id
+				}
+			}
+			ajaxRequest(deleteRequest,function(ret,err){
+				if(ret){
+					if(ret.responseCode==0&&ret.responseBody==true){	
+						alert("删除成功！");
+						var index = -1;
+						for(var i=0;i<window.data.length;i++){
+							if(id==window.data[i].id){
+								index = i;
+								break;
+							}
+						}
+						console.log("index=="+index)
+						window.data.splice(index,1)
+						window.result.splice(index,1)
+						assigment.init();
+						if(showAnswer){
+//							showSgfAnswer();
+						}
+					}else{				
+						alert("删除失败！"+ret.responseMsg)
+					}
+				}else{
+					alert("删除失败！"+err.msg)
+				}
+			})
+		}
+		
+        methods.audioPlay = function(src) {
+            console.log(src)
+            api.startPlay({
+                path: src
+            }, function(ret, err) {
+                if (ret) {
+					if(ret.state==0){
+						alert(ret.msg)
+					}else{
+					
+					}
+                } else {
+					alert(err.msg)
+                }
+            });
+        }
+		
+		methods.iframeLoaded = function (e){
+			var el = e.target;//当前控件
+			if(!el){
+				el = e;
+			}
+			var loaded =  $(el).attr("loaded");
+			if(loaded=='true'){ 
+				return;
+			}
+			//获取属性，即可使用
+			var src = "weiqiResult.html"; 
+			
+			var sgf = $(el).attr("sgf");
+			var boardSize = $(el).attr("boardSize");
+			var answerIsRight = $(el).attr("answerIsRight");
+			var answerSgf =$(el).attr("answerSgf");
+			
+			
+			var loaded =  $(el).attr("boardSize");
+			
+			src+=("?sgf="+sgf+"&boardSize="+boardSize+"&answerIsRight="+answerIsRight+"&answerSgf="+answerSgf+"&showRight="+showRight);
+			$(el).attr("src",src);
+			$(el).attr("loaded","true");
+			
+		}
+
+		console.log("事件管理者：" + JSON.stringify(methods));
+		return methods;
+	}
+</script>
+
+</html>

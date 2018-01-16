@@ -1,0 +1,673 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>底部导航</title>
+    <link rel="stylesheet" type="text/css" href="./css/api.css" />
+    <link rel="stylesheet" type="text/css" href="./css/style.css" />
+    <link rel="stylesheet" type="text/css" href="./css/fontstyle.css" />
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        /*-------header----------*/
+
+        #top-header {
+            background: url(./image/bg_home_top.png) no-repeat center center;
+            background-size: 100% 100%;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 0.98rem;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            height: 0.98rem;
+        }
+
+        header ul li {
+            line-height: 0.98rem;
+            text-align: center;
+            display: none;
+            color: #FF8344;
+            font-family: 'pty';
+            font-size: 0.36rem;
+        }
+
+        header ul li.active {
+            display: block;
+        }
+		header ul li .header-bottom{
+			position: absolute;
+			width: 100%;
+			height:0.98rem;
+			line-height:0.98rem;
+			text-align: center;
+			color: #FF8344;
+            font-size: 0.36rem;
+            z-index: 0;
+		}
+		header ul li .header-top{
+			position: absolute;
+			width: 100%;
+			height:0.98rem;
+			line-height:0.98rem;
+            z-index: 1;
+		}
+        header ul li .header-top .mine {
+            float: left;
+            height: 0.74rem;
+            line-height: 0.74rem;
+            width: 0.74rem;
+            border-radius: 1rem;
+            position: absolute;
+            left: 0.12rem;
+            top: 0.12rem;
+        }
+
+        header ul li .header-top .mine img{
+        	width:0.74rem;
+        	height:0.74rem;
+            border-radius: 1rem;
+        }
+
+        header ul li .header-top .scan {
+        	margin-top: 0.16rem;
+            height: 0.82rem;
+            line-height: 0.82rem;
+            font-size:0.18rem;
+            float: right;
+            width: 0.98rem;
+            padding-top: 0.22rem;
+            font-family: "Arial";
+            background: url(./image/icon_scan.png) no-repeat center top;
+            background-size: 0.4rem 0.4rem;
+        }
+        /*-------footer----------*/
+
+        #top-footer {
+            background: url(./image/bg_home_bottom.png) no-repeat center center;
+            background-size: 100% 100%;
+            position: fixed;
+            bottom: 0;
+            height: 1.06rem;
+            width: 100%;
+            z-index: 0;
+        }
+
+        #footer {
+            background: rgba(255, 255, 255, 0.9);
+            height: 1.06rem;
+            z-index: 2;
+            position: relative;
+        }
+
+        #footer .empty {
+            height: 0.1rem;
+        }
+
+        #footer ul li {
+            padding-top: 0.6rem;
+            padding-bottom: 0.1rem;
+            background: url() no-repeat center top;
+            background-size: 0.56rem 0.53rem;
+            text-align: center;
+            font-size: 0.24rem;
+            font-family: "pty";
+            color: #767979;
+        }
+
+        #footer ul li.active {
+            color: #FF8344;
+        }
+
+        #footer ul li:nth-child(1).active {
+            background-image: url(./image/tab_home_t.png);
+        }
+
+        #footer ul li:nth-child(2).active {
+            background-image: url(./image/tab_pass_t.png);
+        }
+
+        #footer ul li:nth-child(3).active {
+            background-image: url(./image/tab_growth_t.png);
+        }
+
+        #footer ul li:nth-child(1) {
+            background-image: url(./image/tab_home_f.png);
+        }
+
+        #footer ul li:nth-child(2) {
+            background-image: url(./image/tab_pass_f.png);
+        }
+
+        #footer ul li:nth-child(3) {
+            background-image: url(./image/tab_growth_f.png);
+        }
+
+        #main {
+            height: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrap" class="flex-wrap flex-vertical">
+        <div id="top-header"></div>
+        <header id="header">
+            <ul>
+                <li class="frame0  active" >
+                	<div class="header-bottom">作业</div>
+                	<div class="header-top">
+	                    <div class="mine" onclick="gotoMine()">
+	                    	<img src="./image/tab_mine_new.png" onerror="onImgError(this);" alt="" />
+	                    </div>
+	                    <span class="scan" onclick="goScanner()">扫一扫</span>
+                	</div>
+                </li>
+                <li class="frame1">
+                    闯关
+                </li>
+                <li class="frame2 ">
+                    成长
+                </li>
+            </ul>
+        </header>
+        <div id="main" class="flex-con"></div>
+        <div id="footer" class="">
+            <!--在导航上空出一块-->
+            <div class="empty"></div>
+            <ul class="flex-wrap">
+                <li tapmode="hover" onclick="openTab( 'frame0');" class="frame0 flex-con active">
+                    作业
+                </li>
+                <li tapmode="hover" onclick="openTab(  'frame1' );" class="frame1 flex-con">
+                    闯关
+                </li>
+                <li tapmode="hover" onclick="openTab( 'frame2' );" class="frame2 flex-con">
+                    成长
+                </li>
+            </ul>
+        </div>
+        <!--导航栏背景-->
+        <div id="top-footer"></div>
+    </div>
+</body>
+
+</html>
+<script type="text/javascript" src="script/api.js"></script>
+<script type="text/javascript" src="script/common.js"></script>
+<script type="text/javascript" src="script/vue.js"></script>
+<script type="text/javascript">
+    var frames = [];
+    var userId;
+
+    imready = function() {
+
+        initApp();
+        api.addEventListener({
+            name: 'keyback'
+        }, function(ret, err) {
+            if (frames.length > 0) {
+                var FNScanner = api.require('FNScanner');
+                FNScanner.closeView();
+                if (frames[frames.length - 1] == 'scanner') {
+                    api.sendEvent({
+                        name: 'scannerclose'
+                    });
+                } else {
+                    api.closeFrame({
+                        name: frames[frames.length - 1]
+                    });
+                }
+                frames.splice(frames.length - 1, 1);
+                console.log(JSON.stringify(frames))
+            } else {
+                api.closeWidget({});
+            }
+        });
+        api.addEventListener({
+            name: 'update'
+        }, function(ret, err) {
+            api.getPrefs({
+                key: 'studentInfo'
+            }, function(ret, err) {
+                if (ret) {
+                    if (!isEmpty(ret.value)) {
+                        var studentInfo = JSON.parse(ret.value);
+                        console.log("studentInfo = " + JSON.stringify(studentInfo))
+                        userId = studentInfo.id;
+                        var studentImg = studentInfo.studentImage;
+                        if (studentImg) {
+                            studentImg = $api.imageUrl + studentImg;
+                            $api.attr($api.dom(".mine img"), "src", studentImg);
+                            //		                    $api.dom(".mine").style.background='url("'+studentImg+'") no-repeat center center';
+                            //		                    $api.dom(".mine").style.backgroundSize='0.74rem 0.74rem';
+                        } else {
+                            onImgError($api.dom(".mine img"));
+                        }
+
+                        studentGiveEnergy();
+
+                    } else {
+                        //	                	studentImg = './image/tab_mine_new.png';
+                        //	                    $api.dom(".mine").style.background='url("'+studentImg+'") no-repeat center center';
+                        //	                    $api.dom(".mine").style.backgroundSize='0.74rem 0.74rem';
+                        onImgError($api.dom(".mine img"));
+                    }
+                } else {
+                    //          	 	studentImg = './image/tab_mine_new.png';
+                    //                  $api.dom(".mine").style.background='url("'+studentImg+'") no-repeat center center';
+                    //                  $api.dom(".mine").style.backgroundSize='0.74rem 0.74rem';
+                    onImgError($api.dom(".mine img"));
+                }
+            });
+        });
+        api.addEventListener({
+            name: 'frameclose'
+        }, function(ret, err) {
+            var index = -1;
+            for (var i = 0; i < frames.length; i++) {
+                if (ret.value.framename == frames[i]) {
+                    index = i;
+                    break;
+                }
+            }
+            frames.splice(index, 1);
+            var FNScanner = api.require('FNScanner');
+            FNScanner.closeView();
+            console.log(JSON.stringify(frames))
+        });
+        api.addEventListener({
+            name: 'loginStateChanged'
+        }, function(ret, err) {
+            api.getPrefs({
+                sync: false,
+                key: 'isfirst'
+            }, function(ret, err) {
+                if (ret) {
+                    if (ret.value) {
+
+                    } else { //不存在
+                        api.openFrame({
+                            name: 'remindmodify',
+                            url: './html/personal/remindmodify.html',
+                            rect: {
+                                x: 0,
+                                y: 0,
+                                w: api.winWidth,
+                                h: api.winHeight
+                            }
+                        });
+                        frames.push("remindmodify");
+                        api.setPrefs({
+                            key: 'isfirst',
+                            value: 'false'
+                        });
+                    }
+                }
+            });
+        });
+        // ****************0907hzh修订*************************************************
+        api.addEventListener({ //每次重新打开app 调用每天送一次送金币接口
+            name: 'resume'
+        }, function(ret, err) {
+        	if(frames.length==0){
+            	studentGiveEnergy();
+            }
+        });
+
+        //      api.addEventListener({
+        //	        name:'viewappear'
+        //      },function(ret,err){
+        //      	if(frames.length>0&&frames[0]=='scanner'){
+        //      		goScanner()
+        //      	}
+        //      });
+
+    }
+    studentGiveEnergy = function() {//每次重新打开app 调用每天送一次送金币接口
+        if (!isEmpty(userId)) {
+            var request = {
+                "studentId": userId
+            };
+            goRequest("studentGiveEnergy", request, function(ret) {
+                //调用送金币接口 暂时不需要任何操作
+                if(ret.responseCode==0){
+                  // api.toast({
+                  //     msg: "成功获得成长奖励",
+                  //     duration: 2000,
+                  //     location: 'bottom'
+                  // });
+                }
+            });
+        };
+    }
+
+    function onImgError(el) {
+        $api.attr(el, "src", "./image/tab_mine_new.png");
+    }
+
+    function initApp() {
+        //初始化app
+        //首页加载后,隐藏了界面内容.
+        //先判断是否新版本安装,如果是新版本进入登录页面
+        //如果非新版本打开,直接显示首页(不再进行登录的判断.)
+        getIpInfo();
+        var cVersion = api.appVersion; //当前安装版本
+        var lVersion = api.getPrefs({
+                sync: true,
+                key: 'version'
+            }) //记录版本
+        if (!lVersion) { //记录的版本为空,则是第一次安装!
+            api.setPrefs({
+                key: 'version',
+                value: cVersion
+            });
+            console.log("记录版本version第一次安装" + lVersion);
+            goLogin(true);
+        } else { //非第一次安装
+            console.log("记录版本lVersion:" + lVersion + "当前版本cVersion:" + cVersion);
+            if (cVersion == lVersion) {
+                //同一个版本
+                api.getPrefs({
+                    key: 'studentInfo'
+                }, function(ret, err) {
+                    if (ret) {
+                        if (ret.value != "") {
+                            var studentInfo = JSON.parse(ret.value);
+                            console.log("studentInfo = " + JSON.stringify(studentInfo))
+                            userId = studentInfo.id;
+                            var studentImg = studentInfo.studentImage;
+                            if (studentImg) {
+                                studentImg = $api.imageUrl + studentImg;
+                                $api.attr($api.dom(".mine img"), "src", studentImg);
+                            } else {
+                                onImgError($api.dom(".mine img"));
+                            }
+                        } else {
+                            onImgError($api.dom(".mine img"));
+                        }
+                    } else {
+                        onImgError($api.dom(".mine img"));
+                    }
+                    if (userId) {
+                        console.log("进入改变状态userId:" + userId);
+                        checkLoginState();
+                        //	                    openTab('frame0')
+                    } else {
+                        console.log("进入改变状态userId:" + userId);
+                        goLogin(true);
+                    }
+                });
+            } else { //安装了新版本
+                api.setPrefs({
+                    key: 'version',
+                    value: cVersion
+                });
+                goLogin(true);
+            }
+        }
+    };
+
+    function goLogin(str) {
+        api.setPrefs({
+            key: 'userid',
+            value: ''
+        });
+        api.setPrefs({
+            key: 'organizationid',
+            value: ''
+        });
+        api.setPrefs({
+            key: 'username',
+            value: ''
+        });
+        api.setPrefs({
+            key: 'userimage',
+            value: ''
+        });
+        api.setPrefs({
+            key: 'useraccount',
+            value: ''
+        });
+        api.setPrefs({
+            key: 'userpass',
+            value: ''
+        });
+        if (str) {
+            api.openWin({
+                name: 'login',
+                url: './html/login/login.html',
+                pageParam: {
+                    errmsg: str
+                }
+            });
+        } else {
+            api.openWin({
+                name: 'login',
+                url: './html/login/login.html'
+            });
+        }
+        openTab('frame0')
+    }
+
+    function checkLoginState() {
+        api.getPrefs({
+            sync: false,
+            key: 'loginState'
+        }, function(ret, err) {
+            var date = new Date();
+            var dT = date.getTime() - parseInt(ret.value);
+            console.log((dT - 7 * 24 * 60 * 60 * 1000))
+            if ((dT - 7 * 24 * 60 * 60 * 1000) >= 0) {
+                toastAtMiddle("登录超时,请重新登录!")
+                goLogin(true);
+            } else {
+                console.log("openTab frame 0")
+                openTab('frame0')
+            }
+        });
+    }
+
+    function go() {
+        api.setPrefs({
+            key: 'userid',
+            value: ''
+        });
+        api.setPrefs({
+            key: 'userPhone',
+            value: ''
+        });
+        api.setPrefs({
+            key: 'tradePassword',
+            value: ''
+        });
+        api.openWin({
+            name: 'login',
+            url: 'html/login/login.html'
+        });
+    }
+
+    function getIpInfo() {
+        api.ajax({
+            url: 'http://ip.taobao.com/service/getIpInfo.php?ip=myip'
+        }, function(ret, err) {
+            var requestIp = "0.0.0.0"
+            if (ret) {
+                if (ret.code == 0) {
+                    requestIp = ret.data.ip
+                    console.log("goipinfo返回参数" + ret.data.ip);
+                }
+            } else {
+                //
+            }
+            api.setPrefs({
+                key: 'requestIp',
+                value: requestIp
+            });
+        });
+    }
+
+    function goScanner() {
+        //  	var offset = $api.offset($api.byId("header"));
+        //  	var y = offset.h;
+        //
+        //		var FNScanner = api.require('FNScanner');
+        //
+        //		var x = 0;
+        //		var y = 98/750*api.winWidth;
+        //		var h = api.winHeight - (170+98)/750*api.winWidth;
+        //		var w = api.winWidth;
+        //		FNScanner.openView({
+        //		    autorotation: false,
+        //		    rect:{
+        //		    	x:x,y:y,w:w,h:h
+        //		    }
+        //		}, function(ret, err) {
+        //		    if (ret) {
+        //		        if(ret.eventType=='show'){
+        //
+        //		        }
+        //				if(ret.eventType=='success'){
+        //					FNScanner.closeView();
+        //				}
+        //		    } else {
+        //		        alert(JSON.stringify(err));
+        //		    }
+        //		});
+        api.openFrame({
+            name: 'scanner',
+            url: 'html/personal/scanner.html',
+            animation: {
+                type: "push",
+                subType: "from_right",
+                duration: 300
+            },
+            rect: {
+                x: 0,
+                y: 0,
+                w: api.winWidth,
+                h: api.winHeight
+            },
+            reload: true
+        });
+        frames.push('scanner')
+    }
+
+    function gotoMine() {
+        api.openWin({
+            name: 'frame3',
+            url: './html/frame3.html'
+        });
+        //		toastAtMiddle("呵呵呵")
+        //		api.openWin({
+        //	        name: 'test',
+        //	        url: 'html/test.html'
+        //      });
+    }
+
+
+    //previous page id, current page id
+    var prevPid = '',
+        curPid = '';
+    //save opened frame name
+    var frameArr = [];
+
+    //frame whether open
+    function isOpened(frmName) {
+        var i = 0,
+            len = frameArr.length;
+        var mark = false;
+        for (i; i < len; i++) {
+            if (frameArr[i] === frmName) {
+                mark = true;
+                return mark;
+            }
+        }
+        return mark;
+    }
+
+    function showHeader(type) {
+        if (!type) {
+            return;
+        }
+        var header = $api.dom('header .active');
+        $api.removeCls(header, 'active');
+        var thisHeader = $api.dom('header .' + type);
+        $api.addCls(thisHeader, 'active');
+    }
+
+    function openTab(type) {
+        console.log(type)
+        var isGrowth = (type == "frame2") ? true : false;
+        api.sendEvent({
+            name: 'viewReady',
+            extra: {
+                key1: isGrowth,
+                key2: 'value2'
+            }
+        });
+        showHeader(type);
+        var width = api.winWidth;
+        var nav = $api.byId('footer');
+        var navPos = $api.offset(nav);
+        var header = $api.dom('header');
+        var headerPos = $api.offset(header);
+        var height = api.winHeight - navPos.h - headerPos.h;
+        type = type || 'frame0';
+        var actTab = $api.dom('#footer .active');
+        $api.removeCls(actTab, 'active');
+        var thisTab = $api.dom('#footer .' + type);
+        //thisTab = thisTab.parentNode;
+        $api.addCls(thisTab, 'active');
+        //record page id
+        prevPid = curPid;
+        curPid = type;
+        if (prevPid !== curPid) {
+            if (isOpened(type)) {
+                api.setFrameAttr({
+                    name: type,
+                    hidden: false
+                });
+            } else {
+                var rect = {
+                    x: 0,
+                    y: headerPos.h,
+                    w: width,
+                    h: height
+                }
+                api.openFrame({
+                    name: type,
+                    url: 'html/' + type + '.html',
+                    bounces: false, //页面是否能拖动
+                    opaque: true,
+                    reload: true,
+                    vScrollBarEnabled: false,
+                    pageParam: {
+                        headerHeight: headerPos.h
+                    },
+                    rect: rect
+                });
+            }
+            if (prevPid) {
+                api.setFrameAttr({
+                    name: prevPid,
+                    hidden: true
+                });
+            }
+            if (!isOpened(type)) {
+                frameArr.push(type);
+            }
+        } else {
+
+        }
+    }
+</script>

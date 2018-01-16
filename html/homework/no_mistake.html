@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/fontstyle.css"/>
+    <style>
+    	html,body{
+    		background:url(../../image/bg_half_alpha.png);
+    		width:100%;
+    		height:100%;
+    		font-size:0.24rem;
+    	}
+    	#footer{
+    		height:80%;
+    		position: relative;
+    	}
+    	#footer .dialog{
+			background:url(../../image/bg_dialog.png) no-repeat center center;
+			background-size:5.8rem 4.51rem;
+			width:5.8rem;
+			margin:0 auto;
+			height:4.51rem;
+    	}
+    	#footer .dialog .dialog-t{
+    		height:1.2rem;
+    	}
+    	#footer .dialog .dialog-c{
+    		height:2.43rem;
+    		line-height:2.43rem;
+    		text-align: center;
+    		font-family: 'pty';
+    		font-size:0.46rem;
+    		color:#F90;
+    	}
+    	#footer .dialog .dialog-b{
+    		height:0.88rem;
+    		line-height:0.88rem;
+    		text-align: center;
+    		font-size:0.32rem;
+    		position:relative;
+    		color:#333;
+    	}
+    	#footer .dialog .dialog-b.active{
+    		background:rgba(0,0,0,0.2) !important;
+    	}
+    	#footer .dialog .dialog-b:before{
+    		position: absolute;
+    		border-top: 1px solid #ececec;
+    		top:0;left:0;right:0;
+    		content:"";display:block;
+    		transform-style: scaleY(0.5);
+    		transform-origin: 0 0;
+    	}	
+    </style>
+</head>
+<body>
+	<div id="wrap" class="flex-wrap flex-vertical">
+		<div id="main" class="flex-con">
+		</div>
+		<div id="footer">
+			<div class="dialog">
+				<div class="dialog-t"></div>
+				<div class="dialog-c">没有错题~小主很棒哦！</div>
+				<div tapmode="active" class="dialog-b" onclick="closeFrame();">确定</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript">
+	imready = function(){
+		
+	};
+	function closeFrame(){
+		api.closeFrame();
+	}
+</script>
+</html>

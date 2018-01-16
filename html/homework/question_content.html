@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+	<title>title</title>
+	<link rel="stylesheet" type="text/css" href="../../css/api.css" />
+	<link rel="stylesheet" type="text/css" href="../../css/style.css" />
+	<link rel="stylesheet" type="text/css" href="../../css/swiper.min.css" />
+	<style>
+		html,
+		body {
+			background-color: transparent !important;
+			position: relative;
+			height: 100%;
+		}
+
+		body {
+			position: relative;
+			width: 100%;
+			height: 100%;
+			background-size: 100% 100%;
+		}
+
+		.swiper-slide {
+			margin-top: 0.28rem;
+		}
+
+		.content {
+			background: rgba(255, 255, 255, 0.65);
+			width: 90%;
+			height: 90%;
+			margin: 0 auto;
+			border-radius: 0.1rem;
+			overflow-y: scroll;
+		}
+
+		.content .q-title {
+			padding-top: 0.5rem;
+			margin-left: 0.2rem
+		}
+
+		.content .q-img {
+			background: #FFF;
+			margin: 0 auto;
+			float: left;
+			margin-left: 0.5rem;
+			border-radius: 0.1rem;
+			margin-top: 0.56rem;
+		}
+
+		.content .q-audio {
+			background: #FFF;
+			margin: 0 auto;
+			width: 5.8rem;
+			float: left;
+			margin-left: 0.5rem;
+			border-radius: 0.1rem;
+			margin-top: 0.56rem;
+		}
+
+		.content .q-video {
+			background: #FFF;
+			margin: 0 auto;
+			float: left;
+			width: 5.8rem;
+			height: 5.8rem;
+			margin-left: 0.5rem;
+			border-radius: 0.1rem;
+			margin-top: 0.56rem;
+		}
+
+		.content .q-sgf {
+			background: #FFF;
+			margin: 0 auto;
+			float: left;
+			width: 5.8rem;
+			height: 5.8rem;
+			margin-left: 0.5rem;
+			border-radius: 0.1rem;
+			margin-top: 0.56rem;
+			position: relative;
+		}
+		.content .q-sgf iframe{
+			width: 5.8rem;
+			height: 5.8rem;
+		}
+		.content .q-sgf .sub{
+			position: absolute;
+			top: 0;left:0;
+			width: 5.8rem;
+			height: 5.8rem;
+			background: rgba(0,0,0,0);
+		}
+
+		.content .q-img img {
+			width: 5.1rem;
+			max-width: 5.1rem;
+			padding: 0.24rem 0.34rem;
+		}
+
+		.content .q-con {
+			margin-top: 0.3rem;
+		}
+
+		.content .q-con ul {
+			float: left;
+			margin-left: 0.5rem;
+			padding-bottom: 0.2rem;
+		}
+
+		.content .q-con ul li {
+			width: 5.56rem;
+			margin-top: 0.1rem;
+			background: #FFF;
+			min-height: 0.7rem;
+			padding:0.1rem 0.2rem;
+			color: #333;
+			font-size: 0.32rem;
+			border-radius: 0.1rem;
+		}
+		.content .q-con ul li img{
+			max-width: 5.56rem;
+		}
+
+		.content .q-con ul li.selected {
+			color: #FFF;
+			background: #FF8344;
+		}
+		/*
+		 * Banner  begin
+		 */
+
+		#banner {
+			width: 100%;
+			height: 100%;
+			position: relative;
+		}
+	</style>
+</head>
+
+<body>
+	<script type="text/x-dot-template" id="banner-template">
+		{{ for(var i=0;i<it.length;i++){ }}
+		<div class="swiper-slide">
+			<div class="content ">
+				<div class="q-title">
+					{{=(i+1)}}.{{=it[i].textTitle?it[i].textTitleValue:''}}{{=it[i].questionTypeValue==-1?'（多选题）':''}}
+				</div>
+				<div class="q-img" style="display:{{=it[i].imgTitle?'block;':'none'}}">
+					<img src="{{=it[i].imgTitleValue}}" alt="" />
+				</div>
+				<!--音频和视频暂未实现，逻辑跟图片一样，如果存在video或audio，就通过videoPlayer模块，open一个区域出来进行播放。-->
+				<div class="q-video" style="display:{{=it[i].videoTitle?'block;':'none'}}">
+					<!--<img src="../../image/p1.jpg" alt="" />-->
+				</div>
+				<div class="q-audio" style="display:{{=it[i].audioTitle?'block;':'none'}}">
+
+				</div>
+				<div class="q-sgf" style="display:{{=it[i].sgfTitle?'block;':'none'}}">
+                    <iframe frameborder='0'  sgf="{{=it[i].sgfTitleValue}}" loaded="false"  onload="iframeLoaded(this)"></iframe>
+                    <div class="sub" style="display: {{=it[i].sgfTitleValue?(haveAnswers(it[i].sgfTitleValue)?'none':'block'):'none'}};"></div>
+                 </div>
+				<div style="clear: both;"></div>
+				<div class="q-con" style="display:{{=(it[i].questionTypeValue==1||it[i].questionTypeValue==-1)?'block':'none'}}">
+					{{ if(it[i].questionTypeValue==1||it[i].questionTypeValue==-1){ }}
+					<ul class="cls{{=it[i].questionId}}">
+						{{ for(var j=0,options=it[i].questionOptionsAttributes;j<options.length;j++){ }}
+						<li style="line-height:{{=options[j].questionOptions[0].optionDetails.length>20?'1':'0.7rem'}}" onclick="selectItem(this,{{=i}},{{=j}},{{=options[j].optionRight}})" optionId="{{=options[j].optionId}}" optionRight="{{=options[j].optionRight}}" optionValue="{{=options[j].optionValue}}">
+							{{=options[j].optionName}}.{{=options[j].questionOptions[0].optionDetails}}
+							{{ for(var k=0,optionitem=options[j].questionOptions;k<optionitem.length;k++){ }}
+							<img style="display: {{=optionitem[k].optionTypeValue==0?'block':'none'}}" src="{{=optionitem[k].optionDetails}}"/>
+							{{ } }}
+						</li>
+						{{ } }}
+					</ul>
+					{{ } }}
+				</div>
+			</div>
+		</div>
+		{{ } }}
+	</script>
+	<div class="swiper-container" id="banner">
+		<div id="banner-content" class="swiper-wrapper">
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript" src="../../script/swiper.min.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="../../script/chessboard.js"></script>
+<script type="text/javascript" src="../../script/sgfutils.js"></script>
+<script type="text/javascript">
+	var mySwiper;
+	var studentAnswerQuestions = [];
+	var startTime = 0;
+	var currentQuestion = 0;
+	var offset;
+	var letters = "abcdefghijklmnopqrstuvwxyz"
+
+	imready = function() {
+
+		window.data = api.pageParam.data;
+		window.cIndex = api.pageParam.cIndex;
+		data = dealWithData(data);
+		c(1111111111, api.pageParam.homework);
+		c(1111111111, api.pageParam.data);
+		getInnerByDot("banner-content", "banner-template", data);
+		var sgfs = $api.domAll(".q-sgf");
+		console.log("sgfs.length = "+sgfs.length);
+		if(api.systemType=='ios'){
+			for(var i=0;i<sgfs.length;i++){
+				iframeLoaded(sgfs[i].children[0]);
+			}
+		}
+		//for (var i = 0; i < data.length; i++) {
+			if (data[0].questionTypeValue == 2) { //第一题即为对弈题
+				openSgfFrame(data[0].boardSize,data[0].sgfTitleValue,0);
+			}
+		//}
+		//先把答案填好
+		for (var i = 0; i < data.length; i++) {
+			var qItem = data[i];
+			var item = {
+				homeWorkId: api.pageParam.homework?api.pageParam.homework.homeworkPublishId:0, //作业ID 错题本中，没有作业id
+				questionType: qItem.questionTypeValue,
+				choiceOptionId: 0,
+				choiceOptionSequence: -1,
+				questionId: qItem.questionId,
+				answerCostTime: 0,
+				answerSgfText: "",
+				answerIsRight: false, //默认错，不答也为错
+				studentId: parseInt(api.getPrefs({
+						sync: true,
+						key: 'userid'
+					})) //先写1，后续通过api.getPrefs获取
+			};
+			studentAnswerQuestions.push(item)//未答完 结束页面时，应当保存结果信息
+		};
+		c(222222222222222222, studentAnswerQuestions);
+		startTime = getNowTime();
+		mySwiper = new Swiper('.swiper-container', {
+			direction: 'horizontal',
+			loop: false,
+			onlyExternal: true,
+			autoplayDisableOnInteraction: false,
+			onSlideChangeEnd: function(swiper) {}
+		});
+		mySwiper.slideTo(window.cIndex, 1000, false);
+		if(api.pageParam.result&&api.pageParam.data.length>1&&api.pageParam.result!='undefined'){
+			console.log(api.pageParam.result)
+			studentAnswerQuestions = $api.strToJson(api.pageParam.result);
+		}
+		if (data[window.cIndex].questionTypeValue == 2) { //第一题即为对弈题
+			openSgfFrame(data[window.cIndex].boardSize,data[window.cIndex].sgfTitleValue,window.cIndex);
+		}
+		api.addEventListener({
+			name: 'nextClicked'
+		}, function(ret, err) {
+			if (ret.value.next) { //当next为TRUE时，执行下一题操作
+				console.log("收到了广播。"+JSON.stringify(ret))
+				currentQuestion = ret.value.index;
+				dealWithAnswer(ret.value.index,ret.value.isRight,ret.value.answerSgf);
+				mySwiper.slideNext();
+			} else { //当next为FALSE，执行提交作业操作
+				currentQuestion = window.data.length - 1
+				dealWithAnswer(window.data.length - 1,ret.value.isRight,ret.value.answerSgf)
+				requestAnswerQuestions();
+			}
+			api.sendEvent({//收到翻题广播后，发送结果集广播给主window，
+	            name:'answerResultChanged',
+	            extra:{
+	            	result:JSON.stringify(studentAnswerQuestions)
+	            }
+            });
+		});
+	};
+	
+	function haveAnswers(sgf){
+		var a = parseSGF(sgf);
+		answers = a.answer;
+		if(answers.length==0){
+			return false;
+		}
+		return true;
+	}
+
+	function iframeLoaded(el){
+		var loaded =  $(el).attr("loaded");
+		if(loaded=='true'){
+			console.log("加载完了吧")
+			return;
+		}
+		console.log("继续加载。")
+		var sgf = $(el).attr("sgf");
+		console.log("sgf==="+sgf)
+
+		if(!sgf||sgf=='undefined'){
+			console.log("sgf位空")
+			return;
+		}
+		//获取属性，即可使用
+		var src = "weiqi.html";
+
+		src+=("?sgf="+sgf);
+		$(el).attr("loaded","true");
+		$(el).attr("src",src);
+	}
+
+	function handle(ret){
+		console.log("回传的sgf=="+JSON.stringify(ret))
+//		if(ret.isRight){
+//			alert("恭喜你，答对啦！")
+//		}else{
+//			alert("很遗憾，答错了！");
+//		}
+    	api.sendEvent({
+	        name:'sgfAnswerResult',
+	        extra:ret
+        });
+	}
+
+	function closeSgfFrame() {
+//		api.closeFrame({
+//			name: "weiqi"
+//		});
+	}
+
+	function openSgfFrame(boardSize,sgf,index) {
+		// 宽度设为274 高度274即，距离上下左右个2px
+
+//		var w = 580/750*api.winWidth;
+//		var h = 580/750*api.winWidth;
+//
+//		var sgfEls = $api.domAll(".q-sgf");
+//		var el = sgfEls[index];
+//		var offset = $api.offset(el);
+//
+//		console.log(offset.l)
+//		offset.l = offset.l-api.winWidth*(index);
+//		console.log(offset.l)
+//
+//		api.openFrame({
+//			name: 'weiqi',
+//			url: 'weiqi.html',
+//			bounces: false,
+//			rect: {
+//				x: offset.l + 2,
+//				y: offset.t + 6 + 98 * api.winWidth / 750,
+//				w: w - 2,
+//				h: h - 2
+//			},
+//			pageParam: {
+//				boardSize:boardSize,
+//				sgf: sgf
+//			}
+//		});
+	}
+
+	function sgfOnload() {
+		console.log("哦哦哦哦哦load")
+	}
+
+	function getNowTime() {
+		var date = new Date();
+		return date.getTime();
+	}
+
+	function dealWithData(data) {
+		var questionTitleAttributes = data.questionTitleAttributes;
+		for (var i = 0; i < data.length; i++) {
+			var item = data[i];
+			var questionTitleAttributes = item.questionTitleAttributes;
+			for (var j = 0; j < questionTitleAttributes.length; j++) {
+				var titleTypeValue = questionTitleAttributes[j].titleTypeValue;
+				if (titleTypeValue == -1) { //文本
+					item.textTitle = true;
+					item.textTitleValue = questionTitleAttributes[j].titleDetails
+				} else if (titleTypeValue == 0) { //图片
+					item.imgTitle = true;
+					item.imgTitleValue = questionTitleAttributes[j].titleDetails
+				} else if (titleTypeValue == 1) { //音频
+					item.audioTitle = true;
+					item.audioTitleValue = questionTitleAttributes[j].titleDetails
+				} else if (titleTypeValue == 2) { //视频
+					item.videoTitle = true;
+					item.videoTitleValue = questionTitleAttributes[j].titleDetails
+				} else if (titleTypeValue == 3) { //sgf
+					item.sgfTitle = true;
+					item.sgfTitleValue = questionTitleAttributes[j].titleDetails
+				} else {
+					//没这么干的
+				}
+			}
+			//8.30新增。添加对选择题-多选题的支持。多选题的questionTypeValue设置为 -1 （1选择，2对弈）
+			console.log(item.questionTypeValue)
+			if(item.questionTypeValue==1){
+				var questionOptionsAttributes = item.questionOptionsAttributes;
+				console.log(JSON.stringify(questionOptionsAttributes))
+				var rightCount = 0;
+				for(var j=0;j<questionOptionsAttributes.length;j++){
+					var attr = questionOptionsAttributes[j];
+					rightCount = attr.optionRight?(rightCount+1):rightCount
+				}
+				console.log(rightCount)
+				if(rightCount > 1){//如果正确答案数目大于1，则为多选题
+					item.questionTypeValue=-1;
+					item.questionTypeName="多选题"
+				}
+			}
+		}
+		console.log(JSON.stringify(data))
+		return data;
+
+	}
+	
+	function isInArray(all,el){
+		for (var i = 0; i < all.length; i++) {  
+			if (all[i] == el) {  
+				return true;  
+			}  
+		} 
+		return false;  
+	}
+
+	function selectItem(el, indexI, indexJ) {
+		//
+		var cls = "cls" + window.data[indexI].questionId;
+		
+		var type = window.data[indexI].questionTypeValue;
+		if(type==-1){//多选题
+			var all = $api.domAll("." + cls + " .selected");
+			if(all.length<1){//没有选中的
+				$api.addCls(el, "selected");
+			}else{//有选中的
+				var isIn = isInArray(all,el);
+				if(isIn){//在里边，取消当前选中
+					$api.removeCls(el, "selected");
+				}else{
+					$api.addCls(el, "selected");
+				}
+			}
+
+		}else{
+			$api.removeCls($api.dom("." + cls + " .selected"), "selected");
+			$api.addCls(el, "selected");
+		}
+	}
+
+	function dealWithAnswer(index,isRight,answerSgf) {
+		var endTime = getNowTime();
+		if (endTime - startTime < 1000) {
+			api.toast({
+				msg: '请仔细阅读题目！',
+				duration: 2000,
+				location: 'bottom'
+			});
+		}
+		console.log(JSON.stringify(window.data))
+		console.log("index==="+index)
+		if (window.data[index].questionTypeValue == 1) { //选择题
+			var cls = "cls" + window.data[index].questionId;
+			var selectedOption = $api.dom("." + cls + " .selected");
+			var item = studentAnswerQuestions[index];
+			if (selectedOption) { //已回答答案
+				item.choiceOptionId = parseInt($api.attr(selectedOption, "optionId"));
+				item.answerIsRight = $api.attr(selectedOption, "optionRight")==="true";
+				item.choiceOptionSequence = parseInt($api.attr(selectedOption, "optionValue"));
+				item.answerCostTime = parseInt((endTime - startTime) / 1000);
+			} else { //未回答答案。
+				item.choiceOptionId = 0;
+				item.answerCostTime = parseInt((endTime - startTime) / 1000);
+				item.choiceOptionSequence = -1;
+				item.answerIsRight = false;
+			}
+		}else if (window.data[index].questionTypeValue == -1) { //多选题
+			var cls = "cls" + window.data[index].questionId;
+			var selectedOptions = $api.domAll("." + cls + " .selected");
+			var item = studentAnswerQuestions[index];
+			if(selectedOptions.length>0){
+				if(selectedOptions.length==1){//只选了一个答案，为错，特殊处理。
+					item.choiceOptionId = parseInt($api.attr(selectedOptions[0], "optionId"));
+					item.answerIsRight = false;
+					item.choiceOptionSequence = parseInt($api.attr(selectedOptions[0], "optionValue"));
+					item.answerCostTime = parseInt((endTime - startTime) / 1000);
+				}else{//多个答案
+					var ids = [];
+					var sequences = [];
+					var isRight = [];
+					var options = $api.domAll("." + cls +" li");
+					var rightAnswer = [];
+					var myAnswer = [];
+					for(var i=0;i<options.length;i++){
+						var option = options[i];
+						var right = ($api.attr(option, "optionRight")==='true')
+						if(right){
+							rightAnswer.push(parseInt($api.attr(option, "optionId")))
+						}
+					}
+					for(var i=0;i<selectedOptions.length;i++){
+						ids.push(parseInt($api.attr(selectedOptions[i], "optionId")))
+						sequences.push(parseInt($api.attr(selectedOptions[i], "optionValue")))
+						isRight.push($api.attr(selectedOptions[i], "optionRight")==="true");
+						myAnswer.push(parseInt($api.attr(selectedOptions[i], "optionId")));
+					}
+					console.log("rightAnswer == "+JSON.stringify(rightAnswer))
+					console.log("myAnswer == "+JSON.stringify(myAnswer))
+					if(rightAnswer.length==myAnswer.length){//一样，不一定
+						var rrr = true;
+						for(var i=0;i<rightAnswer.length;i++){
+							var optionid = rightAnswer[i];
+							var as = isAnswerRight(myAnswer,optionid);
+							if(as){//包含
+							}else{
+								rrr=false;
+							}
+						}
+						console.log("rrr==="+rrr)
+						for(var i=0;i<selectedOptions.length;i++){
+							isRight[i]=rrr;
+						}
+					console.log("isRight == "+JSON.stringify(isRight))
+					}else{//不一样，false
+						for(var i=0;i<selectedOptions.length;i++){
+							isRight[i]=false;
+						}
+					}
+					item.choiceOptionId = ids;
+					item.answerIsRight = isRight;
+					item.choiceOptionSequence = sequences;
+					item.answerCostTime = parseInt((endTime - startTime) / 1000);
+				}
+			}else{
+				item.choiceOptionId = 0;
+				item.answerCostTime = parseInt((endTime - startTime) / 1000);
+				item.choiceOptionSequence = -1;
+				item.answerIsRight = false;
+			}
+		}else { //对弈题
+			var item = studentAnswerQuestions[index]; //对错已经进行过判断。
+			item.answerCostTime = parseInt((endTime - startTime) / 1000);
+			item.choiceOptionSequence = -1;
+			item.answerSgfText = answerSgf; //这个计划传的是错误sgf的文本，现在逻辑是错误位置不予点击
+			item.answerIsRight=isRight;
+
+		}
+		startTime = getNowTime();
+	}
+	
+	function isAnswerRight(answers,optionid){
+		for(var i=0;i<answers.length;i++){
+			if(answers[i]==optionid){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	function requestAnswerQuestions() {
+		//先把缓存置为空
+		if(api.pageParam.homework){
+			var userid = api.getPrefs({
+	            sync:true,
+	            key:'userid'
+            });
+			var key = "publishid_"+userid+"_"+api.pageParam.homework.homeworkPublishId;
+			api.setPrefs({
+		        key:key,
+		        value:''
+	        });
+        }
+		var data = {}
+		data.method = "studentQuestionAnswer";
+		//8.30,在此处 处理多选题答案的提交。
+		var rQs = [];
+		//studentAnswerQuestions
+		for(var i=0;i<studentAnswerQuestions.length;i++){
+			var item = studentAnswerQuestions[i];
+			if($api.isArray(item.choiceOptionId)){//如果是数组，则为多个答案的题目
+				for(var j=0;j<item.choiceOptionId.length;j++){
+					var qItem = {};
+					qItem.homeWorkId = item.homeWorkId;
+					qItem.questionType = 1;//选择题默认为1
+					qItem.questionId = item.questionId;
+					qItem.studentId = item.studentId;
+					qItem.answerSgfText = item.answerSgfText;
+					qItem.choiceOptionId = item.choiceOptionId[j];
+					qItem.choiceOptionSequence = item.choiceOptionSequence[j];
+					qItem.answerIsRight = item.answerIsRight[j];
+					qItem.answerCostTime = item.answerCostTime;
+					rQs.push(qItem);
+				}
+			}else{//普通答案
+				rQs.push(item);
+			}
+		}
+		data.request =rQs;
+		console.log("studentQuestionAnswer请求数据" + JSON.stringify(data));
+		ajaxRequest(data, function(ret, err) {
+			console.log(JSON.stringify(ret));
+			if (ret) {
+				if (ret.responseCode == 0) {
+					if (ret.responseBody) {
+						api.openWin({
+							name: 'answerResult',
+							url: 'answerResult_title.html',
+							pageParam: {
+								homework: api.pageParam.homework,
+								date: api.pageParam.data,
+								result: studentAnswerQuestions
+							}
+						});
+					} else {
+						api.toast({
+							msg: ret.responseMsg,
+							duration: 2000,
+							location: 'bottom'
+						});
+					}
+				} else {
+					api.toast({
+						msg: ret.responseMsg,
+						duration: 2000,
+						location: 'bottom'
+					});
+				}
+			}
+			setTimeout("closeSelf();", 1000);
+		})
+	}
+
+	function closeSelf() {
+		api.closeWin({
+			name: "answering"
+		});
+	}
+</script>
+
+</html>
